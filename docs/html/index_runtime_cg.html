@@ -1,0 +1,583 @@
+<HTML>
+
+<HEAD>
+<TITLE>index_runtime_cg</TITLE>
+<meta name="description" content="index_runtime_cg" />
+<meta name="keywords" content="index_runtime_cg, NVIDIA, NVIDIA Cg Toolkit, Cg Toolkit, Shader, Shader Programming, GPU Shader Programming, GPU Program" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<STYLE TYPE="text/css" MEDIA=screen>
+<!--
+		
+BODY {
+ font-family: Arial,Helvetica;
+}
+
+BLOCKQUOTE { margin: 10pt;  }
+
+H1,A { color: #336699; }
+
+
+/*** Top menu style ****/
+.mmenuon { 
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #ff6600; font-size: 10pt;
+ }
+.mmenuoff { 
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #ffffff; font-size: 10pt;
+}	  
+.cpyright {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #ffffff; font-size: xx-small;
+}
+.cpyrightText {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #ffffff; font-size: xx-small;
+}
+.sections { 
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: 11pt;
+}	 
+.dsections { 
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: 12pt;
+}	
+.slink { 
+ font-family: Arial,Helvetica; font-weight: normal; text-decoration: none;
+ color: #336699; font-size: 9pt;
+}	 
+
+.slink2 { font-family: Arial,Helvetica; text-decoration: none; color: #336699; }	 
+
+.maintitle { 
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: 18pt;
+}	 
+.dblArrow {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: small;
+}
+.menuSec {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: small;
+}
+
+.newstext {
+ font-family: Arial,Helvetica; font-size: small;
+}
+
+.linkmenu {
+ font-family: Arial,Helvetica; color: #000000; font-weight: bold;
+ text-decoration: none;
+}
+
+P {
+ font-family: Arial,Helvetica;
+}
+
+PRE            { 
+																font-family: monospace;
+																white-space: pre; 
+																font-color: #333333; 
+																font-weight: 100;
+																background-color: #eeeeee; 
+																padding: 5px; 
+																width: 90%; 
+																border-style: solid;
+																border-width: 2px; 
+																border-color: #bebebe; 
+	              }
+.quote { 
+ font-family: Times; text-decoration: none;
+ color: #000000; font-size: 9pt; font-style: italic;
+}	
+.smstd { font-family: Arial,Helvetica; color: #000000; font-size: x-small; } 
+.std { font-family: Arial,Helvetica; color: #000000; } 
+.meerkatTitle { 
+ font-family: sans-serif; font-size: x-small;  color: black;    }
+
+.meerkatDescription { font-family: sans-serif; font-size: 10pt; color: black }
+.meerkatCategory { 
+ font-family: sans-serif; font-size: 9pt; font-weight: bold; font-style: italic; 
+ color: brown; }
+.meerkatChannel { 
+ font-family: sans-serif; font-size: 9pt; font-style: italic; color: brown; }
+.meerkatDate { font-family: sans-serif; font-size: xx-small; color: #336699; }
+
+.tocTitle {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #333333; font-size: 10pt;
+}
+
+.toc-item {
+ font-family: Arial,Helvetica; font-weight: bold; 
+ color: #336699; font-size: 10pt; text-decoration: underline;
+}
+
+.perlVersion {
+ font-family: Arial,Helvetica; font-weight: bold; 
+ color: #336699; font-size: 10pt; text-decoration: none;
+}
+
+.docTitle {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #000000; font-size: 10pt;
+}
+.dotDot {
+ font-family: Arial,Helvetica; font-weight: bold; 
+ color: #000000; font-size: 9pt;
+}
+
+.docSec {
+ font-family: Arial,Helvetica; font-weight: normal; 
+ color: #333333; font-size: 9pt;
+}
+.docVersion {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: 10pt;
+}
+
+.docSecs-on {
+ font-family: Arial,Helvetica; font-weight: normal; text-decoration: none;
+ color: #ff0000; font-size: 10pt;
+}
+.docSecs-off {
+ font-family: Arial,Helvetica; font-weight: normal; text-decoration: none;
+ color: #333333; font-size: 10pt;
+}
+
+h3 {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: small;
+}
+h2 {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: medium;
+}
+h1 {
+ font-family: Verdana,Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: large;
+}
+
+DL {
+ font-family: Arial,Helvetica; font-weight: normal; text-decoration: none;
+ color: #333333; font-size: 10pt;
+}
+
+UL > LI > A {
+ font-family: Arial,Helvetica; font-weight: bold;
+ color: #336699; font-size: 10pt;
+}
+
+.moduleInfo {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #333333; font-size: 11pt;
+}
+
+.moduleInfoSec {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: 10pt;
+}
+
+.moduleInfoVal {
+ font-family: Arial,Helvetica; font-weight: normal; text-decoration: underline;
+ color: #000000; font-size: 10pt;
+}
+
+.cpanNavTitle {
+ font-family: Arial,Helvetica; font-weight: bold; 
+ color: #ffffff; font-size: 10pt;
+}
+.cpanNavLetter {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none; 
+ color: #333333; font-size: 9pt;
+}
+.cpanCat {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none; 
+ color: #336699; font-size: 9pt;
+}
+
+-->
+</STYLE>
+
+</HEAD>
+
+<BODY>
+
+<object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+</object>
+
+<BLOCKQUOTE>
+<h2><a id="Cg_Core_Runtime_API"></a>Cg Core Runtime Api</h2>
+<p><a href="index.html">Back to Top</a></p>
+<dl>
+<dt><b><a href="cgAddStateEnumerant.html">cgAddStateEnumerant</a></b></dt>
+<dt><b><a href="cgCallStateResetCallback.html">cgCallStateResetCallback</a></b></dt>
+<dt><b><a href="cgCallStateSetCallback.html">cgCallStateSetCallback</a></b></dt>
+<dt><b><a href="cgCallStateValidateCallback.html">cgCallStateValidateCallback</a></b></dt>
+<dt><b><a href="cgCombinePrograms.html">cgCombinePrograms</a></b></dt>
+<dt><b><a href="cgCombinePrograms2.html">cgCombinePrograms2</a></b></dt>
+<dt><b><a href="cgCombinePrograms3.html">cgCombinePrograms3</a></b></dt>
+<dt><b><a href="cgCombinePrograms4.html">cgCombinePrograms4</a></b></dt>
+<dt><b><a href="cgCombinePrograms5.html">cgCombinePrograms5</a></b></dt>
+<dt><b><a href="cgCompileProgram.html">cgCompileProgram</a></b></dt>
+<dt><b><a href="cgConnectParameter.html">cgConnectParameter</a></b></dt>
+<dt><b><a href="cgCopyEffect.html">cgCopyEffect</a></b></dt>
+<dt><b><a href="cgCopyProgram.html">cgCopyProgram</a></b></dt>
+<dt><b><a href="cgCreateArraySamplerState.html">cgCreateArraySamplerState</a></b></dt>
+<dt><b><a href="cgCreateArrayState.html">cgCreateArrayState</a></b></dt>
+<dt><b><a href="cgCreateBuffer.html">cgCreateBuffer</a></b></dt>
+<dt><b><a href="cgCreateContext.html">cgCreateContext</a></b></dt>
+<dt><b><a href="cgCreateEffect.html">cgCreateEffect</a></b></dt>
+<dt><b><a href="cgCreateEffectAnnotation.html">cgCreateEffectAnnotation</a></b></dt>
+<dt><b><a href="cgCreateEffectFromFile.html">cgCreateEffectFromFile</a></b></dt>
+<dt><b><a href="cgCreateEffectParameter.html">cgCreateEffectParameter</a></b></dt>
+<dt><b><a href="cgCreateEffectParameterArray.html">cgCreateEffectParameterArray</a></b></dt>
+<dt><b><a href="cgCreateEffectParameterMultiDimArray.html">cgCreateEffectParameterMultiDimArray</a></b></dt>
+<dt><b><a href="cgCreateObj.html">cgCreateObj</a></b></dt>
+<dt><b><a href="cgCreateObjFromFile.html">cgCreateObjFromFile</a></b></dt>
+<dt><b><a href="cgCreateParameter.html">cgCreateParameter</a></b></dt>
+<dt><b><a href="cgCreateParameterAnnotation.html">cgCreateParameterAnnotation</a></b></dt>
+<dt><b><a href="cgCreateParameterArray.html">cgCreateParameterArray</a></b></dt>
+<dt><b><a href="cgCreateParameterMultiDimArray.html">cgCreateParameterMultiDimArray</a></b></dt>
+<dt><b><a href="cgCreatePass.html">cgCreatePass</a></b></dt>
+<dt><b><a href="cgCreatePassAnnotation.html">cgCreatePassAnnotation</a></b></dt>
+<dt><b><a href="cgCreateProgram.html">cgCreateProgram</a></b></dt>
+<dt><b><a href="cgCreateProgramAnnotation.html">cgCreateProgramAnnotation</a></b></dt>
+<dt><b><a href="cgCreateProgramFromEffect.html">cgCreateProgramFromEffect</a></b></dt>
+<dt><b><a href="cgCreateProgramFromFile.html">cgCreateProgramFromFile</a></b></dt>
+<dt><b><a href="cgCreateSamplerState.html">cgCreateSamplerState</a></b></dt>
+<dt><b><a href="cgCreateSamplerStateAssignment.html">cgCreateSamplerStateAssignment</a></b></dt>
+<dt><b><a href="cgCreateState.html">cgCreateState</a></b></dt>
+<dt><b><a href="cgCreateStateAssignment.html">cgCreateStateAssignment</a></b></dt>
+<dt><b><a href="cgCreateStateAssignmentIndex.html">cgCreateStateAssignmentIndex</a></b></dt>
+<dt><b><a href="cgCreateTechnique.html">cgCreateTechnique</a></b></dt>
+<dt><b><a href="cgCreateTechniqueAnnotation.html">cgCreateTechniqueAnnotation</a></b></dt>
+<dt><b><a href="cgDestroyBuffer.html">cgDestroyBuffer</a></b></dt>
+<dt><b><a href="cgDestroyContext.html">cgDestroyContext</a></b></dt>
+<dt><b><a href="cgDestroyEffect.html">cgDestroyEffect</a></b></dt>
+<dt><b><a href="cgDestroyObj.html">cgDestroyObj</a></b></dt>
+<dt><b><a href="cgDestroyParameter.html">cgDestroyParameter</a></b></dt>
+<dt><b><a href="cgDestroyProgram.html">cgDestroyProgram</a></b></dt>
+<dt><b><a href="cgDisconnectParameter.html">cgDisconnectParameter</a></b></dt>
+<dt><b><a href="cgEvaluateProgram.html">cgEvaluateProgram</a></b></dt>
+<dt><b><a href="cgGetAnnotationName.html">cgGetAnnotationName</a></b></dt>
+<dt><b><a href="cgGetAnnotationType.html">cgGetAnnotationType</a></b></dt>
+<dt><b><a href="cgGetArrayDimension.html">cgGetArrayDimension</a></b></dt>
+<dt><b><a href="cgGetArrayParameter.html">cgGetArrayParameter</a></b></dt>
+<dt><b><a href="cgGetArraySize.html">cgGetArraySize</a></b></dt>
+<dt><b><a href="cgGetArrayTotalSize.html">cgGetArrayTotalSize</a></b></dt>
+<dt><b><a href="cgGetArrayType.html">cgGetArrayType</a></b></dt>
+<dt><b><a href="cgGetAutoCompile.html">cgGetAutoCompile</a></b></dt>
+<dt><b><a href="cgGetBehavior.html">cgGetBehavior</a></b></dt>
+<dt><b><a href="cgGetBehaviorString.html">cgGetBehaviorString</a></b></dt>
+<dt><b><a href="cgGetBoolAnnotationValues.html">cgGetBoolAnnotationValues</a></b></dt>
+<dt><b><a href="cgGetBoolStateAssignmentValues.html">cgGetBoolStateAssignmentValues</a></b></dt>
+<dt><b><a href="cgGetBooleanAnnotationValues.html">cgGetBooleanAnnotationValues</a></b></dt>
+<dt><b><a href="cgGetBufferSize.html">cgGetBufferSize</a></b></dt>
+<dt><b><a href="cgGetCompilerIncludeCallback.html">cgGetCompilerIncludeCallback</a></b></dt>
+<dt><b><a href="cgGetConnectedParameter.html">cgGetConnectedParameter</a></b></dt>
+<dt><b><a href="cgGetConnectedStateAssignmentParameter.html">cgGetConnectedStateAssignmentParameter</a></b></dt>
+<dt><b><a href="cgGetConnectedToParameter.html">cgGetConnectedToParameter</a></b></dt>
+<dt><b><a href="cgGetContextBehavior.html">cgGetContextBehavior</a></b></dt>
+<dt><b><a href="cgGetDependentAnnotationParameter.html">cgGetDependentAnnotationParameter</a></b></dt>
+<dt><b><a href="cgGetDependentProgramArrayStateAssignmentParameter.html">cgGetDependentProgramArrayStateAssignmentParameter</a></b></dt>
+<dt><b><a href="cgGetDependentStateAssignmentParameter.html">cgGetDependentStateAssignmentParameter</a></b></dt>
+<dt><b><a href="cgGetDomain.html">cgGetDomain</a></b></dt>
+<dt><b><a href="cgGetDomainString.html">cgGetDomainString</a></b></dt>
+<dt><b><a href="cgGetEffectContext.html">cgGetEffectContext</a></b></dt>
+<dt><b><a href="cgGetEffectName.html">cgGetEffectName</a></b></dt>
+<dt><b><a href="cgGetEffectParameterBuffer.html">cgGetEffectParameterBuffer</a></b></dt>
+<dt><b><a href="cgGetEffectParameterBySemantic.html">cgGetEffectParameterBySemantic</a></b></dt>
+<dt><b><a href="cgGetEnum.html">cgGetEnum</a></b></dt>
+<dt><b><a href="cgGetEnumString.html">cgGetEnumString</a></b></dt>
+<dt><b><a href="cgGetError.html">cgGetError</a></b></dt>
+<dt><b><a href="cgGetErrorCallback.html">cgGetErrorCallback</a></b></dt>
+<dt><b><a href="cgGetErrorHandler.html">cgGetErrorHandler</a></b></dt>
+<dt><b><a href="cgGetErrorString.html">cgGetErrorString</a></b></dt>
+<dt><b><a href="cgGetFirstDependentParameter.html">cgGetFirstDependentParameter</a></b></dt>
+<dt><b><a href="cgGetFirstEffect.html">cgGetFirstEffect</a></b></dt>
+<dt><b><a href="cgGetFirstEffectAnnotation.html">cgGetFirstEffectAnnotation</a></b></dt>
+<dt><b><a href="cgGetFirstEffectParameter.html">cgGetFirstEffectParameter</a></b></dt>
+<dt><b><a href="cgGetFirstError.html">cgGetFirstError</a></b></dt>
+<dt><b><a href="cgGetFirstLeafEffectParameter.html">cgGetFirstLeafEffectParameter</a></b></dt>
+<dt><b><a href="cgGetFirstLeafParameter.html">cgGetFirstLeafParameter</a></b></dt>
+<dt><b><a href="cgGetFirstParameter.html">cgGetFirstParameter</a></b></dt>
+<dt><b><a href="cgGetFirstParameterAnnotation.html">cgGetFirstParameterAnnotation</a></b></dt>
+<dt><b><a href="cgGetFirstPass.html">cgGetFirstPass</a></b></dt>
+<dt><b><a href="cgGetFirstPassAnnotation.html">cgGetFirstPassAnnotation</a></b></dt>
+<dt><b><a href="cgGetFirstProgram.html">cgGetFirstProgram</a></b></dt>
+<dt><b><a href="cgGetFirstProgramAnnotation.html">cgGetFirstProgramAnnotation</a></b></dt>
+<dt><b><a href="cgGetFirstSamplerState.html">cgGetFirstSamplerState</a></b></dt>
+<dt><b><a href="cgGetFirstSamplerStateAssignment.html">cgGetFirstSamplerStateAssignment</a></b></dt>
+<dt><b><a href="cgGetFirstState.html">cgGetFirstState</a></b></dt>
+<dt><b><a href="cgGetFirstStateAssignment.html">cgGetFirstStateAssignment</a></b></dt>
+<dt><b><a href="cgGetFirstStructParameter.html">cgGetFirstStructParameter</a></b></dt>
+<dt><b><a href="cgGetFirstTechnique.html">cgGetFirstTechnique</a></b></dt>
+<dt><b><a href="cgGetFirstTechniqueAnnotation.html">cgGetFirstTechniqueAnnotation</a></b></dt>
+<dt><b><a href="cgGetFirstUniformBufferParameter.html">cgGetFirstUniformBufferParameter</a></b></dt>
+<dt><b><a href="cgGetFloatAnnotationValues.html">cgGetFloatAnnotationValues</a></b></dt>
+<dt><b><a href="cgGetFloatStateAssignmentValues.html">cgGetFloatStateAssignmentValues</a></b></dt>
+<dt><b><a href="cgGetIntAnnotationValues.html">cgGetIntAnnotationValues</a></b></dt>
+<dt><b><a href="cgGetIntStateAssignmentValues.html">cgGetIntStateAssignmentValues</a></b></dt>
+<dt><b><a href="cgGetLastErrorString.html">cgGetLastErrorString</a></b></dt>
+<dt><b><a href="cgGetLastListing.html">cgGetLastListing</a></b></dt>
+<dt><b><a href="cgGetLockingPolicy.html">cgGetLockingPolicy</a></b></dt>
+<dt><b><a href="cgGetMatrixParameter.html">cgGetMatrixParameter</a></b></dt>
+<dt><b><a href="cgGetMatrixParameterOrder.html">cgGetMatrixParameterOrder</a></b></dt>
+<dt><b><a href="cgGetMatrixParameterdc.html">cgGetMatrixParameterdc</a></b></dt>
+<dt><b><a href="cgGetMatrixParameterdr.html">cgGetMatrixParameterdr</a></b></dt>
+<dt><b><a href="cgGetMatrixParameterfc.html">cgGetMatrixParameterfc</a></b></dt>
+<dt><b><a href="cgGetMatrixParameterfr.html">cgGetMatrixParameterfr</a></b></dt>
+<dt><b><a href="cgGetMatrixParameteric.html">cgGetMatrixParameteric</a></b></dt>
+<dt><b><a href="cgGetMatrixParameterir.html">cgGetMatrixParameterir</a></b></dt>
+<dt><b><a href="cgGetMatrixSize.html">cgGetMatrixSize</a></b></dt>
+<dt><b><a href="cgGetNamedEffect.html">cgGetNamedEffect</a></b></dt>
+<dt><b><a href="cgGetNamedEffectAnnotation.html">cgGetNamedEffectAnnotation</a></b></dt>
+<dt><b><a href="cgGetNamedEffectParameter.html">cgGetNamedEffectParameter</a></b></dt>
+<dt><b><a href="cgGetNamedEffectUniformBuffer.html">cgGetNamedEffectUniformBuffer</a></b></dt>
+<dt><b><a href="cgGetNamedParameter.html">cgGetNamedParameter</a></b></dt>
+<dt><b><a href="cgGetNamedParameterAnnotation.html">cgGetNamedParameterAnnotation</a></b></dt>
+<dt><b><a href="cgGetNamedPass.html">cgGetNamedPass</a></b></dt>
+<dt><b><a href="cgGetNamedPassAnnotation.html">cgGetNamedPassAnnotation</a></b></dt>
+<dt><b><a href="cgGetNamedProgramAnnotation.html">cgGetNamedProgramAnnotation</a></b></dt>
+<dt><b><a href="cgGetNamedProgramParameter.html">cgGetNamedProgramParameter</a></b></dt>
+<dt><b><a href="cgGetNamedProgramUniformBuffer.html">cgGetNamedProgramUniformBuffer</a></b></dt>
+<dt><b><a href="cgGetNamedSamplerState.html">cgGetNamedSamplerState</a></b></dt>
+<dt><b><a href="cgGetNamedSamplerStateAssignment.html">cgGetNamedSamplerStateAssignment</a></b></dt>
+<dt><b><a href="cgGetNamedState.html">cgGetNamedState</a></b></dt>
+<dt><b><a href="cgGetNamedStateAssignment.html">cgGetNamedStateAssignment</a></b></dt>
+<dt><b><a href="cgGetNamedStructParameter.html">cgGetNamedStructParameter</a></b></dt>
+<dt><b><a href="cgGetNamedSubParameter.html">cgGetNamedSubParameter</a></b></dt>
+<dt><b><a href="cgGetNamedTechnique.html">cgGetNamedTechnique</a></b></dt>
+<dt><b><a href="cgGetNamedTechniqueAnnotation.html">cgGetNamedTechniqueAnnotation</a></b></dt>
+<dt><b><a href="cgGetNamedUniformBufferParameter.html">cgGetNamedUniformBufferParameter</a></b></dt>
+<dt><b><a href="cgGetNamedUserType.html">cgGetNamedUserType</a></b></dt>
+<dt><b><a href="cgGetNextAnnotation.html">cgGetNextAnnotation</a></b></dt>
+<dt><b><a href="cgGetNextEffect.html">cgGetNextEffect</a></b></dt>
+<dt><b><a href="cgGetNextLeafParameter.html">cgGetNextLeafParameter</a></b></dt>
+<dt><b><a href="cgGetNextParameter.html">cgGetNextParameter</a></b></dt>
+<dt><b><a href="cgGetNextPass.html">cgGetNextPass</a></b></dt>
+<dt><b><a href="cgGetNextProgram.html">cgGetNextProgram</a></b></dt>
+<dt><b><a href="cgGetNextState.html">cgGetNextState</a></b></dt>
+<dt><b><a href="cgGetNextStateAssignment.html">cgGetNextStateAssignment</a></b></dt>
+<dt><b><a href="cgGetNextTechnique.html">cgGetNextTechnique</a></b></dt>
+<dt><b><a href="cgGetNumConnectedToParameters.html">cgGetNumConnectedToParameters</a></b></dt>
+<dt><b><a href="cgGetNumDependentAnnotationParameters.html">cgGetNumDependentAnnotationParameters</a></b></dt>
+<dt><b><a href="cgGetNumDependentProgramArrayStateAssignmentParameters.html">cgGetNumDependentProgramArrayStateAssignmentParameters</a></b></dt>
+<dt><b><a href="cgGetNumDependentStateAssignmentParameters.html">cgGetNumDependentStateAssignmentParameters</a></b></dt>
+<dt><b><a href="cgGetNumParentTypes.html">cgGetNumParentTypes</a></b></dt>
+<dt><b><a href="cgGetNumProgramDomains.html">cgGetNumProgramDomains</a></b></dt>
+<dt><b><a href="cgGetNumStateEnumerants.html">cgGetNumStateEnumerants</a></b></dt>
+<dt><b><a href="cgGetNumSupportedProfiles.html">cgGetNumSupportedProfiles</a></b></dt>
+<dt><b><a href="cgGetNumUserTypes.html">cgGetNumUserTypes</a></b></dt>
+<dt><b><a href="cgGetParameterBaseResource.html">cgGetParameterBaseResource</a></b></dt>
+<dt><b><a href="cgGetParameterBaseType.html">cgGetParameterBaseType</a></b></dt>
+<dt><b><a href="cgGetParameterBufferIndex.html">cgGetParameterBufferIndex</a></b></dt>
+<dt><b><a href="cgGetParameterBufferOffset.html">cgGetParameterBufferOffset</a></b></dt>
+<dt><b><a href="cgGetParameterClass.html">cgGetParameterClass</a></b></dt>
+<dt><b><a href="cgGetParameterClassEnum.html">cgGetParameterClassEnum</a></b></dt>
+<dt><b><a href="cgGetParameterClassString.html">cgGetParameterClassString</a></b></dt>
+<dt><b><a href="cgGetParameterColumns.html">cgGetParameterColumns</a></b></dt>
+<dt><b><a href="cgGetParameterContext.html">cgGetParameterContext</a></b></dt>
+<dt><b><a href="cgGetParameterDefaultValue.html">cgGetParameterDefaultValue</a></b></dt>
+<dt><b><a href="cgGetParameterDefaultValuedc.html">cgGetParameterDefaultValuedc</a></b></dt>
+<dt><b><a href="cgGetParameterDefaultValuedr.html">cgGetParameterDefaultValuedr</a></b></dt>
+<dt><b><a href="cgGetParameterDefaultValuefc.html">cgGetParameterDefaultValuefc</a></b></dt>
+<dt><b><a href="cgGetParameterDefaultValuefr.html">cgGetParameterDefaultValuefr</a></b></dt>
+<dt><b><a href="cgGetParameterDefaultValueic.html">cgGetParameterDefaultValueic</a></b></dt>
+<dt><b><a href="cgGetParameterDefaultValueir.html">cgGetParameterDefaultValueir</a></b></dt>
+<dt><b><a href="cgGetParameterDirection.html">cgGetParameterDirection</a></b></dt>
+<dt><b><a href="cgGetParameterEffect.html">cgGetParameterEffect</a></b></dt>
+<dt><b><a href="cgGetParameterIndex.html">cgGetParameterIndex</a></b></dt>
+<dt><b><a href="cgGetParameterName.html">cgGetParameterName</a></b></dt>
+<dt><b><a href="cgGetParameterNamedType.html">cgGetParameterNamedType</a></b></dt>
+<dt><b><a href="cgGetParameterOrdinalNumber.html">cgGetParameterOrdinalNumber</a></b></dt>
+<dt><b><a href="cgGetParameterProgram.html">cgGetParameterProgram</a></b></dt>
+<dt><b><a href="cgGetParameterResource.html">cgGetParameterResource</a></b></dt>
+<dt><b><a href="cgGetParameterResourceIndex.html">cgGetParameterResourceIndex</a></b></dt>
+<dt><b><a href="cgGetParameterResourceName.html">cgGetParameterResourceName</a></b></dt>
+<dt><b><a href="cgGetParameterResourceSize.html">cgGetParameterResourceSize</a></b></dt>
+<dt><b><a href="cgGetParameterResourceType.html">cgGetParameterResourceType</a></b></dt>
+<dt><b><a href="cgGetParameterRows.html">cgGetParameterRows</a></b></dt>
+<dt><b><a href="cgGetParameterSemantic.html">cgGetParameterSemantic</a></b></dt>
+<dt><b><a href="cgGetParameterSettingMode.html">cgGetParameterSettingMode</a></b></dt>
+<dt><b><a href="cgGetParameterType.html">cgGetParameterType</a></b></dt>
+<dt><b><a href="cgGetParameterValue.html">cgGetParameterValue</a></b></dt>
+<dt><b><a href="cgGetParameterValuedc.html">cgGetParameterValuedc</a></b></dt>
+<dt><b><a href="cgGetParameterValuedr.html">cgGetParameterValuedr</a></b></dt>
+<dt><b><a href="cgGetParameterValuefc.html">cgGetParameterValuefc</a></b></dt>
+<dt><b><a href="cgGetParameterValuefr.html">cgGetParameterValuefr</a></b></dt>
+<dt><b><a href="cgGetParameterValueic.html">cgGetParameterValueic</a></b></dt>
+<dt><b><a href="cgGetParameterValueir.html">cgGetParameterValueir</a></b></dt>
+<dt><b><a href="cgGetParameterValues.html">cgGetParameterValues</a></b></dt>
+<dt><b><a href="cgGetParameterVariability.html">cgGetParameterVariability</a></b></dt>
+<dt><b><a href="cgGetParentType.html">cgGetParentType</a></b></dt>
+<dt><b><a href="cgGetPassName.html">cgGetPassName</a></b></dt>
+<dt><b><a href="cgGetPassProgram.html">cgGetPassProgram</a></b></dt>
+<dt><b><a href="cgGetPassTechnique.html">cgGetPassTechnique</a></b></dt>
+<dt><b><a href="cgGetProfile.html">cgGetProfile</a></b></dt>
+<dt><b><a href="cgGetProfileDomain.html">cgGetProfileDomain</a></b></dt>
+<dt><b><a href="cgGetProfileProperty.html">cgGetProfileProperty</a></b></dt>
+<dt><b><a href="cgGetProfileSibling.html">cgGetProfileSibling</a></b></dt>
+<dt><b><a href="cgGetProfileString.html">cgGetProfileString</a></b></dt>
+<dt><b><a href="cgGetProgramBuffer.html">cgGetProgramBuffer</a></b></dt>
+<dt><b><a href="cgGetProgramBufferMaxIndex.html">cgGetProgramBufferMaxIndex</a></b></dt>
+<dt><b><a href="cgGetProgramBufferMaxSize.html">cgGetProgramBufferMaxSize</a></b></dt>
+<dt><b><a href="cgGetProgramContext.html">cgGetProgramContext</a></b></dt>
+<dt><b><a href="cgGetProgramDomain.html">cgGetProgramDomain</a></b></dt>
+<dt><b><a href="cgGetProgramDomainProfile.html">cgGetProgramDomainProfile</a></b></dt>
+<dt><b><a href="cgGetProgramDomainProgram.html">cgGetProgramDomainProgram</a></b></dt>
+<dt><b><a href="cgGetProgramInput.html">cgGetProgramInput</a></b></dt>
+<dt><b><a href="cgGetProgramOptions.html">cgGetProgramOptions</a></b></dt>
+<dt><b><a href="cgGetProgramOutput.html">cgGetProgramOutput</a></b></dt>
+<dt><b><a href="cgGetProgramOutputVertices.html">cgGetProgramOutputVertices</a></b></dt>
+<dt><b><a href="cgGetProgramProfile.html">cgGetProgramProfile</a></b></dt>
+<dt><b><a href="cgGetProgramStateAssignmentValue.html">cgGetProgramStateAssignmentValue</a></b></dt>
+<dt><b><a href="cgGetProgramString.html">cgGetProgramString</a></b></dt>
+<dt><b><a href="cgGetResource.html">cgGetResource</a></b></dt>
+<dt><b><a href="cgGetResourceString.html">cgGetResourceString</a></b></dt>
+<dt><b><a href="cgGetSamplerStateAssignmentParameter.html">cgGetSamplerStateAssignmentParameter</a></b></dt>
+<dt><b><a href="cgGetSamplerStateAssignmentState.html">cgGetSamplerStateAssignmentState</a></b></dt>
+<dt><b><a href="cgGetSamplerStateAssignmentValue.html">cgGetSamplerStateAssignmentValue</a></b></dt>
+<dt><b><a href="cgGetSemanticCasePolicy.html">cgGetSemanticCasePolicy</a></b></dt>
+<dt><b><a href="cgGetStateAssignmentIndex.html">cgGetStateAssignmentIndex</a></b></dt>
+<dt><b><a href="cgGetStateAssignmentPass.html">cgGetStateAssignmentPass</a></b></dt>
+<dt><b><a href="cgGetStateAssignmentState.html">cgGetStateAssignmentState</a></b></dt>
+<dt><b><a href="cgGetStateContext.html">cgGetStateContext</a></b></dt>
+<dt><b><a href="cgGetStateEnumerant.html">cgGetStateEnumerant</a></b></dt>
+<dt><b><a href="cgGetStateEnumerantName.html">cgGetStateEnumerantName</a></b></dt>
+<dt><b><a href="cgGetStateEnumerantValue.html">cgGetStateEnumerantValue</a></b></dt>
+<dt><b><a href="cgGetStateLatestProfile.html">cgGetStateLatestProfile</a></b></dt>
+<dt><b><a href="cgGetStateName.html">cgGetStateName</a></b></dt>
+<dt><b><a href="cgGetStateResetCallback.html">cgGetStateResetCallback</a></b></dt>
+<dt><b><a href="cgGetStateSetCallback.html">cgGetStateSetCallback</a></b></dt>
+<dt><b><a href="cgGetStateType.html">cgGetStateType</a></b></dt>
+<dt><b><a href="cgGetStateValidateCallback.html">cgGetStateValidateCallback</a></b></dt>
+<dt><b><a href="cgGetString.html">cgGetString</a></b></dt>
+<dt><b><a href="cgGetStringAnnotationValue.html">cgGetStringAnnotationValue</a></b></dt>
+<dt><b><a href="cgGetStringAnnotationValues.html">cgGetStringAnnotationValues</a></b></dt>
+<dt><b><a href="cgGetStringParameterValue.html">cgGetStringParameterValue</a></b></dt>
+<dt><b><a href="cgGetStringStateAssignmentValue.html">cgGetStringStateAssignmentValue</a></b></dt>
+<dt><b><a href="cgGetSupportedProfile.html">cgGetSupportedProfile</a></b></dt>
+<dt><b><a href="cgGetTechniqueEffect.html">cgGetTechniqueEffect</a></b></dt>
+<dt><b><a href="cgGetTechniqueName.html">cgGetTechniqueName</a></b></dt>
+<dt><b><a href="cgGetTextureStateAssignmentValue.html">cgGetTextureStateAssignmentValue</a></b></dt>
+<dt><b><a href="cgGetType.html">cgGetType</a></b></dt>
+<dt><b><a href="cgGetTypeBase.html">cgGetTypeBase</a></b></dt>
+<dt><b><a href="cgGetTypeClass.html">cgGetTypeClass</a></b></dt>
+<dt><b><a href="cgGetTypeSizes.html">cgGetTypeSizes</a></b></dt>
+<dt><b><a href="cgGetTypeString.html">cgGetTypeString</a></b></dt>
+<dt><b><a href="cgGetUniformBufferBlockName.html">cgGetUniformBufferBlockName</a></b></dt>
+<dt><b><a href="cgGetUniformBufferParameter.html">cgGetUniformBufferParameter</a></b></dt>
+<dt><b><a href="cgGetUserType.html">cgGetUserType</a></b></dt>
+<dt><b><a href="cgIsAnnotation.html">cgIsAnnotation</a></b></dt>
+<dt><b><a href="cgIsBuffer.html">cgIsBuffer</a></b></dt>
+<dt><b><a href="cgIsContext.html">cgIsContext</a></b></dt>
+<dt><b><a href="cgIsEffect.html">cgIsEffect</a></b></dt>
+<dt><b><a href="cgIsInterfaceType.html">cgIsInterfaceType</a></b></dt>
+<dt><b><a href="cgIsParameter.html">cgIsParameter</a></b></dt>
+<dt><b><a href="cgIsParameterGlobal.html">cgIsParameterGlobal</a></b></dt>
+<dt><b><a href="cgIsParameterReferenced.html">cgIsParameterReferenced</a></b></dt>
+<dt><b><a href="cgIsParameterUsed.html">cgIsParameterUsed</a></b></dt>
+<dt><b><a href="cgIsParentType.html">cgIsParentType</a></b></dt>
+<dt><b><a href="cgIsPass.html">cgIsPass</a></b></dt>
+<dt><b><a href="cgIsProfileSupported.html">cgIsProfileSupported</a></b></dt>
+<dt><b><a href="cgIsProgram.html">cgIsProgram</a></b></dt>
+<dt><b><a href="cgIsProgramCompiled.html">cgIsProgramCompiled</a></b></dt>
+<dt><b><a href="cgIsState.html">cgIsState</a></b></dt>
+<dt><b><a href="cgIsStateAssignment.html">cgIsStateAssignment</a></b></dt>
+<dt><b><a href="cgIsTechnique.html">cgIsTechnique</a></b></dt>
+<dt><b><a href="cgIsTechniqueValidated.html">cgIsTechniqueValidated</a></b></dt>
+<dt><b><a href="cgMapBuffer.html">cgMapBuffer</a></b></dt>
+<dt><b><a href="cgResetPassState.html">cgResetPassState</a></b></dt>
+<dt><b><a href="cgSetArraySize.html">cgSetArraySize</a></b></dt>
+<dt><b><a href="cgSetAutoCompile.html">cgSetAutoCompile</a></b></dt>
+<dt><b><a href="cgSetBoolAnnotation.html">cgSetBoolAnnotation</a></b></dt>
+<dt><b><a href="cgSetBoolArrayStateAssignment.html">cgSetBoolArrayStateAssignment</a></b></dt>
+<dt><b><a href="cgSetBoolStateAssignment.html">cgSetBoolStateAssignment</a></b></dt>
+<dt><b><a href="cgSetBufferData.html">cgSetBufferData</a></b></dt>
+<dt><b><a href="cgSetBufferSubData.html">cgSetBufferSubData</a></b></dt>
+<dt><b><a href="cgSetCompilerIncludeCallback.html">cgSetCompilerIncludeCallback</a></b></dt>
+<dt><b><a href="cgSetCompilerIncludeFile.html">cgSetCompilerIncludeFile</a></b></dt>
+<dt><b><a href="cgSetCompilerIncludeString.html">cgSetCompilerIncludeString</a></b></dt>
+<dt><b><a href="cgSetContextBehavior.html">cgSetContextBehavior</a></b></dt>
+<dt><b><a href="cgSetEffectName.html">cgSetEffectName</a></b></dt>
+<dt><b><a href="cgSetEffectParameterBuffer.html">cgSetEffectParameterBuffer</a></b></dt>
+<dt><b><a href="cgSetErrorCallback.html">cgSetErrorCallback</a></b></dt>
+<dt><b><a href="cgSetErrorHandler.html">cgSetErrorHandler</a></b></dt>
+<dt><b><a href="cgSetFloatAnnotation.html">cgSetFloatAnnotation</a></b></dt>
+<dt><b><a href="cgSetFloatArrayStateAssignment.html">cgSetFloatArrayStateAssignment</a></b></dt>
+<dt><b><a href="cgSetFloatStateAssignment.html">cgSetFloatStateAssignment</a></b></dt>
+<dt><b><a href="cgSetIntAnnotation.html">cgSetIntAnnotation</a></b></dt>
+<dt><b><a href="cgSetIntArrayStateAssignment.html">cgSetIntArrayStateAssignment</a></b></dt>
+<dt><b><a href="cgSetIntStateAssignment.html">cgSetIntStateAssignment</a></b></dt>
+<dt><b><a href="cgSetLastListing.html">cgSetLastListing</a></b></dt>
+<dt><b><a href="cgSetLockingPolicy.html">cgSetLockingPolicy</a></b></dt>
+<dt><b><a href="cgSetMatrixParameter.html">cgSetMatrixParameter</a></b></dt>
+<dt><b><a href="cgSetMatrixParameterdc.html">cgSetMatrixParameterdc</a></b></dt>
+<dt><b><a href="cgSetMatrixParameterdr.html">cgSetMatrixParameterdr</a></b></dt>
+<dt><b><a href="cgSetMatrixParameterfc.html">cgSetMatrixParameterfc</a></b></dt>
+<dt><b><a href="cgSetMatrixParameterfr.html">cgSetMatrixParameterfr</a></b></dt>
+<dt><b><a href="cgSetMatrixParameteric.html">cgSetMatrixParameteric</a></b></dt>
+<dt><b><a href="cgSetMatrixParameterir.html">cgSetMatrixParameterir</a></b></dt>
+<dt><b><a href="cgSetMultiDimArraySize.html">cgSetMultiDimArraySize</a></b></dt>
+<dt><b><a href="cgSetParameter.html">cgSetParameter</a></b></dt>
+<dt><b><a href="cgSetParameter1d.html">cgSetParameter1d</a></b></dt>
+<dt><b><a href="cgSetParameter1dv.html">cgSetParameter1dv</a></b></dt>
+<dt><b><a href="cgSetParameter1f.html">cgSetParameter1f</a></b></dt>
+<dt><b><a href="cgSetParameter1fv.html">cgSetParameter1fv</a></b></dt>
+<dt><b><a href="cgSetParameter1i.html">cgSetParameter1i</a></b></dt>
+<dt><b><a href="cgSetParameter1iv.html">cgSetParameter1iv</a></b></dt>
+<dt><b><a href="cgSetParameter2d.html">cgSetParameter2d</a></b></dt>
+<dt><b><a href="cgSetParameter2dv.html">cgSetParameter2dv</a></b></dt>
+<dt><b><a href="cgSetParameter2f.html">cgSetParameter2f</a></b></dt>
+<dt><b><a href="cgSetParameter2fv.html">cgSetParameter2fv</a></b></dt>
+<dt><b><a href="cgSetParameter2i.html">cgSetParameter2i</a></b></dt>
+<dt><b><a href="cgSetParameter2iv.html">cgSetParameter2iv</a></b></dt>
+<dt><b><a href="cgSetParameter3d.html">cgSetParameter3d</a></b></dt>
+<dt><b><a href="cgSetParameter3dv.html">cgSetParameter3dv</a></b></dt>
+<dt><b><a href="cgSetParameter3f.html">cgSetParameter3f</a></b></dt>
+<dt><b><a href="cgSetParameter3fv.html">cgSetParameter3fv</a></b></dt>
+<dt><b><a href="cgSetParameter3i.html">cgSetParameter3i</a></b></dt>
+<dt><b><a href="cgSetParameter3iv.html">cgSetParameter3iv</a></b></dt>
+<dt><b><a href="cgSetParameter4d.html">cgSetParameter4d</a></b></dt>
+<dt><b><a href="cgSetParameter4dv.html">cgSetParameter4dv</a></b></dt>
+<dt><b><a href="cgSetParameter4f.html">cgSetParameter4f</a></b></dt>
+<dt><b><a href="cgSetParameter4fv.html">cgSetParameter4fv</a></b></dt>
+<dt><b><a href="cgSetParameter4i.html">cgSetParameter4i</a></b></dt>
+<dt><b><a href="cgSetParameter4iv.html">cgSetParameter4iv</a></b></dt>
+<dt><b><a href="cgSetParameterSemantic.html">cgSetParameterSemantic</a></b></dt>
+<dt><b><a href="cgSetParameterSettingMode.html">cgSetParameterSettingMode</a></b></dt>
+<dt><b><a href="cgSetParameterValue.html">cgSetParameterValue</a></b></dt>
+<dt><b><a href="cgSetParameterValuedc.html">cgSetParameterValuedc</a></b></dt>
+<dt><b><a href="cgSetParameterValuedr.html">cgSetParameterValuedr</a></b></dt>
+<dt><b><a href="cgSetParameterValuefc.html">cgSetParameterValuefc</a></b></dt>
+<dt><b><a href="cgSetParameterValuefr.html">cgSetParameterValuefr</a></b></dt>
+<dt><b><a href="cgSetParameterValueic.html">cgSetParameterValueic</a></b></dt>
+<dt><b><a href="cgSetParameterValueir.html">cgSetParameterValueir</a></b></dt>
+<dt><b><a href="cgSetParameterVariability.html">cgSetParameterVariability</a></b></dt>
+<dt><b><a href="cgSetPassProgramParameters.html">cgSetPassProgramParameters</a></b></dt>
+<dt><b><a href="cgSetPassState.html">cgSetPassState</a></b></dt>
+<dt><b><a href="cgSetProgramBuffer.html">cgSetProgramBuffer</a></b></dt>
+<dt><b><a href="cgSetProgramProfile.html">cgSetProgramProfile</a></b></dt>
+<dt><b><a href="cgSetProgramOutputVertices.html">cgSetProgramOutputVertices</a></b></dt>
+<dt><b><a href="cgSetProgramStateAssignment.html">cgSetProgramStateAssignment</a></b></dt>
+<dt><b><a href="cgSetSamplerState.html">cgSetSamplerState</a></b></dt>
+<dt><b><a href="cgSetSamplerStateAssignment.html">cgSetSamplerStateAssignment</a></b></dt>
+<dt><b><a href="cgSetSemanticCasePolicy.html">cgSetSemanticCasePolicy</a></b></dt>
+<dt><b><a href="cgSetStateCallbacks.html">cgSetStateCallbacks</a></b></dt>
+<dt><b><a href="cgSetStateLatestProfile.html">cgSetStateLatestProfile</a></b></dt>
+<dt><b><a href="cgSetStringAnnotation.html">cgSetStringAnnotation</a></b></dt>
+<dt><b><a href="cgSetStringParameterValue.html">cgSetStringParameterValue</a></b></dt>
+<dt><b><a href="cgSetStringStateAssignment.html">cgSetStringStateAssignment</a></b></dt>
+<dt><b><a href="cgSetTextureStateAssignment.html">cgSetTextureStateAssignment</a></b></dt>
+<dt><b><a href="cgSetUniformBufferParameter.html">cgSetUniformBufferParameter</a></b></dt>
+<dt><b><a href="cgUnmapBuffer.html">cgUnmapBuffer</a></b></dt>
+<dt><b><a href="cgUpdatePassParameters.html">cgUpdatePassParameters</a></b></dt>
+<dt><b><a href="cgUpdateProgramParameters.html">cgUpdateProgramParameters</a></b></dt>
+<dt><b><a href="cgValidateTechnique.html">cgValidateTechnique</a></b></dt>
+</dl>
+<p><a href="index.html">Back to Top</a></p>
+</BLOCKQUOTE>
+</BODY>

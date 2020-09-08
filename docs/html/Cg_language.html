@@ -1,0 +1,1910 @@
+<HTML>
+
+<HEAD>
+<TITLE>Cg_language</TITLE>
+<meta name="description" content="Cg_language" />
+<meta name="keywords" content="Cg_language, NVIDIA, NVIDIA Cg Toolkit, Cg Toolkit, Shader, Shader Programming, GPU Shader Programming, GPU Program" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<STYLE TYPE="text/css" MEDIA=screen>
+<!--
+		
+BODY {
+ font-family: Arial,Helvetica;
+}
+
+BLOCKQUOTE { margin: 10pt;  }
+
+H1,A { color: #336699; }
+
+
+/*** Top menu style ****/
+.mmenuon { 
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #ff6600; font-size: 10pt;
+ }
+.mmenuoff { 
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #ffffff; font-size: 10pt;
+}	  
+.cpyright {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #ffffff; font-size: xx-small;
+}
+.cpyrightText {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #ffffff; font-size: xx-small;
+}
+.sections { 
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: 11pt;
+}	 
+.dsections { 
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: 12pt;
+}	
+.slink { 
+ font-family: Arial,Helvetica; font-weight: normal; text-decoration: none;
+ color: #336699; font-size: 9pt;
+}	 
+
+.slink2 { font-family: Arial,Helvetica; text-decoration: none; color: #336699; }	 
+
+.maintitle { 
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: 18pt;
+}	 
+.dblArrow {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: small;
+}
+.menuSec {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: small;
+}
+
+.newstext {
+ font-family: Arial,Helvetica; font-size: small;
+}
+
+.linkmenu {
+ font-family: Arial,Helvetica; color: #000000; font-weight: bold;
+ text-decoration: none;
+}
+
+P {
+ font-family: Arial,Helvetica;
+}
+
+PRE            { 
+																font-family: monospace;
+																white-space: pre; 
+																font-color: #333333; 
+																font-weight: 100;
+																background-color: #eeeeee; 
+																padding: 5px; 
+																width: 90%; 
+																border-style: solid;
+																border-width: 2px; 
+																border-color: #bebebe; 
+	              }
+.quote { 
+ font-family: Times; text-decoration: none;
+ color: #000000; font-size: 9pt; font-style: italic;
+}	
+.smstd { font-family: Arial,Helvetica; color: #000000; font-size: x-small; } 
+.std { font-family: Arial,Helvetica; color: #000000; } 
+.meerkatTitle { 
+ font-family: sans-serif; font-size: x-small;  color: black;    }
+
+.meerkatDescription { font-family: sans-serif; font-size: 10pt; color: black }
+.meerkatCategory { 
+ font-family: sans-serif; font-size: 9pt; font-weight: bold; font-style: italic; 
+ color: brown; }
+.meerkatChannel { 
+ font-family: sans-serif; font-size: 9pt; font-style: italic; color: brown; }
+.meerkatDate { font-family: sans-serif; font-size: xx-small; color: #336699; }
+
+.tocTitle {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #333333; font-size: 10pt;
+}
+
+.toc-item {
+ font-family: Arial,Helvetica; font-weight: bold; 
+ color: #336699; font-size: 10pt; text-decoration: underline;
+}
+
+.perlVersion {
+ font-family: Arial,Helvetica; font-weight: bold; 
+ color: #336699; font-size: 10pt; text-decoration: none;
+}
+
+.docTitle {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #000000; font-size: 10pt;
+}
+.dotDot {
+ font-family: Arial,Helvetica; font-weight: bold; 
+ color: #000000; font-size: 9pt;
+}
+
+.docSec {
+ font-family: Arial,Helvetica; font-weight: normal; 
+ color: #333333; font-size: 9pt;
+}
+.docVersion {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: 10pt;
+}
+
+.docSecs-on {
+ font-family: Arial,Helvetica; font-weight: normal; text-decoration: none;
+ color: #ff0000; font-size: 10pt;
+}
+.docSecs-off {
+ font-family: Arial,Helvetica; font-weight: normal; text-decoration: none;
+ color: #333333; font-size: 10pt;
+}
+
+h3 {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: small;
+}
+h2 {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: medium;
+}
+h1 {
+ font-family: Verdana,Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: large;
+}
+
+DL {
+ font-family: Arial,Helvetica; font-weight: normal; text-decoration: none;
+ color: #333333; font-size: 10pt;
+}
+
+UL > LI > A {
+ font-family: Arial,Helvetica; font-weight: bold;
+ color: #336699; font-size: 10pt;
+}
+
+.moduleInfo {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #333333; font-size: 11pt;
+}
+
+.moduleInfoSec {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: 10pt;
+}
+
+.moduleInfoVal {
+ font-family: Arial,Helvetica; font-weight: normal; text-decoration: underline;
+ color: #000000; font-size: 10pt;
+}
+
+.cpanNavTitle {
+ font-family: Arial,Helvetica; font-weight: bold; 
+ color: #ffffff; font-size: 10pt;
+}
+.cpanNavLetter {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none; 
+ color: #333333; font-size: 9pt;
+}
+.cpanCat {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none; 
+ color: #336699; font-size: 9pt;
+}
+
+-->
+</STYLE>
+
+</HEAD>
+
+<BODY>
+
+<object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+</object>
+
+<BLOCKQUOTE>
+<h2><a id="Cg_Language_Specification"></a>Cg Language Specification</h2>
+<p>Copyright (c) 2001-2012 NVIDIA Corp.</p>
+<p>
+This is version 3.1 of the Cg Language specification.  This language
+specification describes version 3.1 of the Cg language
+</p>
+<h2><a id="Language_Overview"></a>Language Overview</h2>
+<p>
+The Cg language is primarily modeled on ANSI C, but adopts some ideas from
+modern languages such as C++ and Java, and from earlier shading languages
+such as RenderMan and the Stanford shading language. The language also
+introduces a few new ideas.  In particular, it includes features designed
+to represent data flow in stream-processing architectures such as GPUs.
+Profiles, which are specified at compile time, may subset certain
+features of the language, including the ability to implement loops and
+the precision at which certain computations are performed.
+</p>
+<p>
+Like C, Cg is designed primarily as a low-level programming language.
+Features are provided that map as directly as possible to hardware
+capabilities.  Higher level abstractions are designed primarily to not
+get in the way of writing code that maps directly to the hardware in
+the most efficient way possible.  The changes in the language from C
+primarily reflect differences in the way GPU hardware works compared
+to conventional CPUs.  GPUs are designed to run large numbers of small
+threads of processing in parallel, each running a copy of the same program
+on a different data set.
+</p>
+<h2><a id="Differences_from_ANSI_C"></a>Differences From Ansi C</h2>
+<p>
+Cg was developed based on the ANSI-C language with the following major
+additions, deletions, and changes. (This is a summary-more detail is
+provided later in this document):
+</p>
+<h2><a id="Silent_Incompatibilities"></a>Silent Incompatibilities</h2>
+<p>
+Most of the changes from ANSI C are either omissions or additions,
+but there are a few potentially silent incompatibilities.  These are
+changes within Cg that could cause a program that compiles
+without errors to behave in a manner different from C:
+</p>
+<ul>
+<li>The type promotion rules for constants are different when the constant is not explicitly typed using a type cast or type suffix. In general, a binary operation between a constant that is not explicitly typed and a variable is performed at the variable's precision, rather than at the constant's default precision.</li>
+<li>Declarations of <code>struct</code> perform an automatic <code>typedef</code> (as in C++) and thus could override a previously declared type.</li>
+<li>Arrays are first-class types that are distinct from pointers.  As a result, array assignments semantically perform a copy operation for the entire array.</li>
+</ul>
+<h2><a id="Similar_Operations_That_Must_be_Expressed_Differently"></a>Similar Operations That Must Be Expressed Differently</h2>
+<p>
+There are several changes that force the same operation to be
+expressed differently in Cg than in C:
+</p>
+<ul>
+<li>A Boolean type, <code>bool</code>, is introduced, with corresponding implications for operators and control constructs.</li>
+<li>Arrays are first-class types because Cg does not support pointers.</li>
+<li>Functions pass values by value/result, and thus use an <code>out</code> or <code>inout</code> modifier in the formal parameter list to return a parameter.  By default, formal parameters are <code>in</code>, but it is acceptable to specify this explicitly. Parameters can also be specified as <code>in out</code>, which is semantically the same as <code>inout</code>.</li>
+</ul>
+<h2><a id="C_features_not_present_in_Cg"></a>C Features Not Present In Cg</h2>
+<ul>
+<li>Language profiles (described in the <a href="#Profiles">Profiles</a> section) may subset language capabilities in a variety of ways.  In particular, language profiles may restrict the use of for and while loops. For example, some profiles may only support loops that can be fully unrolled at compile time.</li>
+<li>Reserved keywords <code>goto</code>, <code>switch</code>, <code>case</code>, and <code>default</code> are not supported, nor are labels.</li>
+<li>Pointers and pointer-related capabilities, such as the <code>&amp;</code> and <code> -&gt; </code> operators, are not supported.</li>
+<li>Arrays are supported, but with some limitations on size and dimensionality.  Restrictions on the use of computed subscripts are also permitted.  Arrays may be designated as <code>packed</code>.  The operations allowed on packed arrays may be different from those allowed on unpacked arrays. Predefined <code>packed</code> types are provided for vectors and matrices. It is strongly recommended that these predefined types be used.</li>
+<li>There is no <code>enum</code> or <code>union</code>.</li>
+<li>There are no bit-field declarations in structures.</li>
+<li>All integral types are implicitly signed, there is no <i>signed</i> keyword.</li>
+</ul>
+<h2><a id="Cg_features_not_present_in_C"></a>Cg Features Not Present In C</h2>
+<ul>
+<li>A <i>binding semantic</i> may be associated with a structure tag, a variable, or a structure element to denote that object's mapping to a specific hardware or API resource.  Binding semantics are described in the <i>Binding Semantics</i> section.</li>
+<li>There is a built-in swizzle operator: <code>.xyzw</code> or <code>.rgba</code> for vectors. This operator allows the components of a vector to be rearranged and also replicated.  It also allows the creation of a vector from a scalar.</li>
+<li>For an lvalue, the swizzle operator allows components of a vector or matrix to be selectively written.</li>
+<li>There is a similar built-in swizzle operator for matrices: <code> ._m&lt;row&gt;&lt;col&gt;[_m&lt;row&gt;&lt;col&gt;][...] </code>.  This operator allows access to individual matrix components and allows the creation of a vector from elements of a matrix.  For compatibility with DirectX 8 notation, there is a second form of matrix swizzle, which is described later.</li>
+<li>Numeric data types are different. Cg's primary numeric data types are <code>float</code>, <code>half</code>, and <code>fixed</code>. Fragment profiles are required to support all three data types, but may choose to implement <code>half</code> and/or <code>fixed</code> at <code>float</code> precision. Vertex profiles are required to support <code>half</code> and <code>float</code>, but may choose to implement <code>half</code> at <code>float</code> precision. Vertex profiles may omit support for <code>fixed</code> operations, but must still support definition of <code>fixed</code> variables. Cg allows profiles to omit run-time support for <code>int</code> and other integer types. Cg allows profiles to treat <code>double</code> as <code>float</code>.</li>
+<li>Many operators support per-element vector operations.</li>
+<li>The <code>?:</code>, <code>||</code>, <code>&amp;&amp;</code>, <code>!</code>, and comparison operators can be used with <code>bool</code> vectors to perform multiple conditional operations simultaneously. The side effects of all operands to vector <code>?:</code>, <code>||</code>, and <code>&amp;&amp;</code> operators are always executed.</li>
+<li>Non-static global variables, and parameters to top-level functions (such as main()) may be designated as <code>uniform</code>.  A <code>uniform</code> variable may be read and written within a program, just like any other variable.  However, the uniform modifier indicates that the initial value of the variable/parameter is expected to be constant across a large number of invocations of the program.</li>
+<li>A new set of <code>sampler*</code> types represents handles to texture sampler units.</li>
+<li>Functions may have default values for their parameters, as in C++. These defaults are expressed using assignment syntax.</li>
+<li>Function and operator overloading is supported.</li>
+<li>Variables may be defined anywhere before they are used, rather than just at the beginning of a scope as in C. (That is, we adopt the C++ rules that govern where variable declarations are allowed.) Variables may not be redeclared within the same scope.</li>
+<li>Vector constructors, such as the form <code>float4(1,2,3,4)</code>, and matrix constructors may be used anywhere in an expression.</li>
+<li>A <code>struct</code> definition automatically performs a corresponding <code>typedef</code>, as in C++.</li>
+<li>C++-style <code>//</code> comments are allowed in addition to C-style <code>/*</code> ... <code>*/</code> comments.</li>
+<li>A limited form of inheritance is supported;  <code>interface</code> types may be defined which contain only member functions (no data members) and <code>struct</code> types may inherit from a single interface and provide specific implementations for all the member functions.  Interface objects may not be created; a variable of interface type may have any implementing struct type assigned to it.</li>
+</ul>
+<h2><a id="Detailed_Language_Specification"></a>Detailed Language Specification</h2>
+<h2><a id="Definitions"></a>Definitions</h2>
+<p>The following definitions are based on the ANSI C standard:</p>
+<dl>
+<dt><b>Object</b></dt>
+<dd>
+An object is a region of data storage in the execution
+environment, the contents of which can represent values. When
+referenced, an object may be interpreted as having a particular
+type.
+</dd>
+<dt><b>Declaration</b></dt>
+<dd>
+A declaration specifies the interpretation and attributes of a set
+of identifiers.
+</dd>
+<dt><b>Definition</b></dt>
+<dd>
+A declaration that also causes storage to be reserved for an
+object or code that will be generated for a function named by an
+identifier is a definition.
+</dd>
+</dl>
+<h2><a id="Profiles"></a>Profiles</h2>
+<p>
+Compilation of a Cg program, a top-level function, always occurs in
+the context of a compilation profile.  The profile specifies whether
+certain optional language features are supported.  These
+optional language features include certain control constructs and
+standard library functions.  The compilation profile also defines the
+precision of the <code>float</code>, <code>half</code>, and <code>fixed</code> data types, and
+specifies whether the <code>fixed</code> and <code>sampler*</code> data types are
+fully or only partially supported.  The profile also specifies the environment
+in which the program will be run.
+The choice of a compilation profile is made externally to the language,
+by using a compiler command-line switch, for example.
+</p>
+<p>
+The profile restrictions are only applied to the top-level function
+that is being compiled and to any variables or functions that it
+references, either directly or indirectly.  If a function is present in the
+source code, but not called directly or indirectly by the top-level
+function, it is free to use capabilities that are not supported
+by the current profile.
+</p>
+<p>
+The intent of these rules is to allow a single Cg source file to
+contain many different top-level functions that are targeted at
+different profiles.  The core Cg language specification is
+sufficiently complete to allow all of these functions to be parsed.
+The restrictions provided by a compilation profile are only needed for
+code generation, and are therefore only applied to those functions for
+which code is being generated.  This specification uses the word
+"program" to refer to the top-level function, any functions
+the top-level function calls, and any global variables or typedef
+definitions it references.
+</p>
+<p>
+Each profile must have a separate specification that describes its
+characteristics and limitations.
+</p>
+<p>
+This core Cg specification requires certain minimum capabilities for
+all profiles.  In some cases, the core specification distinguishes
+between vertex-program and fragment-program profiles, with different
+minimum capabilities for each.
+</p>
+<h2><a id="Declarations_and_declaration_specifiers."></a>Declarations And Declaration Specifiers.</h2>
+<p>
+A Cg program consists of a series of declarations, each of which
+declares one or more variables or functions, or declares and defines
+a single function.  Each declaration consists of zero or more
+declaration specifiers, a type, and one or more declarators.  Some
+of the declaration specifiers are the same as those in ANSI C;
+others are new to Cg
+</p>
+<dl>
+<dt><b>const</b></dt>
+<dd>
+Marks a variable as a constant that cannot be assigned to within the
+program.  Unless this is combined with <code>uniform</code> or <code>varying</code>, the
+declarator must include an initializer to give the variable a value.
+</dd>
+<dt><b>extern</b></dt>
+<dd>
+Marks this declaration as solely a declaration and not a definition.
+There must be a non-<code>extern</code> declaration elsewhere in the program.
+</dd>
+<dt><b>in</b></dt>
+<dd>
+Only usable on parameter and <code>varying</code> declarations.  Marks the parameter
+or varying as an input to the function or program.  Function parameters
+with no <code>in</code>, <code>out</code>, or <code>inout</code> specifier are implicitly <code>in</code>
+</dd>
+<dt><b>inline</b></dt>
+<dd>
+Only usable on a function definition.  Tells the compiler that it should
+always inline calls to the function if at all possible.
+</dd>
+<dt><b>inout</b></dt>
+<dd>
+Only usable on parameter and <code>varying</code> declarations.  Marks the parameter
+or varying as both an input to and an output from the function or program
+</dd>
+<dt><b>static</b></dt>
+<dd>
+Only usable on global variables.  Marks the variable as 'private' to the
+program, and not visible externally.   Cannot be combined with <code>uniform</code> or <code>varying</code>
+</dd>
+<dt><b>out</b></dt>
+<dd>
+Only usable on parameter and <code>varying</code> declarations.  Marks the parameter
+or varying as an output from the function or program
+</dd>
+<dt><b>uniform</b></dt>
+<dd>
+Usable on global variables and parameters to the top-level main function
+of a program and to define constant buffers (see the <a href="#Constant_Buffers">Constant Buffers</a> section).
+If specified on a non-top-level function parameter it is ignored.
+The intent of this rule is to allow
+a function to serve as either a top-level function or as one that is not.
+</dd>
+<dd>
+Note that <code>uniform</code> variables may be read and written just like
+non-<code>uniform</code> variables.  The <code>uniform</code> qualifier simply provides
+information about how the initial value of the variable is to be
+specified and stored, through a mechanism external to the language.
+</dd>
+<dt><b>varying</b></dt>
+<dd>
+Only usable on global variables and parameters to the top-level main function
+of a program.  If specified on a non-top-level function parameter it is ignored.
+</dd>
+<dt><b>profile name</b></dt>
+<dd>
+The name of any profile (or profile wildcard -- see <a href="#Profiles">Profiles</a>) may
+be used as a specifier on any function declaration.  It defines a function
+that is only visible in the corresponding profiles.
+</dd>
+</dl>
+<p>
+The specifiers <code>uniform</code> and <code>varying</code> specify how data is transferred
+between the rest of the world and a Cg program.
+Typically, the initial value of a <code>uniform</code> variable or parameter is stored
+in a different class of hardware register for a <code>varying</code>.  Furthermore, the external
+mechanism for specifying the initial value of <code>uniform</code>
+variables or parameters may be different than that used for specifying
+the initial value of <code>varying</code> variables or parameters.  Parameters qualified
+as <code>uniform</code> are normally treated as persistent state, while <code>varying</code>
+parameters are treated as streaming data, with a new value specified
+for each stream record (such as within a vertex array).
+</p>
+<p>
+Non-<code>static</code> global variables are treated as <code>uniform</code> by default, while
+parameters to the top-level function are treated as <code>varying</code> by default.
+</p>
+<p>
+Each declaration is visible ("in scope") from the point of its declarator
+until the end of the enclosing block or the end of the compilation unit
+if outside any block.  Declarations in named scopes (such as structs and
+interfaces) may be visible outside of their scope using explicit scope
+qualifiers, as in C++.
+</p>
+<h2><a id="Semantics"></a>Semantics</h2>
+<p>
+Each declarator in a declaration may optionally have a semantic specified
+with it.  A semantic specifies how the variable is connected to the environment
+in which the program runs.  All semantics are profile specific (so they
+have different meanings in different profiles), though there is some
+attempt to be consistent across profiles.  Each profile specification must
+specify the set of semantics which the profile understands, as well as
+what behavior occurs for any other unspecified semantics.
+</p>
+<h2><a id="Function_Declarations"></a>Function Declarations</h2>
+<p>
+Functions are declared essentially as in C.  A function that does not
+return a value must be declared with a <code>void</code> return type.  A function
+that takes no parameters may be declared in one of two ways:
+</p>
+<dl>
+<dt><b>As in C, using the void keyword:</b></dt>
+<pre>        functionName(void)</pre>
+<dt><b>With no parameters at all:</b></dt>
+<pre>        functionName()</pre>
+</dl>
+<p>
+Functions may be declared as <code>static</code>.  If so, they may not be
+compiled as a program and are not visible externally
+</p>
+<h2><a id="Function_overloading_and_optional_arguments"></a>Function Overloading And Optional Arguments</h2>
+<p>
+Cg supports function overloading; that is you may define multiple functions
+with the same name.  The function actually called at any given call site
+is based on the types of the arguments at that call site; the definition
+that best matches is called.  See the <a href="#Function_Overloading">function overloading</a>
+section for the precise rules.  Trailing arguments with initializers are
+optional arguments; defining a function with optional arguments is
+equivalent to defining multiple overloaded functions that differ by having
+and not having the optional argument.  The value of the initializer is
+used only for the version that does not have the argument and is ignored
+if the argument is present.
+</p>
+<h2><a id="Overloading_of_Functions_by_Profile"></a>Overloading Of Functions By Profile</h2>
+<p>
+Cg supports overloading of functions by compilation profile.  This
+capability allows a function to be implemented differently for
+different profiles.  It is also useful because different profiles may
+support different subsets of the language capabilities, and because
+the most efficient implementation of a function may be different for
+different profiles.
+</p>
+<p>
+The profile name must precede the return type name in the
+function declaration. For example, to define two different versions of
+the function <code>myfunc</code> for the <code>profileA</code> and <code>profileB</code> profiles:
+</p>
+<pre>
+profileA float myfunc(float x) {...};
+profileB float myfunc(float x) {...};
+</pre>
+<p>
+If a type is defined (using a <code>typedef</code>) that has the same name as a
+profile, the identifier is treated as a type name, and is not
+available for profile overloading at any subsequent point in the
+file.
+</p>
+<p>
+If a function definition does not include a profile, the function
+is referred to as an "open-profile" function.  Open-profile functions
+apply to all profiles.
+</p>
+<p>
+Several wildcard profile names are defined.  The name <code>vs</code> matches any
+vertex profile, while the name <code>ps</code> matches any fragment or pixel profile.
+The names <code>ps_1</code> and <code>ps_2</code> match any DX8 pixel shader 1.x profile,
+or DX9 pixel shader 2.x profile, respectively.
+Similarly, the names <code>vs_1</code> and <code>vs_2</code> match any DX vertex
+shader 1.x or 2.x, respectively.  Additional valid wildcard profile
+names may be defined by individual profiles.
+</p>
+<p>
+In general, the most specific version of a function is used.
+More details are provided in the section on function overloading,
+but roughly speaking, the search order is the following:
+</p>
+<ol>
+<li>version of the function with the exact profile overload</li>
+<li>version of the function with the most specific wildcard profile overload (e.g.  <code>vs</code>, "ps_1")</li>
+<li>version of function with no profile overload</li>
+</ol>
+<p>
+This search process allows generic versions of a function to be
+defined that can be overridden as needed for particular hardware.
+</p>
+<h2><a id="Syntax_for_Parameters_in_Function_Definitions"></a>Syntax For Parameters In Function Definitions</h2>
+<p>
+Functions are declared in a manner similar to C, but the parameters
+in function definitions may include a binding semantic (discussed
+later) and a default value.
+</p>
+<p>Each parameter in a function definition takes the following form:</p>
+<pre>  &lt;declspecs&gt; &lt;type&gt; identifier [: &lt;binding_semantic&gt;] [= &lt;default&gt;]</pre>
+<p><i> &lt;default&gt; </i> is an expression that resolves to a constant at compile time.</p>
+<p>
+Default values are only permitted for <code>uniform</code> parameters, and for
+<code>in</code> parameters to non top-level functions.
+</p>
+<h2><a id="Function_Calls"></a>Function Calls</h2>
+<p>
+A function call returns an rvalue. Therefore, if a function returns an
+array, the array may be read but not written. For example, the following
+is allowed:
+</p>
+<pre>        y = myfunc(x)[2];</pre>
+<p>But, this is not:</p>
+<pre>        myfunc(x)[2] = y;</pre>
+<p>
+For multiple function calls within an expression, the calls can occur
+in any order--it is undefined.
+</p>
+<h2><a id="Types"></a>Types</h2>
+<p>Cg's types are as follows:</p>
+<dl>
+<dt><b>The <code>int</code> type is preferably 32-bit two's complement.  Profiles may optionally treat <code>int</code> as <code>float</code>.</b></dt>
+<dt><b>The <code>unsigned</code> type is preferably a 32-bit ordinal value.  <code>unsigned</code> may also be used with other integer types to make different sized unsigned values</b></dt>
+<dt><b>The <code>char</code>, <code>short</code>, and <code>long</code> types are two's complement integers of various sizes.  The only requirement is that <code>char</code> is no larger that <code>short</code>, <code>short</code> is no larger than <code>int</code> and <code>long</code> is at least as large as <code>int</code></b></dt>
+<dt><b>The <code>float</code> type is as close as possible to the IEEE single precision (32-bit) floating point format. Profiles must support the <code>float</code> data type.</b></dt>
+<dt><b>The <code>half</code> type is lower-precision IEEE-like floating point. Profiles must support the <code>half</code> type, but may choose to implement it with the same precision as the <code>float</code> type.</b></dt>
+<dt><b>The <code>fixed</code> type is a signed type with a range of at least [-2,2) and with at least 10 bits of fractional precision. Overflow operations on the data type clamp rather than wrap. Fragment profiles must support the <code>fixed</code> type, but may implement it with the same precision as the <code>half</code> or <code>float</code> types. Vertex profiles are required to provide partial support (as defined below) for the <code>fixed</code> type. Vertex profiles have the option to provide full support for the <code>fixed</code> type or to implement the <code>fixed</code> type with the same precision as the <code>half</code> or <code>float</code> types.</b></dt>
+<dt><b>The <code>bool</code> type represents Boolean values. Objects of <code>bool</code> type are either true or false.</b></dt>
+<dt><b>The <code>cint</code> type is 32-bit two's complement.  This type is meaningful only at compile time; it is not possible to declare objects of type <code>cint</code>.</b></dt>
+<dt><b>The <code>cfloat</code> type is IEEE single-precision (32-bit) floating point.  This type is meaningful only at compile time; it is not possible to declare objects of type <code>cfloat</code>.</b></dt>
+<dt><b>The <code>void</code> type may not be used in any expression.  It may only be used as the return type of functions that do not return a value.</b></dt>
+<dt><b>The <code>sampler*</code> types are handles to texture objects.  Formal parameters of a program or function may be of type <code>sampler*</code>.  No other definition of <code>sampler*</code> variables is permitted.  A <code>sampler*</code> variable may only be used by passing it to another function as an <code>in</code> parameter.  Assignment to <code>sampler*</code> variables is not permitted, and <code>sampler*</code> expressions are not permitted.</b></dt>
+<dd>
+The following sampler types are always defined:
+<code>sampler</code>, <code>sampler1D</code>, <code>sampler2D</code>, <code>sampler3D</code>, <code>samplerCUBE</code>,
+<code>samplerRECT</code>.
+</dd>
+<dd>
+The base <code>sampler</code> type may be used in any context in which
+a more specific sampler type is valid.  However, a <code>sampler</code>
+variable must be used in a consistent way throughout the program.
+For example, it cannot be used in place of both a <code>sampler1D</code>
+and a <code>sampler2D</code> in the same program.   The <code>sampler</code> type is
+deprecated and only provided for backwards compatibility with Cg 1.0
+</dd>
+<dd>
+Fragment profiles are required to fully support the <code>sampler</code>,
+<code>sampler1D</code>, <code>sampler2D</code>, <code>sampler3D</code>, and <code>samplerCUBE</code> data types.
+Fragment profiles are required to provide partial support
+(as defined below) for the <code>samplerRECT</code> data type and
+may optionally provide full support for this data type.
+</dd>
+<dd>
+Vertex profiles are required to provide partial support for
+the six sampler data types and may optionally provide full
+support for these data types.
+</dd>
+<dt><b>An <i>array</i> type is a collection of one or more elements of the same type.  An <i>array</i> variable has a single index.</b></dt>
+<dt><b>Some array types may be optionally designated as <code>packed</code>, using the <code>packed</code> type modifier.  The storage format of a <code>packed</code> type may be different from the storage format of the corresponding unpacked type.  The storage format of packed types is implementation dependent, but must be consistent for any particular combination of compiler and profile.  The operations supported on a packed type in a particular profile may be different than the operations supported on the corresponding unpacked type in that same profile. Profiles may define a maximum allowable size for packed arrays, but must support at least size 4 for packed vector (1D array) types, and 4x4 for packed matrix (2D array) types.</b></dt>
+<dt><b>When declaring an array of arrays in a single declaration, the <code>packed</code> modifier refers to all of the arrays.  However, it is possible to declare an unpacked array of <code>packed</code> arrays by declaring the first level of array in a <code>typedef</code> using the <code>packed</code> keyword and then declaring an array of this type in a second statement.  It is not possible to declare a packed array of unpacked arrays.</b></dt>
+<dt><b>For any supported numeric data type <i>TYPE</i>, implementations must support the following packed array types, which are called <i>vector types</i>. Type identifiers must be predefined for these types in the global scope:</b></dt>
+<pre>
+typedef packed TYPE TYPE1[1];
+typedef packed TYPE TYPE2[2];
+typedef packed TYPE TYPE3[3];
+typedef packed TYPE TYPE4[4];
+</pre>
+<dd>
+For example, implementations must predefine the type identifiers
+<code>float1</code>, <code>float2</code>, <code>float3</code>, <code>float4</code>, and so on for any other
+supported numeric type.
+</dd>
+<dt><b>For any supported numeric data type <i>TYPE</i>, implementations must support the following packed array types, which are called <i>matrix types</i>. Implementations must also predefine type identifiers (in the global scope) to represent these types:</b></dt>
+<pre>
+packed TYPE1 TYPE1x1[1];
+packed TYPE2 TYPE1x2[1];
+packed TYPE3 TYPE1x3[1];
+packed TYPE4 TYPE1x4[1];
+packed TYPE1 TYPE2x1[2];
+packed TYPE2 TYPE2x2[2];
+packed TYPE3 TYPE2x3[2];
+packed TYPE4 TYPE2x4[2];
+packed TYPE1 TYPE3x1[3];
+packed TYPE2 TYPE3x2[3];
+packed TYPE3 TYPE3x3[3];
+packed TYPE4 TYPE3x4[3];
+packed TYPE1 TYPE4x1[4];
+packed TYPE2 TYPE4x2[4];
+packed TYPE3 TYPE4x3[4];
+packed TYPE4 TYPE4x4[4];
+</pre>
+<dd>
+For example, implementations must predefine the type identifiers
+<code>float2x1</code>, <code>float3x3</code>, <code>float4x4</code>, and so on.  A typedef
+follows the usual matrix-naming convention of <code>TYPErows_X_columns</code>.
+If we declare <code>float4x4 a</code>, then
+</dd>
+<pre>        a[3] is equivalent to a._m30_m31_m32_m33</pre>
+<dd>
+Both expressions extract the third row of the matrix.
+</dd>
+<dt><b>Implementations are required to support indexing of vectors and matrices with constant indices.</b></dt>
+<dt><b>A <code>struct</code> type is a collection of one or more members of possibly different types.  It may include both function members (methods) and data members (fields).</b></dt>
+</dl>
+<h2><a id="Struct_and_Interface_types"></a>Struct And Interface Types</h2>
+<p>
+Interface types are defined with a <i>interface</i> keyword in place of
+the normal <i>struct</i> keyword.  Interface types may only declare
+member functions, not data members.  Interface member functions may
+only be declared, not defined (no default implementations in C++ parlance).
+</p>
+<p>
+Struct types may inherit from a single interface type, and must define
+an implementation member function for every member function declared in
+the interface type.
+</p>
+<h2><a id="Partial_Support_of_Types"></a>Partial Support Of Types</h2>
+<p>
+This specification mandates "partial support" for some types.
+Partial support for a type requires the following:
+</p>
+<ul>
+<li>Definitions and declarations using the type are supported.</li>
+<li>Assignment and copy of objects of that type are supported (including implicit copies when passing function parameters).</li>
+<li>Top-level function parameters may be defined using that type.</li>
+</ul>
+<p>
+If a type is partially supported, variables may be defined using
+that type but no useful operations can be performed on them.
+Partial support for types makes it easier to share
+data structures in code that is targeted at different profiles.
+</p>
+<h2><a id="Type_Categories"></a>Type Categories</h2>
+<ul>
+<li>The <i>signed integral</i> type category includes types <code>cint</code>, <code>char</code>, <code>short</code>, <code>int</code>, and <code>long</code>.</li>
+<li>The <i>unsigned integral</i> type category includes types <code>unsigned char</code>, <code>unsigned short</code>, <code>unsigned int</code>, and <code>unsigned long</code>.  <code>unsigned</code> is the same as <code>unsigned int</code></li>
+<li>The <i>integral</i> category includes both <i>signed integral</i> and <i>unsigned integral</i> types</li>
+<li>The <i>floating</i> type category includes types <code>cfloat</code>, <code>float</code>, <code>half</code>, and <code>fixed</code>  (Note that floating really means floating or fixed/fractional.)</li>
+<li>The <i>numeric</i> type category includes <i>integral</i> and <i>floating</i> types.</li>
+<li>The <i>compile-time</i> type category includes types <code>cfloat</code> and <code>cint</code>. These types are used by the compiler for constant type conversions.</li>
+<li>The <i>dynamic</i> type category includes all <a href="#Struct_and_Interface_types">interface</a> and <a href="#Unsized_Arrays">unsized array</a> types</li>
+<li>The <i>concrete</i> type category includes all types that are not included in the <i>compile-time</i> and <i>dynamic</i> type category.</li>
+<li>The <i>scalar</i> type category includes all types in the numeric category, the <code>bool</code> type, and all types in the compile-time category. In this specification, a reference to a <i>category</i> type (such as a reference to a numeric type) means one of the types included in the category (such as <code>float</code>, <code>half</code>, or <code>fixed</code>).</li>
+</ul>
+<h2><a id="Constants"></a>Constants</h2>
+<p>
+Constant literals are defined as in C, including an optional <code>0</code> or
+<code>0x</code> prefix for octal or hexadecimal constants, and <code>e</code> exponent
+suffix for floating point constants. A constant may be explicitly typed or
+implicitly typed.  Explicit typing of a constant is performed, as in C,
+by suffixing the constant with a one or two characters indicating the
+type of the constant:
+</p>
+<ul>
+<li><b>d</b> for <code>double</code></li>
+<li><b>f</b> for <code>float</code></li>
+<li><b>h</b> for <code>half</code></li>
+<li><b>i</b> for <code>int</code></li>
+<li><b>l</b> for <code>long</code></li>
+<li><b>s</b> for <code>short</code></li>
+<li><b>t</b> for <code>char</code></li>
+<li><b>u</b> for <code>unsigned</code>, which may also be followed by <b>s</b>, <b>t</b>, <b>i</b>, or <b>l</b></li>
+<li><b>x</b> for <code>fixed</code></li>
+</ul>
+<p>
+Any constant that is not explicitly typed is implicitly typed.  If the
+constant includes a decimal point or an 'e' exponent suffix, it is
+implicitly typed as <code>cfloat</code>. If it does not include a decimal point,
+it is implicitly typed as <code>cint</code>.
+</p>
+<p>
+By default, constants are base 10.  For compatibility with C,
+integer hexadecimal constants may be specified by prefixing the constant with
+<code>0x</code>, and integer octal constants may be specified by prefixing the constant
+with <code>0</code>.
+</p>
+<p>
+Compile-time constant folding is preferably performed at the same precision
+that would be used if the operation were performed at run time. Some
+compilation profiles may allow some precision flexibility for the
+hardware; in such cases the compiler should ideally perform the constant
+folding at the highest hardware precision allowed for that data type
+in that profile.
+</p>
+<p>
+If constant folding cannot be performed at run-time precision,
+it may optionally be performed using the precision indicated below
+for each of the numeric datatypes:
+</p>
+<dl>
+<dt><b>float</b></dt>
+<dd>
+s23e8 ("fp32") IEEE single precision floating point
+</dd>
+<dt><b>half</b></dt>
+<dd>
+s10e5 ("fp16") floating point w/ IEEE semantics
+</dd>
+<dt><b>fixed</b></dt>
+<dd>
+S1.10 fixed point, clamping to [-2, 2)
+</dd>
+<dt><b>double</b></dt>
+<dd>
+s52e11 ("fp64") IEEE double precision floating point
+</dd>
+<dt><b>int</b></dt>
+<dd>
+signed 32 bit twos-complement integer
+</dd>
+<dt><b>char</b></dt>
+<dd>
+signed 8 bit twos-complement integer
+</dd>
+<dt><b>short</b></dt>
+<dd>
+signed 16 bit twos-complement integer
+</dd>
+<dt><b>long</b></dt>
+<dd>
+signed 64 bit twos-complement integer
+</dd>
+</dl>
+<h2><a id="Type_Conversions"></a>Type Conversions</h2>
+<p>
+Some type conversions are allowed implicitly, while others require an
+cast.  Some implicit conversions may cause a warning, which can be
+suppressed by using an explicit cast.  Explicit casts are indicated
+using C-style syntax (e.g., casting <code>variable</code> to the <code>float4</code> type
+may be achieved via "(float4)variablename").
+</p>
+<dl>
+<dt><b>Scalar conversions</b></dt>
+<dd>
+Implicit conversion of any scalar numeric type to any other scalar
+numeric type is allowed.  A warning may be issued if the conversion
+is implicit and it is possible that precision is lost.
+implicit conversion of any scalar object type to any compatible scalar
+object type is also allowed.  Conversions between incompatible scalar
+object types or object and numeric types are not allowed, even with
+an explicit cast.
+"sampler" is compatible with "sampler1D", "sampler2D", "sampler3D",
+"samplerCube", and "samplerRECT".  No other object types are compatible
+("sampler1D" is not compatible with "sampler2D", even though both
+are compatible with "sampler").
+</dd>
+<dd>
+Scalar types may be implicitly converted to vectors and matrixes of
+compatible type.  The scalar will be replicated to all elements of
+the vector or matrix.  Scalar types may also be explicitly cast to
+structure types if the scalar type can be legally cast to every
+member of the structure.
+</dd>
+<dt><b>Vector conversions</b></dt>
+<dd>
+Vectors may be converted to scalar types (selects the first element
+of the vector).  A warning is issued if this is done implicitly.  A
+vector may also be implicitly converted to another vector of the same
+size and compatible element type.
+</dd>
+<dd>
+A vector may be converted to a smaller compatible vector, or a matrix
+of the same total size, but a warning if issued if an explicit cast is
+not used.
+</dd>
+<dt><b>Matrix conversions</b></dt>
+<dd>
+Matrixes may be converted to a scalar type (selects to 0,0 element).
+As with vectors, this causes a warning if its done implicitly.  A
+matrix may also be converted implicitly to a matrix of the same size
+and shape and compatible element type
+</dd>
+<dd>
+A Matrix may be converted to a smaller matrix type (selects the upper-
+left submatrix), or to a vector of the same total size, but a warning
+is issued if an explicit cast is not used.
+</dd>
+<dt><b>Structure conversions</b></dt>
+<dd>
+a structure may be explicitly cast to the type of its first member, or
+to another structure type with the same number of members, if each
+member of the struct can be converted to the corresponding member of
+the new struct.  No implicit conversions of struct types are allowed.
+</dd>
+<dt><b>Array conversions</b></dt>
+<dd>
+An array may be explicitly converted to another array type
+with the same number of elements and a compatible element type.
+A compatible element type is any type to which the element type
+of the initial array may be implicitly converted to.  No implicit
+conversions of array types are allowed.
+</dd>
+<pre>
+                                   Source type
+          | Scalar | Vector | Matrix | Struct | Array  |
+T    -----+--------+--------+--------+--------+--------+
+a  Scalar |   A    |   W    |   W    |  E(3)  |   -    |
+r    -----+--------+--------+--------+--------+--------+
+g  Vector |   A    | A/W(1) |  W(2)  |  E(3)  |  E(6)  |
+e    -----+--------+--------+--------+--------+--------+
+t  Matrix |   A    |  W(2)  | A/W(1) |  E(3)  |  E(7)  |
+     -----+--------+--------+--------+--------+--------+
+t  Struct |   E    |  E(4)  |  E(4)  | E(4/5) |  E(4)  |
+y    -----+--------+--------+--------+--------+--------+
+p  Array  |   -    |  E(6)  |  E(7)  |  E(3)  |  E(6)  |
+e    -----+--------+--------+--------+--------+--------+
+
+    A = allowed implicitly or explicitly
+    W = allowed, but warning issued if implicit
+    E = only allowed with explicit cast
+    - = not allowed
+notes
+  (1) not allowed if target is larger than source.  Warning if
+      target is smaller than source
+  (2) only allowed if source and target are the same total size
+  (3) only if the first member of the source can be converted to
+      the target
+  (4) only if the target struct contains a single field of the
+      source type
+  (5) only if both source and target have the same number of
+      members and each member of the source can be converted
+      to the corresponding member of the target.
+  (6) Source and target sizes must be the same and element types
+      must be compatible
+  (7) Array type must be an array of vectors that matches the
+      matrix type.
+</pre>
+</dl>
+<p>Explicit casts are:</p>
+<ul>
+<li>compile-time type when applied to expressions of compile-time type.</li>
+<li>numeric type when applied to expressions of numeric or compile-time types.</li>
+<li>numeric vector type when applied to another vector type of the same number of elements.</li>
+<li>numeric matrix type when applied to another matrix type of the same   number of rows and columns.</li>
+</ul>
+<h2><a id="Type_Equivalency"></a>Type Equivalency</h2>
+<p>Type T1 is equivalent to type T2 if any of the following are true:</p>
+<ul>
+<li>T2 is equivalent to T1.</li>
+<li>T1 and T2 are the same scalar, vector, or structure type. A packed array type is <i>not</i> equivalent to the same size unpacked array.</li>
+<li>T1 is a typedef name of T2.</li>
+<li>T1 and T2 are arrays of equivalent types with the same number of elements.</li>
+<li>The unqualified types of T1 and T2 are equivalent, and both types have the same qualifications.</li>
+<li>T1 and T2 are functions with equivalent return types, the same number of parameters, and all corresponding parameters are pair-wise equivalent.</li>
+</ul>
+<h2><a id="Type-Promotion_Rules"></a>Type-Promotion Rules</h2>
+<p>
+The <code>cfloat</code> and <code>cint</code> types behave like <code>float</code> and <code>int</code> types, except for the
+usual arithmetic conversion behavior (defined below) and
+function-overloading rules (defined later).
+</p>
+<p>The <i>usual arithmetic conversions</i> for binary operators are defined as follows:</p>
+<ol>
+<li>If one operand is <code>cint</code> it is converted to the other type</li>
+<li>If one operand is <code>cfloat</code> and the other is <i>floating</i>, the <code>cfloat</code> is converted to the other type</li>
+<li>If both operands are <i>floating</i> then the smaller type is converted to the larger type</li>
+<li>If one operand is <i>floating</i> and the other is <i>integral</i>, the integral argument is converted to the floating type.</li>
+<li>If both operands are <i>integral</i> the smaller type is converted to the larger type</li>
+<li>If one operand is <i>signed integral</i> while the other is <i>unsigned integral</i> and they are the same size, the signed type is converted to unsigned.</li>
+</ol>
+<p>Note that conversions happen prior to performing the operation.</p>
+<h2><a id="Assignment"></a>Assignment</h2>
+<p>
+Assignment of an expression to a <i>concrete</i> typed object
+converts the expression to the type of the object. The resulting
+value is then assigned to the object or value.
+</p>
+<p>The value of the assignment expressions (<code>=</code>, <code>*=</code>, and so on) is defined as in C:</p>
+<p>
+An assignment expression has the value of the left operand after the
+assignment but is not an lvalue.  The type of an assignment
+expression is the type of the left operand unless the left operand has a
+qualified type, in which case it is the unqualified version of the
+type of the left operand.  The side effect of updating the stored
+value of the left operand occurs between the previous and the
+next sequence point.
+</p>
+<p>
+An assignment of an expression to a <i>dynamic</i> typed object is only
+possible if the type of the expression is compatible with the dynamic
+object type.  The object will then take on the type of the expression
+assigned to it until the next assignment to it.
+</p>
+<h2><a id="&quot;Smearing&quot;_of_Scalars_to_Vectors"></a>&quot;Smearing&quot; Of Scalars To Vectors</h2>
+<p>
+If a binary operator is applied to a vector and a scalar, the scalar
+is automatically type-promoted to a same-sized vector by replicating
+the scalar into each component.  The ternary <code>?:</code> operator also supports
+smearing.  The binary rule is applied to the second and third operands
+first, and then the binary rule is applied to this result and the first
+operand.
+</p>
+<h2><a id="Namespaces"></a>Namespaces</h2>
+<p>Just as in C, there are two namespaces. Each has multiple scopes, as in C.</p>
+<dl>
+<dt><b>Tag namespace, which consists of <code>struct</code> tags</b></dt>
+<dt><b>Regular namespace:</b></dt>
+<dd>
+<dl>
+<dt><b>-</b></dt>
+<dd>
+typedef names (including an automatic <code>typedef</code> from a <code>struct</code> declaration)
+</dd>
+<dt><b>-</b></dt>
+<dd>
+variables
+</dd>
+<dt><b>-</b></dt>
+<dd>
+function names
+</dd>
+</dl>
+</dd>
+</dl>
+<h2><a id="Constant_Buffers"></a>Constant Buffers</h2>
+<p>
+Constant buffers are used to define uniform blocks in Cg.
+A constant buffer is defined using the <code>uniform</code> keyword:
+</p>
+<pre>    uniform &lt;blockname&gt; {...} &lt;object&gt; : BUFFER [ [N] ];</pre>
+<p>
+The <code>N</code> refers to a unit number and is optional.
+Each object defined within the block will have a unique slot
+in the constant buffer.
+</p>
+<h2><a id="Arrays_and_Subscripting"></a>Arrays And Subscripting</h2>
+<p>
+Arrays are declared as in C, except that they may optionally be
+declared to be <code>packed</code>, as described earlier.  Arrays in Cg are
+first-class types, so array parameters to functions and programs must
+be declared using array syntax, rather than pointer syntax.  Likewise,
+assignment of an <i>array</i>-typed object implies an array copy rather than
+a pointer copy.
+</p>
+<p>
+Arrays with size <code>[1]</code> may be declared but are considered a different
+type from the corresponding non-array type.
+</p>
+<p>
+Because the language does not currently support pointers, the storage
+order of arrays is only visible when an application passes parameters
+to a vertex or fragment program.  Therefore, the compiler is currently
+free to allocate temporary variables as it sees fit.
+</p>
+<p>
+The declaration and use of arrays of arrays is in the same style as in
+C.  That is, if the 2D array <code>A</code> is declared as
+</p>
+<pre>        float A[4][4];</pre>
+<p>then, the following statements are true:</p>
+<dl>
+<dt><b>The array is indexed as <code>A[row][column];</code></b></dt>
+<dt><b>The array can be built with a constructor using</b></dt>
+<pre>
+float4x4 A = { { A[0][0], A[0][1], A[0][2], A[0][3] },
+               { A[1][0], A[1][1], A[1][2], A[1][3] },
+               { A[2][0], A[2][1], A[2][2], A[2][3] },
+               { A[3][0], A[3][1], A[3][2], A[3][3] } };
+</pre>
+<dt><b><code>A[0]</code> is equivalent to <code>float4(A[0][0], A[0][1], A[0][2], A[0][3])</code></b></dt>
+</dl>
+<p>Support must be provided for structs containing arrays.</p>
+<h2><a id="Unsized_Arrays"></a>Unsized Arrays</h2>
+<p>
+Objects may be declared as <i>unsized</i> arrays by using a declaration with
+an empty size <code>[]</code> and no initializer.  If a declarator uses unsized
+array syntax with an initializer, it is declared with a concrete (sized)
+array type based on the declarator.  Unsized arrays are <i>dynamic</i> typed
+objects that take on the size of any array assigned to them.
+</p>
+<h2><a id="Minimum_Array_Requirements"></a>Minimum Array Requirements</h2>
+<p>
+Profiles are required to provide partial support for certain kinds of
+arrays.  This partial support is designed to support vectors and
+matrices in all profiles.  For vertex profiles, it is additionally
+designed to support arrays of light state (indexed by light number)
+passed as uniform parameters, and arrays of skinning matrices passed
+as uniform parameters.
+</p>
+<p>
+Profiles must support subscripting, copying, size querying and swizzling
+of vectors and matrices.  However, subscripting with run-time computed
+indices is not required to be supported.
+</p>
+<p>
+Vertex profiles must support the following operations for any
+non-packed array that is a uniform parameter to the program, or is an
+element of a structure that is a uniform parameter to the program.
+This requirement also applies when the array is indirectly a uniform
+program parameter (that is, it and or the structure containing it has
+been passed via a chain of <code>in</code> function parameters).  The three
+operations that must be supported are
+</p>
+<ul>
+<li>rvalue subscripting by a run-time computed value or a compile-time value.</li>
+<li>passing the entire array as a parameter to a function, where the corresponding formal function parameter is declared as <code>in</code>.</li>
+<li>querying the size of the array with a <code>.length</code> suffix.</li>
+</ul>
+<p>The following operations are explicitly not required to be supported:</p>
+<ul>
+<li>lvalue-subscripting</li>
+<li>copying</li>
+<li>other operators, including multiply, add, compare, and so on</li>
+</ul>
+<p>
+Note that when a uniform array is rvalue subscripted, the result is
+an expression, and this expression is no longer considered to be a
+<code>uniform</code> program parameter.  Therefore, if this expression is an array,
+its subsequent use must conform to the standard rules for array usage.
+</p>
+<p>
+These rules are not limited to arrays of numeric types, and thus imply
+support for arrays of struct, arrays of matrices, and arrays of
+vectors when the array is a <code>uniform</code> program parameter.  Maximum
+array sizes may be limited by the number of available registers or
+other resource limits, and compilers are permitted to issue error
+messages in these cases.  However, profiles must support sizes of at
+least <code>float arr[8]</code>, <code>float4 arr[8]</code>, and <code>float4x4 arr[4][4]</code>.
+</p>
+<p>
+Fragment profiles are not required to support any operations on
+arbitrarily sized arrays; only support for vectors and matrices is
+required.
+</p>
+<h2><a id="Function_Overloading"></a>Function Overloading</h2>
+<p>
+Multiple functions may be defined with the same name, as long as the
+definitions can be distinguished by unqualified parameter types and
+do not have an open-profile conflict (as described in the section on
+open functions).
+</p>
+<p>Function-matching rules:</p>
+<dl>
+<dt><b>1. Add all visible functions with a matching name in the calling scope to the set of function candidates.</b></dt>
+<dt><b>2. Eliminate functions whose profile conflicts with the current compilation profile.</b></dt>
+<dt><b>3. Eliminate functions with the wrong number of formal parameters. If a candidate function has excess formal parameters, and each of the excess parameters has a default value, do not eliminate the function.</b></dt>
+<dt><b>4. If the set is empty, fail.</b></dt>
+<dt><b>5. For each actual parameter expression in sequence (left to right), perform the following:</b></dt>
+<dd>
+<dl>
+<dt><b>a.</b></dt>
+<dd>
+If the type of the actual parameter matches the unqualified type
+of the corresponding formal parameter in any function in the set,
+remove all functions whose corresponding parameter does not
+match exactly.
+</dd>
+<dt><b>b.</b></dt>
+<dd>
+If there is a function with a dynamically typed formal argument which
+is compatible with the actual parameter type, remove all functions whose
+corresponding parameter is not similarly compatible.
+</dd>
+<dt><b>c.</b></dt>
+<dd>
+If there is a defined promotion for the type of the actual
+parameter to the unqualified type of the formal parameter of any
+function, remove all functions for which this is not true
+from the set.
+</dd>
+<dt><b>d.</b></dt>
+<dd>
+If there is a valid implicit cast that converts the type of
+the actual parameter to the unqualified type of the formal
+parameter of any function, remove all functions for which this
+is not true from the set
+</dd>
+<dt><b>e.</b></dt>
+<dd>
+Fail.
+</dd>
+</dl>
+</dd>
+<dt><b>6. Choose a function based on profile:</b></dt>
+<dd>
+<dl>
+<dt><b>a.</b></dt>
+<dd>
+If there is at least one function with a profile that exactly matches
+the compilation profile, discard all functions that don't
+exactly match.
+</dd>
+<dt><b>b.</b></dt>
+<dd>
+Otherwise, if there is at least one function with a wildcard profile that
+matches the compilation profile, determine the 'most specific' matching
+wildcard profile in the candidate set. Discard all functions except
+those with this 'most specific' wildcard profile.  How 'specific' a given
+wildcard profile name is relative to a particular profile is determined
+by the profile specification.
+</dd>
+</dl>
+</dd>
+<dt><b>7. If the number of functions remaining in the set is not one, then fail.</b></dt>
+</dl>
+<h2><a id="Global_Variables"></a>Global Variables</h2>
+<p>
+Global variables are declared and used as in C.  Non-static
+variables may have a semantic associated with them.  Uniform non-static
+variables may have their value set through the run-time API.
+</p>
+<h2><a id="Use_of_Uninitialized_Variables"></a>Use Of Uninitialized Variables</h2>
+<p>
+It is incorrect for a program to use an uninitialized static or local variable.
+However, the compiler is not obligated to detect such errors, even if
+it would be possible to do so by compile-time data-flow analysis.  The
+value obtained from reading an uninitialized variable is undefined.
+This same rule applies to the implicit use of a variable that occurs
+when it is returned by a top-level function.  In particular, if a
+top-level function returns a <code>struct</code>, and some element of that <code>struct</code>
+is never written, then the value of that element is undefined.
+</p>
+<p>
+Note: The language designers did not choose to define variables
+as being initialized to zero because that would result in a
+performance penalty in cases where the compiler is unable to determine
+if a variable is properly initialized by the programmer.
+</p>
+<h2><a id="Preprocessor"></a>Preprocessor</h2>
+<p>
+Cg profiles must support the full ANSI C standard preprocessor
+capabilities: <code>#if</code>, <code>#define</code>, and so on.  However, while <code>#include</code>
+must be supported the mechanism by which the file to be included is
+located is implementation defined.
+</p>
+<h2><a id="Overview_of_Binding_Semantics"></a>Overview Of Binding Semantics</h2>
+<p>
+In stream-processing architectures, data packets flow between
+different programmable units.  On a GPU, for example, packets of
+vertex data flow from the application to the vertex program.
+</p>
+<p>
+Because packets are produced by one program (the application, in this case),
+and consumed by another (the vertex program), there must be some
+mechanism for defining the interface between the two.  Cg
+allows the user to choose between two different approaches to defining
+these interfaces.
+</p>
+<p>
+The first approach is to associate a binding semantic with each
+element of the packet.  This approach is a <i>bind-by-name</i> approach.  For
+example, an output with the binding semantic <code>FOO</code> is fed to an input
+with the binding semantic <code>FOO</code>.  Profiles may allow the user to
+define arbitrary identifiers in this "semantic namespace", or they may
+restrict the allowed identifiers to a predefined set.  Often, these
+predefined names correspond to the names of hardware registers or API
+resources.
+</p>
+<p>
+In some cases, predefined names may control non-programmable parts of
+the hardware.  For example, vertex programs normally compute a
+position that is fed to the rasterizer, and this position is stored in
+an output with the binding semantic <code>POSITION</code>.
+</p>
+<p>
+For any profile, there are two namespaces for predefined
+binding semantics--the namespace used for <code>in</code> variables and the
+namespace used for <code>out</code> variables.  The primary implication of having
+two namespaces is that the binding semantic cannot be used to
+implicitly specify whether a variable is <code>in</code> or <code>out</code>.
+</p>
+<p>
+The second approach to defining data packets is to describe the data
+that is present in a packet and allow the compiler to decide how to
+store it.  In Cg, the user can describe the contents of a data packet
+by placing all of its contents into a <code>struct</code>.  When a <code>struct</code> is used
+in this manner, we refer to it as a <i>connector</i>.  The two approaches
+are not mutually exclusive, as is discussed later.
+The connector approach allows the user to rely on a combination of
+user-specified semantic bindings and compiler-determined bindings.
+</p>
+<h2><a id="Binding_Semantics"></a>Binding Semantics</h2>
+<p>
+A binding semantic may be associated with an input to a top-level
+function or a global variable in one of three ways:
+</p>
+<dl>
+<dt><b>The binding semantic is specified in the formal parameter declaration for the function. The syntax for formal parameters to a function is:</b></dt>
+<pre>        [const] [in | out | inout] &lt;type&gt; &lt;identifier&gt; [: &lt;binding-semantic&gt;] [= &lt;initializer&gt;];</pre>
+<dt><b>If the formal parameter is a <code>struct</code>, the binding semantic may be specified with an element of the <code>struct</code> when the <code>struct</code> is defined:</b></dt>
+<pre>
+struct &lt;struct-tag&gt; {
+    &lt;type&gt; &lt;identifier&gt;[ : &lt;binding-semantic&gt;];
+      ...
+};
+</pre>
+<dt><b>If the input to the function is implicit (a non-static global variable that is read by the function), the binding semantic may be specified when the non-static global variable is declared:</b></dt>
+<pre>        [varying [in | out]] &lt;type&gt; &lt;identifier&gt; [ : &lt;binding-semantic&gt;];</pre>
+<dd>
+If the non-static global variable is a <code>struct,</code> the binding semantic may
+be specified when the <code>struct</code> is defined, as described in the second bullet above.
+</dd>
+<dt><b>A binding semantic may be associated with the output of a top-level function in a similar manner:</b></dt>
+<pre>
+&lt;type&gt; &lt;identifier&gt; ( &lt;parameter-list&gt; ) [: &lt;binding-semantic&gt;]
+{
+        :
+</pre>
+</dl>
+<p>
+Another method available for specifying a semantic for an output value
+is to return a <code>struct</code>, and to specify the binding semantic(s) with
+elements of the <code>struct</code> when the <code>struct</code> is defined.  In addition, if
+the output
+is a formal parameter, then the binding semantic may be specified
+using the same approach used to specify binding semantics for inputs.
+</p>
+<h2><a id="Aliasing_of_Semantics"></a>Aliasing Of Semantics</h2>
+<p>
+Semantics must honor a copy-on-input and copy-on-output model.  Thus,
+if the same input binding semantic is used for two different
+variables, those variables are initialized with the same value,
+but the variables are not aliased thereafter.  Output aliasing is
+illegal, but implementations are not required to detect it.  If the
+compiler does not issue an error on a program that aliases output
+binding semantics, the results are undefined.
+</p>
+<h2><a id="Additional_Details_for_Binding_Semantics"></a>Additional Details For Binding Semantics</h2>
+<p>The following are somewhat redundant, but provide extra clarity:</p>
+<ul>
+<li>Semantic names are case-insensitive.</li>
+<li>Semantics attached to parameters to non-main functions are ignored.</li>
+<li>Input semantics may be aliased by multiple variables.</li>
+<li>Output semantics may not be aliased.</li>
+</ul>
+<h2><a id="Using_a_Structure_to_Define_Binding_Semantics__Connectors_"></a>Using A Structure To Define Binding Semantics (Connectors)</h2>
+<p>
+Cg profiles may optionally allow the user to avoid the requirement
+that a binding semantic be specified for every non-uniform input (or
+output) variable to a top-level program.  To avoid this requirement,
+all the non-uniform variables should be included within a single
+<code>struct</code>.  The compiler automatically allocates the elements of this
+structure to hardware resources in a manner that allows any program
+that returns this <code>struct</code> to interoperate with any program that uses
+this <code>struct</code> as an input.
+</p>
+<p>
+It is not <i>required</i> that all non-uniform inputs be included
+within a single struct in order to omit binding semantics.  Binding
+semantics may be omitted from any input or output, and the compiler
+performs automatic allocation of that input or output to a
+hardware resource.  However, to guarantee interoperability of one
+program's output with another program's input when automatic binding
+is performed, it is necessary to put all of the variables in a single
+<code>struct</code>.
+</p>
+<p>
+It is permissible to explicitly specify a binding semantic for some
+elements of the <code>struct</code>, but not others.  The compiler's automatic
+allocation must honor these explicit bindings.  The allowed set of
+explicitly specified binding semantics is defined by the
+allocation-rule identifier.  The most common use of this capability is
+to bind variables to hardware registers that write to, or read from,
+non-programmable parts of the hardware.  For example, in a typical
+vertex-program profile, the output <code>struct</code> would contain an element
+with an explicitly specified POSITION semantic.  This element is used
+to control the hardware rasterizer.
+</p>
+<h2><a id="Defining_Binding_Semantics_via_an_external_API"></a>Defining Binding Semantics Via An External Api</h2>
+<p>
+It may be possible to define binding semantics on inputs and outputs
+by using an external API that manipulates the programs environment.
+The Cg Runtime API is such an API that allows this, and others may
+exist.
+</p>
+<h2><a id="How_Programs_Receive_and_Return_Data"></a>How Programs Receive And Return Data</h2>
+<p>
+A program is a non-static function that has been designated as the
+main entry point at compilation time.  The varying inputs to the
+program come from this top-level function's varying <code>in</code> parameters,
+and any global varying variables that do not have an <code>out</code> modifier.
+The uniform inputs to the program come from the top-level function's
+uniform <code>in</code> parameters and from any non-static global variables that
+are referenced by the top-level function or by any functions that it
+calls.  The output of the program comes from the return value of the
+function (which is always implicitly varying), from any <code>out</code>
+parameters, which must also be varying, and from any <code>varying out</code> global
+variables that are written by the program.
+</p>
+<p>Parameters to a program of type <code>sampler*</code> are implicitly <code>const</code>.</p>
+<h2><a id="Statements_and_Expressions"></a>Statements And Expressions</h2>
+<p>
+Statements are expressed just as in C, unless an exception is stated
+elsewhere in this document. Additionally,
+</p>
+<ul>
+<li><code>if</code>, <code>while</code>, and <code>for</code> require bool expressions in the appropriate places.</li>
+<li>Assignment is performed using <code>=</code>. The assignment operator returns a value, just as in C, so assignments may be chained.</li>
+<li>The new <code>discard</code> statement terminates execution of the program for the current data element (such as the current vertex or current fragment) and suppresses its output. Vertex profiles may choose to omit support for <code>discard</code>.</li>
+</ul>
+<h2><a id="Minimum_Requirements_for_if,_while,_for"></a>Minimum Requirements For If, While, For</h2>
+<p>The minimum requirements are as follows:</p>
+<ul>
+<li>All profiles should support <code>if</code>, but such support is not strictly required for older hardware.</li>
+<li>All profiles should support <code>for</code> and <code>while</code> loops if the number of loop iterations can be determined at compile time. "Can be determined at compile time" is defined as follows: The loop-iteration expressions can be evaluated at compile time by use of intra-procedural constant propagation and folding, where the variables through which constant values are propagated do not appear as lvalues within any kind of control statement (<code>if</code>, <code>for</code>, or <code>while</code>) or <code>?:</code> construct. Profiles may choose to support more general constant propagation techniques, but such support is not required.</li>
+<li>Profiles may optionally support fully general <code>for</code> and <code>while</code> loops.</li>
+</ul>
+<h2><a id="New_Vector_Operators"></a>New Vector Operators</h2>
+<p>These new operators are defined for vector types:</p>
+<dl>
+<dt><b>Vector construction operator: <i>typeID</i><code>(...)</code>:</b></dt>
+<dd>
+This operator builds a vector from multiple scalars or shorter vectors:
+</dd>
+<dd>
+<dl>
+<dt><b>-</b></dt>
+<dd>
+<code>float4(scalar, scalar, scalar, scalar)</code>
+</dd>
+<dt><b>-</b></dt>
+<dd>
+<code>float4(float3, scalar)</code>
+</dd>
+</dl>
+</dd>
+<dt><b>Matrix construction operator: <i>typeID</i><code>(...)</code>:</b></dt>
+<dd>
+This operator builds a matrix from multiple rows.
+</dd>
+<dd>
+Each row may be specified either as multiple scalars or as any
+combination of scalars and vectors with the appropriate size, e.g.
+</dd>
+<pre>
+float3x3(1, 2, 3, 4, 5, 6, 7, 8, 9)
+float3x3(float3, float3, float3)
+float3x3(1, float2, float3, 1, 1, 1)
+</pre>
+<dt><b>Vector swizzle operator: (<code>.</code>)</b></dt>
+<pre>    a = b.xxyz; // A swizzle operator example</pre>
+<dd>
+<dl>
+<dt><b>-</b></dt>
+<dd>
+At least one swizzle character must follow the operator.
+</dd>
+<dt><b>-</b></dt>
+<dd>
+There are three sets of swizzle characters and they may not be mixed:
+Set one is <code>xyzw = 0123</code>, set two is <code>rgba = 0123</code>, and set three is
+<code>stpq = 0123</code>.
+</dd>
+<dt><b>-</b></dt>
+<dd>
+The vector swizzle operator may only be applied to vectors or to
+scalars.
+</dd>
+<dt><b>-</b></dt>
+<dd>
+Applying the vector swizzle operator to a scalar gives the same result as
+applying the operator to a vector of length
+one. Thus, <code>myscalar.xxx</code> and
+<code>float3(myscalar, myscalar, myscalar)</code> yield the same value.
+</dd>
+<dt><b>-</b></dt>
+<dd>
+If only one swizzle character is specified, the result is a scalar
+not a vector of length one.  Therefore, the expression
+<code>b.y</code> returns a scalar.
+</dd>
+<dt><b>-</b></dt>
+<dd>
+Care is required when swizzling a constant scalar because of
+ambiguity in the use of the decimal point character. For example,
+to create a three-vector from a scalar, use one of the following:
+<code>(1).xxx</code> or <code>1..xxx</code> or <code>1.0.xxx</code> or <code>1.0f.xxx</code>
+</dd>
+<dt><b>-</b></dt>
+<dd>
+The size of the returned vector is determined by the number of
+swizzle characters.  Therefore, the size of the result may be larger
+or smaller than the size of the original vector.
+For example,
+<code>float2(0,1).xxyy</code> and <code>float4(0,0,1,1)</code> yields the same result.
+</dd>
+</dl>
+</dd>
+<dt><b>Matrix swizzle operator:</b></dt>
+<dd>
+For any matrix type of the form '&lt;type&gt;&lt;rows&gt;x&lt;columns&gt;', the
+notation: '&lt;matrixObject&gt;._m&lt;row&gt;&lt;col&gt;[_m&lt;row&gt;&lt;col&gt;][...]' can be
+used to access individual matrix elements (in the case of only one
+&lt;row&gt;,&lt;col&gt; pair) or to construct vectors from elements of a
+matrix (in the case of more than one &lt;row&gt;,&lt;col&gt; pair).
+The row and column numbers are zero-based.
+</dd>
+<dd>
+For example:
+</dd>
+<pre>
+float4x4 myMatrix;
+float    myFloatScalar;
+float4   myFloatVec4;
+
+// Set myFloatScalar to myMatrix[3][2]
+myFloatScalar = myMatrix._m32;
+
+// Assign the main diagonal of myMatrix to myFloatVec4
+myFloatVec4 = myMatrix._m00_m11_m22_m33;
+</pre>
+<dd>
+For compatibility with the D3DMatrix data type, Cg also allows
+one-based swizzles, using a form with the <code>m</code> omitted after the <code>_</code>:
+'&lt;matrixObject&gt;._&lt;row&gt;&lt;col&gt;[_&lt;row&gt;&lt;col&gt;][...]'  In this
+form, the indexes for &lt;row&gt; and &lt;col&gt; are one-based, rather than the
+C standard zero-based. So, the two forms are functionally
+equivalent:
+</dd>
+<pre>
+float4x4 myMatrix;
+float4   myVec;
+
+// These two statements are functionally equivalent:
+myVec = myMatrix._m00_m23_m11_m31;
+myVec = myMatrix._11_34_22_42;
+</pre>
+<dd>
+Because of the confusion that can be caused by the one-based indexing, its
+use is strongly discouraged.  Also one-based indexing and zero-based
+indexing cannot be mixed in a single swizzle
+</dd>
+<dd>
+The matrix swizzles may only be applied to matrices.  When multiple
+components are extracted from a matrix using a swizzle, the result
+is an appropriately sized vector. When a swizzle is used to extract
+a single component from a matrix, the result is a scalar.
+</dd>
+<dt><b>The write-mask operator: (<code>.</code>) It can only be applied to an lvalue that is a vector or matrix. It allows assignment to particular elements of a vector or matrix, leaving other elements unchanged.  It looks exactly like a swizzle, with the additional restriction that a component cannot be repeated.</b></dt>
+</dl>
+<h2><a id="Arithmetic_Precision_and_Range"></a>Arithmetic Precision And Range</h2>
+<p>
+Some hardware may not conform exactly to IEEE arithmetic rules.
+Fixed-point data types do not have IEEE-defined rules.
+</p>
+<p>
+Optimizations are permitted to produce slightly different results than
+unoptimized code.  Constant folding must be done with approximately
+the correct precision and range, but is not required to produce
+bit-exact results.  It is recommended that compilers provide an option
+either to forbid these optimizations or to guarantee that they are made in
+bit-exact fashion.
+</p>
+<h2><a id="Operator_Precedence"></a>Operator Precedence</h2>
+<p>
+Cg uses the same operator precedence as C for operators that are
+common between the two languages.
+</p>
+<p>
+The swizzle and write-mask operators (<code>.</code>) have the same precedence as the
+structure member operator (<code>.</code>) and the array index operator <code>[]</code>.
+</p>
+<h2><a id="Operator_Enhancements"></a>Operator Enhancements</h2>
+<p>
+The standard C arithmetic operators (<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>,
+<code>unary -</code>) are extended to support vectors and matrices.  Sizes of
+vectors and matrices must be appropriately matched, according to standard
+mathematical rules.  Scalar-to-vector promotion, as described earlier,
+allows relaxation of these rules.
+</p>
+<dl>
+<dt><b>M[n][m]</b></dt>
+<dd>
+Matrix with <code>n</code> rows and <code>m</code> columns
+</dd>
+<dt><b>V[n]</b></dt>
+<dd>
+Vector with <code>n</code> elements
+</dd>
+<dt><b> -V[n] -&gt; V[n] </b></dt>
+<dd>
+Unary vector negate
+</dd>
+<dt><b> -M[n] -&gt; M[n] </b></dt>
+<dd>
+Unary matrix negate
+</dd>
+<dt><b> V[n] * V[n] -&gt; V[n] </b></dt>
+<dd>
+Componentwise *
+</dd>
+<dt><b> V[n] / V[n] -&gt; V[n] </b></dt>
+<dd>
+Componentwise /
+</dd>
+<dt><b> V[n] % V[n] -&gt; V[n] </b></dt>
+<dd>
+Componentwise %
+</dd>
+<dt><b> V[n] + V[n] -&gt; V[n] </b></dt>
+<dd>
+Componentwise +
+</dd>
+<dt><b> V[n] - V[n] -&gt; V[n] </b></dt>
+<dd>
+Componentwise -
+</dd>
+<dt><b> M[n][m] * M[n][m] -&gt; M[n][m] </b></dt>
+<dd>
+Componentwise *
+</dd>
+<dt><b> M[n][m] / M[n][m] -&gt; M[n][m] </b></dt>
+<dd>
+Componentwise /
+</dd>
+<dt><b> M[n][m] % M[n][m] -&gt; M[n][m] </b></dt>
+<dd>
+Componentwise %
+</dd>
+<dt><b> M[n][m] + M[n][m] -&gt; M[n][m] </b></dt>
+<dd>
+Componentwise +
+</dd>
+<dt><b> M[n][m] - M[n][m] -&gt; M[n][m] </b></dt>
+<dd>
+Componentwise -
+</dd>
+</dl>
+<h2><a id="Operators"></a>Operators</h2>
+<h2><a id="Boolean"></a>Boolean</h2>
+<pre>       &amp;&amp;  ||  !</pre>
+<p>
+Boolean operators may be applied to <code>bool</code> packed bool vectors,
+in which case they are applied in elementwise fashion to
+produce a result vector of the same size.  Each operand must be a
+<code>bool</code> vector of the same size.
+</p>
+<p>
+Both sides of &amp;&amp; and || are always evaluated; there is no
+short-circuiting as there is in C.
+</p>
+<h2><a id="Comparisons"></a>Comparisons</h2>
+<pre>        &lt;  &gt;  &lt;=  &gt;=  !=  ==</pre>
+<p>
+Comparison operators may be applied to numeric vectors.  Both operands
+must be vectors of the same size.  The comparison operation is
+performed in elementwise fashion to produce a <code>bool</code> vector of the
+same size.
+</p>
+<p>
+Comparison operators may also be applied to <code>bool</code> vectors.  For the
+purpose of relational comparisons, <code>true</code> is treated as one and
+<code>false</code> is treated as zero.  The comparison operation is performed in
+elementwise fashion to produce a <code>bool</code> vector of the same size.
+</p>
+<p>Comparison operators may also be applied to numeric or bool scalars.</p>
+<h2><a id="Arithmetic"></a>Arithmetic</h2>
+<pre>        +  -  *  /  %  ++  --  unary-  unary+</pre>
+<p>
+The arithmetic operator <code>%</code> is the remainder operator, as in C. It may
+only be applied to two operands of <code>cint</code> or <code>int</code> types.
+</p>
+<p>
+When <code>/</code> or <code>%</code> is used with <code>cint</code> or <code>int</code> operands, C rules for
+integer <code>/</code> and <code>%</code> apply.
+</p>
+<p>
+The C operators that combine assignment with arithmetic operations
+(such as <code>+=</code>) are also supported when the corresponding arithmetic
+operator is supported by Cg.
+</p>
+<h2><a id="Conditional_Operator"></a>Conditional Operator</h2>
+<pre>        ?:</pre>
+<p>
+If the first operand is of type <code>bool</code>, one of the following must hold
+for the second and third operands:
+</p>
+<ul>
+<li>Both operands have compatible structure types.</li>
+<li>Both operands are scalars with numeric or <code>bool</code> type.</li>
+<li>Both operands are vectors with numeric or <code>bool</code> type, where the two vectors are of the same size, which is less than or equal to four.</li>
+</ul>
+<p>
+If the first operand is a packed vector of <code>bool</code>, then the
+conditional selection is performed on an elementwise basis. Both the
+second and third operands must be numeric vectors of the same size as
+the first operand.
+</p>
+<p>
+Unlike C, side effects in the expressions in the second and third
+operands are always executed, regardless of the condition.
+</p>
+<h2><a id="Miscellaneous_Operators"></a>Miscellaneous Operators</h2>
+<pre>        (typecast)   ,</pre>
+<p>Cg supports C's typecast and comma operators.</p>
+<h2><a id="Reserved_Words"></a>Reserved Words</h2>
+<p>
+The following are currently used reserved words in Cg.
+A '*' indicates that the reserved word is case-insensitive.
+</p>
+<dl>
+<dt><b>__[anything] (i.e. any identifier with two underscores as a prefix)</b></dt>
+<dt><b>asm*</b></dt>
+<dt><b>asm_fragment</b></dt>
+<dt><b>auto</b></dt>
+<dt><b>bool</b></dt>
+<dt><b>break</b></dt>
+<dt><b>case</b></dt>
+<dt><b>catch</b></dt>
+<dt><b>char</b></dt>
+<dt><b>class</b></dt>
+<dt><b>column_major</b></dt>
+<dt><b>compile</b></dt>
+<dt><b>const</b></dt>
+<dt><b>const_cast</b></dt>
+<dt><b>continue</b></dt>
+<dt><b>decl*</b></dt>
+<dt><b>default</b></dt>
+<dt><b>delete</b></dt>
+<dt><b>discard</b></dt>
+<dt><b>do</b></dt>
+<dt><b>double</b></dt>
+<dt><b>dword*</b></dt>
+<dt><b>dynamic_cast</b></dt>
+<dt><b>else</b></dt>
+<dt><b>emit</b></dt>
+<dt><b>enum</b></dt>
+<dt><b>explicit</b></dt>
+<dt><b>extern</b></dt>
+<dt><b>false</b></dt>
+<dt><b>fixed</b></dt>
+<dt><b>float*</b></dt>
+<dt><b>for</b></dt>
+<dt><b>friend</b></dt>
+<dt><b>get</b></dt>
+<dt><b>goto</b></dt>
+<dt><b>half</b></dt>
+<dt><b>if</b></dt>
+<dt><b>in</b></dt>
+<dt><b>inline</b></dt>
+<dt><b>inout</b></dt>
+<dt><b>int</b></dt>
+<dt><b>interface</b></dt>
+<dt><b>long</b></dt>
+<dt><b>matrix*</b></dt>
+<dt><b>mutable</b></dt>
+<dt><b>namespace</b></dt>
+<dt><b>new</b></dt>
+<dt><b>operator</b></dt>
+<dt><b>out</b></dt>
+<dt><b>packed</b></dt>
+<dt><b>pass*</b></dt>
+<dt><b>pixelfragment*</b></dt>
+<dt><b>pixelshader*</b></dt>
+<dt><b>private</b></dt>
+<dt><b>protected</b></dt>
+<dt><b>public</b></dt>
+<dt><b>register</b></dt>
+<dt><b>reinterpret_cast</b></dt>
+<dt><b>return</b></dt>
+<dt><b>row_major</b></dt>
+<dt><b>sampler</b></dt>
+<dt><b>sampler_state</b></dt>
+<dt><b>sampler1D</b></dt>
+<dt><b>sampler2D</b></dt>
+<dt><b>sampler3D</b></dt>
+<dt><b>samplerCUBE</b></dt>
+<dt><b>shared</b></dt>
+<dt><b>short</b></dt>
+<dt><b>signed</b></dt>
+<dt><b>sizeof</b></dt>
+<dt><b>static</b></dt>
+<dt><b>static_cast</b></dt>
+<dt><b>string*</b></dt>
+<dt><b>struct</b></dt>
+<dt><b>switch</b></dt>
+<dt><b>technique*</b></dt>
+<dt><b>template</b></dt>
+<dt><b>texture*</b></dt>
+<dt><b>texture1D</b></dt>
+<dt><b>texture2D</b></dt>
+<dt><b>texture3D</b></dt>
+<dt><b>textureCUBE</b></dt>
+<dt><b>textureRECT</b></dt>
+<dt><b>this</b></dt>
+<dt><b>throw</b></dt>
+<dt><b>true</b></dt>
+<dt><b>try</b></dt>
+<dt><b>typedef</b></dt>
+<dt><b>typeid</b></dt>
+<dt><b>typename</b></dt>
+<dt><b>uniform</b></dt>
+<dt><b>union</b></dt>
+<dt><b>unsigned</b></dt>
+<dt><b>using</b></dt>
+<dt><b>vector*</b></dt>
+<dt><b>vertexfragment*</b></dt>
+<dt><b>vertexshader*</b></dt>
+<dt><b>virtual</b></dt>
+<dt><b>void</b></dt>
+<dt><b>volatile</b></dt>
+<dt><b>while</b></dt>
+</dl>
+<h2><a id="Cg_Standard_Library_Functions"></a>Cg Standard Library Functions</h2>
+<p>
+Cg provides a set of built-in functions and structures to simplify GPU
+programming.  These functions are similar in spirit to the C standard
+library functions, providing a convenient set of common functions.
+</p>
+<p>The Cg Standard Library functions are documented in the Cg Standard Library <a href="index_stdlib.html">index</a>.</p>
+<h2><a id="VERTEX_PROGRAM_PROFILES"></a>Vertex Program Profiles</h2>
+<p>
+A few features of the Cg language that are specific to
+vertex program profiles are required to be implemented in the
+same manner for all vertex program profiles.
+</p>
+<h2><a id="Mandatory_Computation_of_Position_Output"></a>Mandatory Computation Of Position Output</h2>
+<p>
+Vertex program profiles may (and typically do) require that the
+program compute a position output.  This homogeneous clip-space
+position is used by the hardware rasterizer  and must be stored in a
+program output with an output binding semantic of <code>POSITION</code>
+(or <code>HPOS</code> for backward compatibility).
+</p>
+<h2><a id="Position_Invariance"></a>Position Invariance</h2>
+<p>
+In many graphics APIs, the user can choose between two different
+approaches to specifying per-vertex computations:
+use a built-in configurable "fixed-function" pipeline or
+specify a user-written vertex program.
+If the user wishes to mix these two approaches, it is sometimes
+desirable to guarantee that the position computed by the first
+approach is bit-identical to the position computed by the second
+approach.  This "position invariance" is particularly important for
+multipass rendering.
+</p>
+<p>
+Support for position invariance is optional in Cg vertex profiles, but
+for those vertex profiles that support it, the following rules apply:
+</p>
+<dl>
+<dt><b>Position invariance with respect to the fixed function pipeline is guaranteed if two conditions are met:</b></dt>
+<dd>
+<dl>
+<dt><b>-</b></dt>
+<dd>
+A <code> #pragma position_invariant &lt;top-level-function-name&gt; </code> appears
+before the body of the top-level function for the vertex program.
+</dd>
+<dt><b>-</b></dt>
+<dd>
+The vertex program computes position as follows:
+</dd>
+<pre>    OUT_POSITION = mul(MVP, IN_POSITION)</pre>
+<dd>
+where:
+</dd>
+<dd>
+<dl>
+<dt><b>OUT_POSITION</b></dt>
+<dd>
+is a variable (or structure element) of type <code>float4</code> with
+an output binding semantic of <code>POSITION</code> or <code>HPOS</code>.
+</dd>
+<dt><b>IN_POSITION</b></dt>
+<dd>
+is a variable (or structure element) of type <code>float4</code> with
+an input binding semantic of <code>POSITION</code>.
+</dd>
+<dt><b>MVP</b></dt>
+<dd>
+is a uniform variable (or structure element) of type
+<code>float4x4</code> with an input binding semantic that causes it
+to track the fixed-function modelview-projection matrix.
+(The name of this binding semantic is currently
+profile-specific -- for OpenGL profiles, the
+semantic <code>state.matrix.mvp</code> is recommended).
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt><b>If the first condition is met but not the second, the compiler is encouraged to issue a warning.</b></dt>
+<dt><b>Implementations may choose to recognize more general versions of the second condition (such as the variables being copy propagated from the original inputs and outputs), but this additional generality is not required.</b></dt>
+</dl>
+<h2><a id="Binding_Semantics_for_Outputs"></a>Binding Semantics For Outputs</h2>
+<p>As shown in Table 10, there are two output binding semantics for vertex program profiles:</p>
+<pre>
+Table 10  Vertex Output Binding Semantics
+Name      Meaning                       Type     Default Value
+--------  -------                       ------   -------------
+POSITION  Homogeneous clip-space        float4   Undefined
+          position; fed to rasterizer.
+PSIZE     Point size                    float    Undefined
+</pre>
+<p>
+Profiles may define additional output binding semantics with specific
+behaviors, and these definitions are expected to be
+consistent across commonly used profiles.
+</p>
+<h2><a id="FRAGMENT_PROGRAM_PROFILES"></a>Fragment Program Profiles</h2>
+<p>
+A few features of the Cg language that are specific to
+fragment program profiles are required to be implemented in the
+same manner for all fragment program profiles.
+</p>
+<h2><a id="Binding_semantics_for_outputs"></a>Binding Semantics For Outputs</h2>
+<p>As shown in Table 11, there are three output binding semantics for fragment program profiles:</p>
+<pre>
+Table 11  Fragment Output Binding Semantics
+Name    Meaning               Type    Default Value
+----    -------               ------  -------------
+COLOR   RGBA output color     float4  Undefined
+COLOR0  Same as COLOR
+DEPTH   Fragment depth value  float   Interpolated depth from rasterizer
+        (in range [0,1])              (in range [0,1])
+</pre>
+<p>
+Profiles may define additional output binding semantics with specific
+behaviors, and these definitions are expected to be
+consistent across commonly used profiles.
+</p>
+<p>
+If a program desires an output color alpha of 1.0, it should
+explicitly write a value of 1.0 to the <code>W</code> component of the <code>COLOR</code>
+output.  The language does *not* define a default value for this
+output.
+</p>
+<p>
+Note: If the target hardware uses a default
+value for this output, the compiler may choose to optimize away an
+explicit write specified by the user if it matches the default
+hardware value.  Such defaults are not exposed in the language.)
+</p>
+<p>
+In contrast, the language does define a default value for the <code>DEPTH</code>
+output.  This default value is the interpolated depth obtained from
+the rasterizer.  Semantically, this default value is copied to the
+output at the beginning of the execution of the fragment program.
+</p>
+<p>
+As discussed earlier, when a binding semantic is applied to an output,
+the type of the output variable is not required to match the type of
+the binding semantic.  For example, the following is legal, although
+not recommended:
+</p>
+<pre>
+struct myfragoutput {
+    float2 mycolor : COLOR;
+}
+</pre>
+<p>
+In such cases, the variable is implicitly copied (with a typecast) to
+the semantic upon program completion.  If the variable's vector size
+is shorter than the semantic's vector size, the
+larger-numbered components of the semantic receive their default
+values if applicable, and otherwise are undefined.  In
+the case above, the <code>R</code> and <code>G</code> components of the output color are
+obtained from <code>mycolor</code>, while the <code>B</code> and <code>A</code> components of the color
+are undefined.
+</p>
+</BLOCKQUOTE>
+</BODY>

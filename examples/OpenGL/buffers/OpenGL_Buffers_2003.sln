@@ -1,0 +1,48 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glewlib", "..\glew\glewlib_2003.vcproj", "{05FFADE4-2B93-C899-00CA-AA717CA7A077}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "buffer_lighting", "buffer_lighting\buffer_lighting_2003.vcproj", "{6110AE40-54EC-2856-A068-D399899E356C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{05FFADE4-2B93-C899-00CA-AA717CA7A077} = {05FFADE4-2B93-C899-00CA-AA717CA7A077}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ubo_lighting", "ubo_lighting\ubo_lighting_2003.vcproj", "{75B7B01E-5BE8-3952-6334-CE0D1CEB9D74}"
+	ProjectSection(ProjectDependencies) = postProject
+		{05FFADE4-2B93-C899-00CA-AA717CA7A077} = {05FFADE4-2B93-C899-00CA-AA717CA7A077}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cgfx_buffer_lighting", "cgfx_buffer_lighting\cgfx_buffer_lighting_2003.vcproj", "{5EAF2EA7-95E6-CA25-1C0A-52F53D3422A6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{05FFADE4-2B93-C899-00CA-AA717CA7A077} = {05FFADE4-2B93-C899-00CA-AA717CA7A077}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{6110AE40-54EC-2856-A068-D399899E356C}.Debug.Build.0 = Debug|Win32
+		{6110AE40-54EC-2856-A068-D399899E356C}.Debug.ActiveCfg = Debug|Win32
+		{6110AE40-54EC-2856-A068-D399899E356C}.Release.Build.0 = Release|Win32
+		{6110AE40-54EC-2856-A068-D399899E356C}.Release.ActiveCfg = Release|Win32
+		{75B7B01E-5BE8-3952-6334-CE0D1CEB9D74}.Debug.Build.0 = Debug|Win32
+		{75B7B01E-5BE8-3952-6334-CE0D1CEB9D74}.Debug.ActiveCfg = Debug|Win32
+		{75B7B01E-5BE8-3952-6334-CE0D1CEB9D74}.Release.Build.0 = Release|Win32
+		{75B7B01E-5BE8-3952-6334-CE0D1CEB9D74}.Release.ActiveCfg = Release|Win32
+		{5EAF2EA7-95E6-CA25-1C0A-52F53D3422A6}.Debug.Build.0 = Debug|Win32
+		{5EAF2EA7-95E6-CA25-1C0A-52F53D3422A6}.Debug.ActiveCfg = Debug|Win32
+		{5EAF2EA7-95E6-CA25-1C0A-52F53D3422A6}.Release.Build.0 = Release|Win32
+		{5EAF2EA7-95E6-CA25-1C0A-52F53D3422A6}.Release.ActiveCfg = Release|Win32
+		{05FFADE4-2B93-C899-00CA-AA717CA7A077}.Debug.Build.0 = Debug|Win32
+		{05FFADE4-2B93-C899-00CA-AA717CA7A077}.Debug.ActiveCfg = Debug|Win32
+		{05FFADE4-2B93-C899-00CA-AA717CA7A077}.Release.Build.0 = Release|Win32
+		{05FFADE4-2B93-C899-00CA-AA717CA7A077}.Release.ActiveCfg = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

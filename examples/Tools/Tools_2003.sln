@@ -1,0 +1,27 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cginfo", "cginfo\cginfo_2003.vcproj", "{67726D9B-6DA6-2DC1-6F27-8A052A09196B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cgfxcat", "cgfxcat\cgfxcat_2003.vcproj", "{230FB662-2669-60EF-F7B1-710AE1460B77}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{67726D9B-6DA6-2DC1-6F27-8A052A09196B}.Debug.Build.0 = Debug|Win32
+		{67726D9B-6DA6-2DC1-6F27-8A052A09196B}.Debug.ActiveCfg = Debug|Win32
+		{67726D9B-6DA6-2DC1-6F27-8A052A09196B}.Release.Build.0 = Release|Win32
+		{67726D9B-6DA6-2DC1-6F27-8A052A09196B}.Release.ActiveCfg = Release|Win32
+		{230FB662-2669-60EF-F7B1-710AE1460B77}.Debug.Build.0 = Debug|Win32
+		{230FB662-2669-60EF-F7B1-710AE1460B77}.Debug.ActiveCfg = Debug|Win32
+		{230FB662-2669-60EF-F7B1-710AE1460B77}.Release.Build.0 = Release|Win32
+		{230FB662-2669-60EF-F7B1-710AE1460B77}.Release.ActiveCfg = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

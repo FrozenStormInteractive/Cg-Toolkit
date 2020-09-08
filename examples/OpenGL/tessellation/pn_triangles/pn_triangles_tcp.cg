@@ -1,0 +1,106 @@
+/* PN Triangles tessellation control shader.
+
+  This will pass on the inner and outer LOD parameters to the tessellator unit,
+    compute the normals, and compute the control points clock-wise and 
+  coutner-clockwise to each vertex. b111part is this vertex's contribution
+  to the center point. It will be assembled in evaluation shader.
+
+
+  PN triangle reference : 
+   Curved PN triangles
+   Vlachos, A., Peters, J. and Boyd, C. and Mitchell, J.L
+   Proc of 2001 Symposium on Interactive 3D graphics
+   159-166, 2001. */
+
+
+/* gp5tcp - Tessellation control program
+   PATCH_3 - The input will consist of a patch of 3 vertices. */
+
+gp5tcp PATCH_3
+void main(
+       in int id                               : CONTROLPOINT_ID,
+       in AttribArray<float3> iPos             : POSITION,
+       in AttribArray<float2> iScaledWindowPos : TEXCOORD0,
+       in AttribArray<float3> iNorm            : TEXCOORD1,
+     in AttribArray<float4> iColor             : COLOR,
+
+       uniform int     uDoLOD,
+       uniform float   uInnerLOD,
+       uniform float3  uOuterLOD,
+
+       out precise float3 oPos       : POSITION,
+       out float4 oColor             : COLOR,
+       out float oOuterLOD[3]        : EDGETESS,
+       out float oInnerLOD[2]        : INNERTESS,
+       out precise float3 oCcwCp     : TEXCOORD0,
+       out precise float3 oCwCp      : TEXCOORD1,
+       out precise float3 oMidNormal : TEXCOORD2,
+       out precise float3 oEyeNormal : TEXCOORD3,
+       out float3 oB111parts         : TEXCOORD4
+)
+{        
+  oColor = iColor[id];  /* Pass through color */
+
+  float3 P2;            /* Intermediate position information */   
+  int ccwNdx,           /* ndx for counter-clockwise control point */
+      cwNdx;            /* ndx for clockwise control point */
+
+  ccwNdx = (id+1)%3;    /* Next point's index */
+  cwNdx = (id+2)%3;     /* Previous point's index */
+                                                                                
+  /* Compute control points and pass them along.  This amounts to a projection
+     of ccw_cp and cw_cp onto the plane at the vertex defined by its normal.
+  */
+  oCcwCp = ( 2 * iPos[id] + iPos[ccwNdx] - 
+    dot( iPos[ccwNdx]-iPos[id] , iNorm[id] ) * iNorm[id] )/3.0;
+  oCwCp  = ( 2 * iPos[id] + iPos[cwNdx] -
+    dot( iPos[cwNdx]-iPos[id] , iNorm[id] ) * iNorm[id] )/3.0;
+  P2 = oCcwCp + oCwCp;
+
+  float3 V = ( iPos[0] + iPos[1] + iPos[2] )/3.0;  /* Centroid */
+
+  /* inPos[id]'s contribution of the middle control point. */
+  oB111parts = ( (1.5f)/(6.0f)) * P2 - ((0.5f/3.0f) * V );
+  oPos = iPos[id];          /* The output vertices position */
+  oEyeNormal = iNorm[id];   /* The eye normal */
+    
+  /* Compute normal of the mid point next to this point.
+     Each vertex will compute one mid-normal adjacent to it, so
+     in the evaluation shader all mid-normals will be accounted for. */
+  precise float v = 2 * dot( iPos[ccwNdx] - iPos[id] , iNorm[id] + iNorm[ccwNdx])
+    / dot( iPos[ccwNdx] - iPos[id], iPos[ccwNdx] - iPos[id] );
+
+  precise float3 h = iNorm[id] + iNorm[ccwNdx] - v * ( iPos[ccwNdx]-iPos[id] );
+
+  oMidNormal = normalize(h);
+
+  /* Can specify the minimum tessellation level to prevent artifacts from
+     super low resolution.
+   */
+  float minTess = 1.0f;
+
+  /* If doLOD==1, it derives the size of the tessellated triangles from the
+     scaled screen space position.  The variable lodScalingFactor in the
+     application determines the screen-space pixel size of each output 
+     triangle's edges. If doLOD!=1, then it defaults to the parameters set in
+     the application.
+  */
+  if (uDoLOD==1)
+  {
+
+    oOuterLOD[2] = distance(iScaledWindowPos[0], iScaledWindowPos[1]);
+    oOuterLOD[0] = distance(iScaledWindowPos[1], iScaledWindowPos[2]);
+    oOuterLOD[1] = distance(iScaledWindowPos[2], iScaledWindowPos[0]);
+    /* Gets the maximum of the maximums, or if lower than minTess will choose
+         minTess */
+    oInnerLOD[0] = max( max(oOuterLOD[0], max(oOuterLOD[1], oOuterLOD[2]) ),
+                         minTess );
+  }
+  else
+  {
+    oOuterLOD[0] = uOuterLOD.x;
+    oOuterLOD[1] = uOuterLOD.y;
+    oOuterLOD[2] = uOuterLOD.z;
+    oInnerLOD[0] = uInnerLOD.x;
+  } 
+}

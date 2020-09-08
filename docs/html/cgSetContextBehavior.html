@@ -1,0 +1,358 @@
+<HTML>
+
+<HEAD>
+<TITLE>cgSetContextBehavior</TITLE>
+<meta name="description" content="cgSetContextBehavior" />
+<meta name="keywords" content="cgSetContextBehavior, NVIDIA, NVIDIA Cg Toolkit, Cg Toolkit, Shader, Shader Programming, GPU Shader Programming, GPU Program" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<STYLE TYPE="text/css" MEDIA=screen>
+<!--
+		
+BODY {
+ font-family: Arial,Helvetica;
+}
+
+BLOCKQUOTE { margin: 10pt;  }
+
+H1,A { color: #336699; }
+
+
+/*** Top menu style ****/
+.mmenuon { 
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #ff6600; font-size: 10pt;
+ }
+.mmenuoff { 
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #ffffff; font-size: 10pt;
+}	  
+.cpyright {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #ffffff; font-size: xx-small;
+}
+.cpyrightText {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #ffffff; font-size: xx-small;
+}
+.sections { 
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: 11pt;
+}	 
+.dsections { 
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: 12pt;
+}	
+.slink { 
+ font-family: Arial,Helvetica; font-weight: normal; text-decoration: none;
+ color: #336699; font-size: 9pt;
+}	 
+
+.slink2 { font-family: Arial,Helvetica; text-decoration: none; color: #336699; }	 
+
+.maintitle { 
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: 18pt;
+}	 
+.dblArrow {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: small;
+}
+.menuSec {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: small;
+}
+
+.newstext {
+ font-family: Arial,Helvetica; font-size: small;
+}
+
+.linkmenu {
+ font-family: Arial,Helvetica; color: #000000; font-weight: bold;
+ text-decoration: none;
+}
+
+P {
+ font-family: Arial,Helvetica;
+}
+
+PRE            { 
+																font-family: monospace;
+																white-space: pre; 
+																font-color: #333333; 
+																font-weight: 100;
+																background-color: #eeeeee; 
+																padding: 5px; 
+																width: 90%; 
+																border-style: solid;
+																border-width: 2px; 
+																border-color: #bebebe; 
+	              }
+.quote { 
+ font-family: Times; text-decoration: none;
+ color: #000000; font-size: 9pt; font-style: italic;
+}	
+.smstd { font-family: Arial,Helvetica; color: #000000; font-size: x-small; } 
+.std { font-family: Arial,Helvetica; color: #000000; } 
+.meerkatTitle { 
+ font-family: sans-serif; font-size: x-small;  color: black;    }
+
+.meerkatDescription { font-family: sans-serif; font-size: 10pt; color: black }
+.meerkatCategory { 
+ font-family: sans-serif; font-size: 9pt; font-weight: bold; font-style: italic; 
+ color: brown; }
+.meerkatChannel { 
+ font-family: sans-serif; font-size: 9pt; font-style: italic; color: brown; }
+.meerkatDate { font-family: sans-serif; font-size: xx-small; color: #336699; }
+
+.tocTitle {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #333333; font-size: 10pt;
+}
+
+.toc-item {
+ font-family: Arial,Helvetica; font-weight: bold; 
+ color: #336699; font-size: 10pt; text-decoration: underline;
+}
+
+.perlVersion {
+ font-family: Arial,Helvetica; font-weight: bold; 
+ color: #336699; font-size: 10pt; text-decoration: none;
+}
+
+.docTitle {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #000000; font-size: 10pt;
+}
+.dotDot {
+ font-family: Arial,Helvetica; font-weight: bold; 
+ color: #000000; font-size: 9pt;
+}
+
+.docSec {
+ font-family: Arial,Helvetica; font-weight: normal; 
+ color: #333333; font-size: 9pt;
+}
+.docVersion {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: 10pt;
+}
+
+.docSecs-on {
+ font-family: Arial,Helvetica; font-weight: normal; text-decoration: none;
+ color: #ff0000; font-size: 10pt;
+}
+.docSecs-off {
+ font-family: Arial,Helvetica; font-weight: normal; text-decoration: none;
+ color: #333333; font-size: 10pt;
+}
+
+h3 {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: small;
+}
+h2 {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: medium;
+}
+h1 {
+ font-family: Verdana,Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: large;
+}
+
+DL {
+ font-family: Arial,Helvetica; font-weight: normal; text-decoration: none;
+ color: #333333; font-size: 10pt;
+}
+
+UL > LI > A {
+ font-family: Arial,Helvetica; font-weight: bold;
+ color: #336699; font-size: 10pt;
+}
+
+.moduleInfo {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #333333; font-size: 11pt;
+}
+
+.moduleInfoSec {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: 10pt;
+}
+
+.moduleInfoVal {
+ font-family: Arial,Helvetica; font-weight: normal; text-decoration: underline;
+ color: #000000; font-size: 10pt;
+}
+
+.cpanNavTitle {
+ font-family: Arial,Helvetica; font-weight: bold; 
+ color: #ffffff; font-size: 10pt;
+}
+.cpanNavLetter {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none; 
+ color: #333333; font-size: 9pt;
+}
+.cpanCat {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none; 
+ color: #336699; font-size: 9pt;
+}
+
+-->
+</STYLE>
+
+</HEAD>
+
+<BODY>
+
+<object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+</object>
+
+<BLOCKQUOTE>
+<h2><a id="NAME"></a>Name</h2>
+<p><b>cgSetContextBehavior</b> - set the behavior for a context</p>
+<h2><a id="SYNOPSIS"></a>Synopsis</h2>
+<pre>
+#include &lt;Cg/cg.h&gt;
+
+void cgSetContextBehavior( CGcontext context,
+                           CGbehavior behavior );
+</pre>
+<h2><a id="PARAMETERS"></a>Parameters</h2>
+<dl>
+<dt><b><i>context</i></b></dt>
+<dd>
+The context for which the behavior will be set.
+</dd>
+<dt><b><i>behavior</i></b></dt>
+<dd>
+An enumerant which defines the behavior that will be exhibited
+by <b>context</b>.  The following enumerants are allowed:
+</dd>
+<dd>
+<ul>
+<li><b>CG_BEHAVIOR_3100</b></li>
+<li><b>CG_BEHAVIOR_3000</b></li>
+<li><b>CG_BEHAVIOR_2200</b></li>
+<li><b>CG_BEHAVIOR_CURRENT</b></li>
+<li><b>CG_BEHAVIOR_LATEST</b></li>
+</ul>
+</dd>
+</dl>
+<h2><a id="RETURN_VALUES"></a>Return Values</h2>
+<p>None.</p>
+<h2><a id="DESCRIPTION"></a>Description</h2>
+<p>
+Each new version of Cg is supposed to be completely backwards compatible
+with previous versions, providing bug fixes and/or new capabilities while
+maintaining the behavior which applications were written against.  The
+intent is to allow Cg to be updated and have existing applications continue
+to work exactly as designed.
+</p>
+<p>
+Occasionally a case is made that some behavior of Cg is wrong, but fixing
+that behavior could break existing applications.  This is a problem.
+<b>cgSetContextBehavior</b> provides a solution by documenting such changes to
+the library's behavior and allowing applications to explicitly opt-in to
+the new behavior.  For applications which don't use <b>cgSetContextBehavior</b>
+Cg will continue to behave exactly as it did before this routine was introduced.
+</p>
+<p>
+It is expected that the definition of a new context behavior will be
+a rare occurance and not something that happens with every new Cg release.
+Routine bug fixes and additions to the API won't result in creating new values
+of <b>behavior</b>.  Instead this will only be done when the fix for a broken
+library behavior could cause a correctly written application to fail.
+</p>
+<p><b>behavior</b> must be one of the following enumerants :</p>
+<dl>
+<dt><b>CG_BEHAVIOR_3100</b></dt>
+<dd>
+Cg 3.1 added a new method to define constant blocks using the uniform keyword.
+Using CG_BEHAVIOR_3100 enables recognition of this new construct and deprecates
+use of the BUFFER semantic on a struct to define a constant block.
+With CG_BEHAVIOR_3100 use of a buffer semantic on a struct will result in an
+error for GLSL profiles and a warning for all other profiles.
+See the Constant Buffers section of the <a href="Cg_language.html">Language Specification</a>
+for details on defining constant buffers using the uniform keyword.
+</dd>
+<dt><b>CG_BEHAVIOR_3000</b></dt>
+<dd>
+Cg 3.0 added support for 16 additional texture units for a total of 32 using
+the semantics TEXUNIT16 through TEXUNIT31 and resource enums CG_TEXUNIT16
+through CG_TEXUNIT31. To use these new resources, CG_BEHAVIOR_3000 is required.
+Using CG_BEHAVIOR_2200 with these new texture unit resources will result in
+a Cg error.
+</dd>
+<dt><b>CG_BEHAVIOR_2200</b></dt>
+<dd>
+This value specifies a pattern of behavior matching what was seen from Cg
+through release 2.2.  Applications which specify <b>CG_BEHAVIOR_2200</b>
+do not need to be modified to handle new context behaviors since they will
+continue to get the oldest behavior from the library.
+</dd>
+<dd>
+Note that this selection is the default behavior for applications which
+never call <b>cgSetContextBehavior</b>, which means that existing binaries will
+continue to get the behavior they expect from Cg.  This is also the fallback
+behavior if an invalid value of <b>behavior</b> is passed to
+<b>cgSetContextBehavior</b>.
+</dd>
+<dt><b>CG_BEHAVIOR_CURRENT</b></dt>
+<dd>
+When this value is used the most advanced context behavior supported
+by the library will be determined at compile time and will become part
+of the application binary.  Updating the Cg runtime files will not change
+the behavior seen by the application at runtime.  However, if the updated
+version of Cg defines a new value for <b>behavior</b> then this new
+behavior will be used after the application is recompiled.
+</dd>
+<dt><b>CG_BEHAVIOR_LATEST</b></dt>
+<dd>
+When this value is used the most advanced context behavior supported
+by the library will be determined at application runtime.  Updating
+the Cg runtime files may result in new behavior from Cg even though
+the same application binaries are being used.
+</dd>
+<dt><b>CG_BEHAVIOR_UNKNOWN</b></dt>
+<dd>
+This value is returned by <a href="cgGetBehaviorString.html">cgGetBehaviorString</a>
+to indicate an invalid string argument has been used.  Passing
+<b>CG_BEHAVIOR_UNKNOWN</b> to <b>cgSetContextBehavior</b> will generate an
+<b>CG_INVALID_ENUMERANT_ERROR</b> and result in the context's behavior
+being set to <b>CG_BEHAVIOR_2200</b> instead.
+</dd>
+</dl>
+<p>
+If the environment variable <b>CG_BEHAVIOR</b> is set to any of
+the valid <b>CGbehavior</b> enumerant names, then that context behavior
+will be used instead of the behavior compiled into the application
+binary.  This is true even when the application doesn't explicitly
+call <b>cgSetContextBehavior</b>.  Note that <b>CG_BEHAVIOR_CURRENT</b> and
+<b>CG_BEHAVIOR_UNKNOWN</b> are not valid choices for <b>CG_BEHAVIOR</b>.
+Trying to use either will result in an error.
+</p>
+<h2><a id="EXAMPLES"></a>Examples</h2>
+<pre>
+/* create a context and set the behavior to CG_BEHAVIOR_3100 */
+
+CGcontext context = cgCreateContext();
+cgSetContextBehavior(context, CG_BEHAVIOR_3100);
+</pre>
+<h2><a id="ERRORS"></a>Errors</h2>
+<p><b>CG_INVALID_CONTEXT_HANDLE_ERROR</b> is generated if <b>context</b> is not a valid context.</p>
+<p>
+<b>CG_INVALID_ENUMERANT_ERROR</b> is generated if <b>behavior</b> is not
+<b>CG_BEHAVIOR_3100</b>, <b>CG_BEHAVIOR_3000</b>, <b>CG_BEHAVIOR_2200</b>,
+<b>CG_BEHAVIOR_CURRENT</b>, or <b>CG_BEHAVIOR_LATEST</b>.
+</p>
+<h2><a id="HISTORY"></a>History</h2>
+<p><b>cgSetContextBehavior</b> was introduced in Cg 3.0.</p>
+<h2><a id="SEE_ALSO"></a>See Also</h2>
+<p>
+<a href="cgCreateContext.html">cgCreateContext</a>,
+<a href="cgGetContextBehavior.html">cgGetContextBehavior</a>,
+<a href="cgGetBehavior.html">cgGetBehavior</a>,
+<a href="cgGetBehaviorString.html">cgGetBehaviorString</a>
+</p>
+</BLOCKQUOTE>
+</BODY>

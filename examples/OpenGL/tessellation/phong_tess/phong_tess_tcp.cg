@@ -1,0 +1,69 @@
+/* Phong Tessellation control shader.
+
+   Phong Tessellation reference : 
+    Phong tessellation,
+    Tamy Boubekeur and Marc Alexa
+    ACM ToG, Vol. 27, No. 5, 2008.
+*/
+
+
+/* gp5tcp - Tessellation control program
+   PATCH_3 - The input will consist of a patch of 3 vertices. */
+
+gp5tcp PATCH_3
+void main(
+       in int id                               : CONTROLPOINT_ID,
+       in AttribArray<float3> iPos             : POSITION,
+       in AttribArray<float3> iNorm            : ATTR0,
+       in AttribArray<float2> iScaledWindowPos : ATTR1,
+       in AttribArray<float4> iColor           : COLOR,
+
+       uniform int     uDoLOD,
+       uniform float   uInnerLOD,
+       uniform float3  uOuterLOD,
+
+       out precise float3 oPos       : POSITION,
+       out float4 oColor             : COLOR,
+       out float oOuterLOD[3]        : EDGETESS,
+       out float oInnerLOD[2]        : INNERTESS,
+       out float3 oNorm              : ATTR0
+)
+{        
+  /* Most of the important work is done during the evaluation stage, so just
+     pass through the proper attributes
+  */
+
+  oColor = iColor[id];  /* Pass through color    */
+  oNorm =  iNorm[id];   /* Pass through normal   */
+  oPos =   iPos[id];    /* Pass through position */
+
+  /* Can specify the minimum tessellation level to prevent artifacts from
+     super low resolution.
+   */
+  float minTess = 1.0f;
+
+  /* If doLOD==1, it derives the size of the tessellated triangles from the
+     scaled screen space position.  The variable lodScalingFactor in the
+     application determines the screen-space pixel size of each output 
+     triangle's edges. If doLOD!=1, then it defaults to the parameters set in
+     the application.
+  */
+  if (uDoLOD==1)
+  {
+
+    oOuterLOD[2] = distance(iScaledWindowPos[0], iScaledWindowPos[1]);
+    oOuterLOD[0] = distance(iScaledWindowPos[1], iScaledWindowPos[2]);
+    oOuterLOD[1] = distance(iScaledWindowPos[2], iScaledWindowPos[0]);
+    /* Gets the maximum of the maximums, or if lower than minTess will choose
+         minTess */
+    oInnerLOD[0] = max( max(oOuterLOD[0], max(oOuterLOD[1], oOuterLOD[2]) ),
+                         minTess );
+  }
+  else
+  {
+    oOuterLOD[0] = uOuterLOD.x;
+    oOuterLOD[1] = uOuterLOD.y;
+    oOuterLOD[2] = uOuterLOD.z;
+    oInnerLOD[0] = uInnerLOD.x;
+  } 
+}

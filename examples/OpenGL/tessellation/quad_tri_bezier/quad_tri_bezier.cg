@@ -1,0 +1,454 @@
+/* Bezier evaluation shaders */
+
+/* For displaying the patches in patch outline mode*/
+#define TRI_COLOR float4(0.4,0.6, 0.8, 1.0)
+
+/* Helper functions */
+float approxCubicArcLength(float2 a, float2 b, float2 c, float2 d)
+{ 
+  precise float len = 0.5*(distance(a,b) + distance(b,c) + distance(c,d)) + 
+                       0.5*distance(d,a);
+  return max(1.0,len);
+}
+
+float4 applyPerspective(float4x4 affine_matrix, float4 v)
+{
+  float4 r;
+  
+  r.x = affine_matrix[0][0] * v.x;
+  r.y = affine_matrix[1][1] * v.y;
+  r.z = affine_matrix[2][2] * v.z + affine_matrix[2][3] * v.w;
+  r.w = affine_matrix[3][2] * v.z + affine_matrix[3][3] * v.w;
+  return r;
+}
+
+float3 bilerp( float3 cp1, float3 cp2, float3 cp3, float3 cp4, float2 uv)
+{
+  return lerp( lerp( cp1, cp2, uv.x ), lerp( cp3, cp4, uv.x), uv.y );
+}
+
+float4 bilerp( float4 cp1, float4 cp2, float4 cp3, float4 cp4, float2 uv)
+{
+  return lerp( lerp( cp1, cp2, uv.x ), lerp( cp3, cp4, uv.x), uv.y );
+}
+
+precise float3 trilerp(float3 uvw, float3 p1, float3 p2, float3 p3)
+{
+  return uvw.x*p1 + uvw.y*p2 + uvw.z*p3;
+}
+
+
+/* Evaluates a trianglular bezier patch ( 10 control points ) */
+precise float3 GetTriangularCoordDeCasteljau( float3 stu,
+                        precise AttribArray<float3> pos,
+                        out precise float3 normal)
+{
+  float3 c[6];
+  c[0] = trilerp(stu, pos[0], pos[1], pos[4]);
+  c[1] = trilerp(stu, pos[1], pos[2], pos[5]);
+  c[2] = trilerp(stu, pos[2], pos[3], pos[6]);
+  c[3] = trilerp(stu, pos[4], pos[5], pos[7]);
+  c[4] = trilerp(stu, pos[5], pos[6], pos[8]);
+  c[5] = trilerp(stu, pos[7], pos[8], pos[9]);
+
+  c[0] = trilerp(stu, c[0], c[1], c[3]);
+  c[1] = trilerp(stu, c[1], c[2], c[4]);
+  c[2] = trilerp(stu, c[3], c[4], c[5]);
+
+  normal = normalize(cross(c[2]-c[0], c[1]-c[0]));
+
+  return trilerp(stu, c[0], c[1], c[2]);
+}
+
+/* Uses De Casteljau's algorithm for evaluating a point
+  on a cubic bezier curve.
+*/
+precise float3 ComputeBezierPointFromCurve4( float t, float3 p1, float3 p2,
+                         float3 p3, float3 p4)
+{
+  precise float3 c[3]; /* Temporary variable */
+
+  //First level linear interpolation
+  c[0] = lerp(p1, p2, t);
+  c[1] = lerp(p2, p3, t);
+  c[2] = lerp(p3, p4, t);
+
+  //Second level linear interpolation
+  c[0] = lerp(c[0], c[1], t);
+  c[1] = lerp(c[1], c[2], t);
+
+  //Third level linear interpolation
+  return lerp(c[0], c[1],t);
+}
+
+/* Uses De Casteljau's algorithm for evaluating a tangent on a curve */
+precise float3 ComputeBezierTangentFromCurve4( float t, float3 p1, float3 p2,
+                         float3 p3, float3 p4 )
+{
+  precise float3 c[3]; /* Temporary variable */ 
+
+  //First level linear interpolation
+  c[0] = lerp(p1, p2, t);
+  c[1] = lerp(p2, p3, t);
+  c[2] = lerp(p3, p4, t);
+
+  //Second level linear interpolation
+  c[0] = lerp(c[0], c[1], t);
+  c[1] = lerp(c[1], c[2], t);
+
+  //Third level is just differencing
+  //Check to make sure these two points aren't overlapping.
+  return -1.0f*c[0] + c[1];
+}
+
+precise void GetQuadCoordDeCasteljau( in float2 uv,
+                    precise in AttribArray<float3> positions,
+                    out precise float3 pos,
+                    out float3 normal)
+{
+
+  precise float3 c[4]; /* Temporary variables */
+  float3 du, dv;       /* For computing normal */
+  float3 diff[2];      /* For testing degenerate edges */
+
+  //First level linear interpolation
+  c[0] = ComputeBezierPointFromCurve4(uv.x, positions[0], positions[1],
+                      positions[2], positions[3]);
+  c[1] = ComputeBezierPointFromCurve4(uv.x, positions[4], positions[5],
+                      positions[6], positions[7]);
+  c[2] = ComputeBezierPointFromCurve4(uv.x, positions[8], positions[9],
+                      positions[10], positions[11]);
+  c[3] = ComputeBezierPointFromCurve4(uv.x, positions[12], positions[13],
+                      positions[14], positions[15]);
+  
+  /* Make sure two control points do not overlap */
+  if (dot(c[0]-c[1], c[0]-c[1]) == 0)
+    c[1]=c[2];
+  if (dot(c[3]-c[2], c[3]-c[2]) == 0)
+    c[2]=c[1]; 
+
+  /* Derivative in u direction */
+  du = ComputeBezierTangentFromCurve4( uv.y, c[0], c[1], c[2], c[3]);
+
+
+  c[0] = ComputeBezierPointFromCurve4(uv.y, positions[0], positions[4],
+                       positions[8], positions[12]);
+  c[1] = ComputeBezierPointFromCurve4(uv.y, positions[1], positions[5],
+                                       positions[9], positions[13]);
+  c[2] = ComputeBezierPointFromCurve4(uv.y, positions[2], positions[6],
+                               positions[10], positions[14]);
+  c[3] = ComputeBezierPointFromCurve4(uv.y, positions[3], positions[7],
+                                     positions[11], positions[15]);
+
+  /* Derivative in v direction */
+  dv = ComputeBezierTangentFromCurve4( uv.x, c[0], c[1], c[2], c[3]);
+
+    /* Evaluate position */
+  pos = ComputeBezierPointFromCurve4( uv.x, c[0], c[1], c[2], c[3] ); 
+
+  /* Cross product of two tangents */
+  normal = normalize(cross(du, dv));
+
+  return;
+}
+
+/* Vertex shader
+
+  This vertex shader program will transform the control points and then pass 
+  them on to the next stage. It will also pass through the required attributes
+  (normal).  One thing to note is that the positions do not get transformed 
+  by the modelview matrix as this is deferred until the evaluation shader 
+  AFTER the patch UV are evaluated.
+  */
+
+void mainV( in float3 position : POSITION,
+       in float4 iOuterTess    : TEXCOORD0,
+       in float2 iInnerTess    : TEXCOORD1,
+       in float4 inColor       : COLOR,
+       
+       uniform float4x4 ModelviewMatrix,
+       uniform float4x4 ModelviewProjectionMatrix,
+       uniform float2 wh,
+
+       out float4 eye_space_pos           : POSITION,
+       out float4 outerTess               : TEXCOORD0,
+       out float2 innerTess               : TEXCOORD1,
+       out float2 scaled_window_space_pos : ATTR2,
+       out float4 outColor                : COLOR)
+{
+  outColor = inColor;
+
+  /*Projected window space position for use in the LOD calculation.
+  precise since we want to values across boundaries to be the same to
+  prevent cracking from two triangles having slightly different LOD
+  parameters along the same edge.
+  */
+  precise float4 ndc_pos = mul(ModelviewProjectionMatrix, float4(position,1));
+  scaled_window_space_pos = wh*(ndc_pos.xy / ndc_pos.w);
+
+  /*This are the positions which will be used in the 
+    control/evaluation stages.
+  */
+
+  eye_space_pos = mul(ModelviewMatrix, float4(position,1));
+ 
+
+  outerTess = iOuterTess;
+  innerTess = iInnerTess;
+
+}
+
+/*Quad patch Bezier patch control shader
+ *
+ * gp5tcp - Tessellation control program
+ * PATCH_3 - The input will consist of a patch of 4 vertices.
+ */
+gp5tcp PATCH_16
+void mainQuadTC(
+  in int id                          : CONTROLPOINT_ID,
+  in AttribArray<float3> inPos       : POSITION,
+  in AttribArray<float4> inColor     : COLOR,
+  in float4 inouterLOD               : TEXCOORD0,
+  in float2 ininnerLOD               : TEXCOORD1,
+  in AttribArray<float2> iScaledPos  : ATTR2,
+
+  uniform int doLod,
+
+  out float3 outPos           : POSITION,
+  out float4 outColor         : COLOR,
+  out float outouterLOD[4]    : EDGETESS,
+  out float outinnerLOD[2]    : INNERTESS
+
+  )
+{
+ 
+  outColor = inColor[id];
+  outPos = inPos[id];
+
+  /* Can specify the minimum tessellation level to prevent artifacts from
+  * super low resolution.
+  */
+  float minTess = 1.0f;
+
+  /*If doLod==1, it derives the size of the tessellated triangles from the
+  scaled screen space position.
+  If doLod!=1, then it defaults to the parameters set in the application.*/
+  if (doLod==1)
+  {
+  
+    outouterLOD[0] = approxCubicArcLength(iScaledPos[12], iScaledPos[8],
+                    iScaledPos[4], iScaledPos[0]);
+    outouterLOD[1] = approxCubicArcLength(iScaledPos[0], iScaledPos[1],
+                    iScaledPos[2], iScaledPos[3]);
+    outouterLOD[2] = approxCubicArcLength(iScaledPos[3], iScaledPos[7],
+                    iScaledPos[11], iScaledPos[15]);
+    outouterLOD[3] = approxCubicArcLength(iScaledPos[15], iScaledPos[14],
+                    iScaledPos[13], iScaledPos[12]);                                                          
+
+  /* Gets the maximum of the maximums, or if lower than 
+     minTess will choose minTess
+  */
+    outinnerLOD[0] = max( outouterLOD[0],
+             max( outouterLOD[1], 
+             max( outouterLOD[2],
+             max( outouterLOD[3], minTess ) ) ) );
+    outinnerLOD[1] = max( outouterLOD[0],
+             max( outouterLOD[1], 
+             max( outouterLOD[2],
+             max( outouterLOD[3], minTess ) ) ) );
+  }
+  else
+  {
+    outouterLOD[0] = inouterLOD.x;
+    outouterLOD[1] = inouterLOD.y;
+    outouterLOD[2] = inouterLOD.z;
+    outouterLOD[3] = inouterLOD.w;
+
+    outinnerLOD[0] = ininnerLOD.x;
+    outinnerLOD[1] = ininnerLOD.y;
+  }
+  
+}
+
+/*gp5tep - gp5tep instruction set
+* QUADS - Emits a quadrangular patch
+* PATCH_16 - Has 16 control vertices
+* SPACE_FRACTIONAL_EVEN - Fraction (continuous) tessellation.
+* ORDER_CCW - Produces triangles which are clock-wise ordered.
+*/
+gp5tep QUADS PATCH_16 SPACE_FRACTIONAL_EVEN ORDER_CCW
+void mainQuadTE(
+       in float2 uv                      : UV, 
+       in AttribArray<float3> inCntrlPos : POSITION,
+       in AttribArray<float4> inColor    : COLOR,
+
+       uniform float4x4 ProjectionMatrix,
+       uniform int uDisplayPatches,
+       uniform int uDoBezier,
+
+       out float4 oPos              : POSITION,
+       out float4 ocolor            : COLOR,
+       out float3 eyeNormal         : ATTR1,
+       out float3 oModelPosition    : ATTR2
+)
+{  
+  if (uDoBezier == 1)
+    /* Retrieves position AND normal */
+    GetQuadCoordDeCasteljau( uv, inCntrlPos, oModelPosition, eyeNormal);
+  else
+  {
+    oModelPosition = bilerp( inCntrlPos[0], inCntrlPos[3], inCntrlPos[12], inCntrlPos[15], uv ); 
+    eyeNormal = normalize(cross( inCntrlPos[12] - inCntrlPos[0], inCntrlPos[3] - inCntrlPos[0] ) );
+  }
+
+  /*Apply perspective matrix, avoiding unessesary 
+   * multiplies from a full matrix multiplication.
+   */
+  oPos = applyPerspective(ProjectionMatrix, float4(oModelPosition,1));
+
+  float u = uv.x, 
+    v = uv.y;
+
+  /* Bi-linear interpolation of the color values. */
+  if (uDisplayPatches == 1)
+  {
+    if (u == 0 || v == 0 || u == 1 || v == 1)
+      ocolor = float4(0.0,1.0,0.0,1.0);
+    else
+      ocolor = bilerp( inColor[0], inColor[3], inColor[12], inColor[15], uv);
+  }
+  else
+    ocolor = bilerp( inColor[0], inColor[3], inColor[12], inColor[15], uv);
+}
+
+/* Triangle patch Bezier patch control shader 
+ *
+ * gp5tcp - Tessellation control program
+ * PATCH_10 - The input will consist of a patch of 10 vertices. 
+*/
+gp5tcp PATCH_10
+void mainTriTC(
+       in int id                          : CONTROLPOINT_ID,
+       in AttribArray<float3> inPos       : POSITION,
+       in AttribArray<float4> inColor     : COLOR,
+       in float4 inouterLOD               : TEXCOORD0,
+       in float2 ininnerLOD               : TEXCOORD1,
+       in AttribArray<float2> iScaledPos  : ATTR2,
+
+       uniform int doLod,
+
+       out float3 outPos          : POSITION,
+       out float4 outColor        : COLOR,
+       out float outouterLOD[3]   : EDGETESS,
+       out float outinnerLOD[1]   : INNERTESS
+)
+{
+  outPos = inPos[id];
+  outColor = inColor[id];
+
+  float minTess = 1.0;
+  if (doLod==1)
+  {
+
+    outouterLOD[1] = approxCubicArcLength(iScaledPos[9], iScaledPos[7],
+                        iScaledPos[4], iScaledPos[0]);
+    outouterLOD[2] = approxCubicArcLength(iScaledPos[0], iScaledPos[1],
+                        iScaledPos[2], iScaledPos[3]);
+    outouterLOD[0] = approxCubicArcLength(iScaledPos[3], iScaledPos[6],
+                        iScaledPos[8], iScaledPos[9]);
+    
+    /* Gets the maximum of the maximums, or if lower than minTess will
+    choose minTess */
+    outinnerLOD[0] = max( outouterLOD[0],
+               max( outouterLOD[1], 
+                 max( outouterLOD[2], minTess ) ) ) ;
+    
+  }
+  else
+  {
+    outouterLOD[0] = inouterLOD.x;
+    outouterLOD[1] = inouterLOD.y;
+    outouterLOD[2] = inouterLOD.z;
+
+    outinnerLOD[0] = ininnerLOD.x;
+    
+  }
+}
+
+/* 
+ * Triangle tessellation evaluation shader
+ */
+gp5tep TRIANGLES PATCH_10 SPACE_FRACTIONAL_EVEN ORDER_CCW
+void mainTriTE(
+       in float3 uvw                      : TESSCOORD,  
+       in AttribArray<float3> inCntrlPos  : POSITION,
+       in AttribArray<float4> inColor     : COLOR,
+
+       uniform float4x4 ProjectionMatrix,
+       uniform int uDisplayPatches,
+       uniform int uDoBezier,
+
+       out precise float4 position        : POSITION,
+       out float4 oColor                  : COLOR,
+       out float3 eyeNormal               : ATTR1,
+       out float3 oModelPosition          : ATTR2
+      )
+{
+  precise float3 p;
+  if (uDoBezier == 1)
+    p = GetTriangularCoordDeCasteljau( uvw, inCntrlPos, eyeNormal);
+  else{
+    p = uvw.x * inCntrlPos[0] + uvw.y * inCntrlPos[3] + uvw.z * inCntrlPos[9]; 
+    eyeNormal = normalize(cross(inCntrlPos[9] - inCntrlPos[0], inCntrlPos[3] - inCntrlPos[0] ));
+  }
+
+  oModelPosition = p;
+  position = applyPerspective(ProjectionMatrix, float4(p,1) );  
+  
+  //On the edge
+  if (uDisplayPatches == 1)
+  {
+  if (uvw.x == 0 || uvw.y == 0 || uvw.z == 0)
+    oColor = float4(0.0,1.0,0.0,1.0);
+  else
+    oColor = TRI_COLOR;
+  }
+  else
+   oColor = uvw.x*inColor[0] + uvw.y*inColor[1] + uvw.z*inColor[2];
+}
+
+/* 
+ * Fragment shader 
+ */
+
+void mainF(  in float4 iColor  : COLOR,
+             in float3 iNormal : ATTR1,
+             in float3 iPos    : ATTR2,
+      
+             uniform float3 uLightPos,
+             uniform float uScale,
+
+             out float4 oColor : COLOR)
+{
+
+  /* Vectors needs for lighting calculation */
+  float3 transVec = normalize(float3(0.0f, 0.0f, uScale) - iPos),
+     vecToLight   = normalize(uLightPos - iPos),
+     halfVec      = normalize(transVec + vecToLight),
+     normal       = normalize(iNormal);
+
+  /* Material coefficients used for lighting calculation */
+  float specExponent = 60.0f,
+    diffuse = max(0.0, dot( normal, vecToLight)),
+    specular = diffuse > 0.0f ? 
+      max(0.0f, pow( dot(halfVec, normal), specExponent)) : 0.0f;
+
+  /* Material colors */
+  float4 surfaceColor = iColor,
+     diffuseColor = 0.8f * surfaceColor,
+     ambientColor = 0.2f * surfaceColor,
+     specularColor = float4(0.7,0.7,0.7,1.0);
+
+  /* Illuminance */
+  oColor = specular * specularColor + diffuse * diffuseColor + ambientColor;
+}

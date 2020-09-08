@@ -1,0 +1,272 @@
+<HTML>
+
+<HEAD>
+<TITLE>cgGetNamedEffectUniformBuffer</TITLE>
+<meta name="description" content="cgGetNamedEffectUniformBuffer" />
+<meta name="keywords" content="cgGetNamedEffectUniformBuffer, NVIDIA, NVIDIA Cg Toolkit, Cg Toolkit, Shader, Shader Programming, GPU Shader Programming, GPU Program" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<STYLE TYPE="text/css" MEDIA=screen>
+<!--
+		
+BODY {
+ font-family: Arial,Helvetica;
+}
+
+BLOCKQUOTE { margin: 10pt;  }
+
+H1,A { color: #336699; }
+
+
+/*** Top menu style ****/
+.mmenuon { 
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #ff6600; font-size: 10pt;
+ }
+.mmenuoff { 
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #ffffff; font-size: 10pt;
+}	  
+.cpyright {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #ffffff; font-size: xx-small;
+}
+.cpyrightText {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #ffffff; font-size: xx-small;
+}
+.sections { 
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: 11pt;
+}	 
+.dsections { 
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: 12pt;
+}	
+.slink { 
+ font-family: Arial,Helvetica; font-weight: normal; text-decoration: none;
+ color: #336699; font-size: 9pt;
+}	 
+
+.slink2 { font-family: Arial,Helvetica; text-decoration: none; color: #336699; }	 
+
+.maintitle { 
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: 18pt;
+}	 
+.dblArrow {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: small;
+}
+.menuSec {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: small;
+}
+
+.newstext {
+ font-family: Arial,Helvetica; font-size: small;
+}
+
+.linkmenu {
+ font-family: Arial,Helvetica; color: #000000; font-weight: bold;
+ text-decoration: none;
+}
+
+P {
+ font-family: Arial,Helvetica;
+}
+
+PRE            { 
+																font-family: monospace;
+																white-space: pre; 
+																font-color: #333333; 
+																font-weight: 100;
+																background-color: #eeeeee; 
+																padding: 5px; 
+																width: 90%; 
+																border-style: solid;
+																border-width: 2px; 
+																border-color: #bebebe; 
+	              }
+.quote { 
+ font-family: Times; text-decoration: none;
+ color: #000000; font-size: 9pt; font-style: italic;
+}	
+.smstd { font-family: Arial,Helvetica; color: #000000; font-size: x-small; } 
+.std { font-family: Arial,Helvetica; color: #000000; } 
+.meerkatTitle { 
+ font-family: sans-serif; font-size: x-small;  color: black;    }
+
+.meerkatDescription { font-family: sans-serif; font-size: 10pt; color: black }
+.meerkatCategory { 
+ font-family: sans-serif; font-size: 9pt; font-weight: bold; font-style: italic; 
+ color: brown; }
+.meerkatChannel { 
+ font-family: sans-serif; font-size: 9pt; font-style: italic; color: brown; }
+.meerkatDate { font-family: sans-serif; font-size: xx-small; color: #336699; }
+
+.tocTitle {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #333333; font-size: 10pt;
+}
+
+.toc-item {
+ font-family: Arial,Helvetica; font-weight: bold; 
+ color: #336699; font-size: 10pt; text-decoration: underline;
+}
+
+.perlVersion {
+ font-family: Arial,Helvetica; font-weight: bold; 
+ color: #336699; font-size: 10pt; text-decoration: none;
+}
+
+.docTitle {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #000000; font-size: 10pt;
+}
+.dotDot {
+ font-family: Arial,Helvetica; font-weight: bold; 
+ color: #000000; font-size: 9pt;
+}
+
+.docSec {
+ font-family: Arial,Helvetica; font-weight: normal; 
+ color: #333333; font-size: 9pt;
+}
+.docVersion {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: 10pt;
+}
+
+.docSecs-on {
+ font-family: Arial,Helvetica; font-weight: normal; text-decoration: none;
+ color: #ff0000; font-size: 10pt;
+}
+.docSecs-off {
+ font-family: Arial,Helvetica; font-weight: normal; text-decoration: none;
+ color: #333333; font-size: 10pt;
+}
+
+h3 {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: small;
+}
+h2 {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: medium;
+}
+h1 {
+ font-family: Verdana,Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: large;
+}
+
+DL {
+ font-family: Arial,Helvetica; font-weight: normal; text-decoration: none;
+ color: #333333; font-size: 10pt;
+}
+
+UL > LI > A {
+ font-family: Arial,Helvetica; font-weight: bold;
+ color: #336699; font-size: 10pt;
+}
+
+.moduleInfo {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #333333; font-size: 11pt;
+}
+
+.moduleInfoSec {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none;
+ color: #336699; font-size: 10pt;
+}
+
+.moduleInfoVal {
+ font-family: Arial,Helvetica; font-weight: normal; text-decoration: underline;
+ color: #000000; font-size: 10pt;
+}
+
+.cpanNavTitle {
+ font-family: Arial,Helvetica; font-weight: bold; 
+ color: #ffffff; font-size: 10pt;
+}
+.cpanNavLetter {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none; 
+ color: #333333; font-size: 9pt;
+}
+.cpanCat {
+ font-family: Arial,Helvetica; font-weight: bold; text-decoration: none; 
+ color: #336699; font-size: 9pt;
+}
+
+-->
+</STYLE>
+
+</HEAD>
+
+<BODY>
+
+<object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+</object>
+
+<BLOCKQUOTE>
+<h2><a id="NAME"></a>Name</h2>
+<p><b>cgGetNamedEffectUniformBuffer</b> - get a uniform buffer parameter from an effect by block name</p>
+<h2><a id="SYNOPSIS"></a>Synopsis</h2>
+<pre>
+#include &lt;Cg/cg.h&gt;
+
+CGparameter cgGetNamedEffectUniformBuffer( CGeffect effect,
+                                           const char * blockName );
+</pre>
+<h2><a id="PARAMETERS"></a>Parameters</h2>
+<dl>
+<dt><b>effect</b></dt>
+<dd>
+The effect from which to retrieve the uniform buffer parameter.
+</dd>
+<dt><b>blockName</b></dt>
+<dd>
+The block name of the uniform buffer parameter to retrieve.
+</dd>
+</dl>
+<h2><a id="RETURN_VALUES"></a>Return Values</h2>
+<p>Returns the uniform buffer parameter with the matching block name from the effect.</p>
+<p>Returns <b>NULL</b> if the effect has no parameter corresponding to <b>blockName</b> or an error occurs.</p>
+<h2><a id="DESCRIPTION"></a>Description</h2>
+<p>
+The uniform buffer parameters of an effect can be retrieved directly by
+block name using <b>cgGetNamedEffectUniformBuffer</b>.  The block names of
+the uniform buffer parameters in an effect can be discovered by iterating
+through the effect's parameters with <a href="cgGetFirstParameter.html">cgGetFirstParameter</a>
+and <a href="cgGetNextParameter.html">cgGetNextParameter</a>, calling
+<a href="cgGetUniformBufferBlockName.html">cgGetUniformBufferBlockName</a> for each uniform
+buffer parameter in turn.
+</p>
+<h2><a id="EXAMPLES"></a>Examples</h2>
+<p>If the file buf.fx contains this shader:</p>
+<pre>
+uniform myBuf {
+  float4 var;
+} a : BUFFER;
+
+float4 vertex() : POSITION
+{
+  return float4(a.var.r, a.var.g, a.var.b, 1.0);
+}
+</pre>
+<p>and if <b>effect</b> refers to the <b>CGeffect</b> created from buf.fx, then calling:</p>
+<pre>  CGparameter p = cgGetNamedEffectUniformBuffer(effect, &quot;myBuf&quot;);</pre>
+<p>results in <b>p</b> containing the <b>CGparameter</b> associated with variable <b>a</b>.</p>
+<h2><a id="ERRORS"></a>Errors</h2>
+<p><b>CG_INVALID_EFFECT_HANDLE_ERROR</b> is generated if <b>effect</b> is not a valid effect.</p>
+<p><b>CG_INVALID_POINTER_ERROR</b> is generated if <b>blockName</b> is <b>NULL</b>.</p>
+<h2><a id="HISTORY"></a>History</h2>
+<p><b>cgGetNamedEffectUniformBuffer</b> was introduced in Cg 3.1.</p>
+<h2><a id="SEE_ALSO"></a>See Also</h2>
+<p>
+<a href="cgIsParameter.html">cgIsParameter</a>,
+<a href="cgGetFirstParameter.html">cgGetFirstParameter</a>,
+<a href="cgGetNextParameter.html">cgGetNextParameter</a>,
+<a href="cgGetUniformBufferBlockName.html">cgGetUniformBufferBlockName</a>
+</p>
+</BLOCKQUOTE>
+</BODY>

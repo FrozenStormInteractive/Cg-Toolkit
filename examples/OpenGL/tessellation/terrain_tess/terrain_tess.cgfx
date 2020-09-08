@@ -1,0 +1,408 @@
+/* terrainBezier.cgfx
+   This shader is used for a terrain tessellation program which uses a 512x512 texture as 
+   the displacement map
+*/
+
+/* Up vector (in this case, the ground plane is in the x-y plane*/
+#define UP float3(0.0,0.0,1.0)
+
+/* Uniforms passed in from application */
+float4x4 modelView;
+float4x4 projection;
+float4 outerTess;
+float2 innerTess;
+float2 wh;
+int doLod;
+float2 groundWH;
+
+/* The displacement texture */
+sampler2D displacementTexture = sampler_state
+{
+  minFilter = Linear;
+  magFilter = Linear;
+  WrapT = Wrap;
+  WrapS = Wrap;
+};
+
+/* Linear interpolation helper functions */
+
+/* Bilerp = bilinear interpolation */
+float4 bilerp( float2 uv, float4 p1, float4 p2, float4 p3, float4 p4 )
+{
+  return (1-uv.y)*((1-uv.x)*p1 + uv.x*p2) + 
+    (uv.y)*((1-uv.x)*p3 + uv.x*p4);
+}
+
+float3 bilerp( float2 uv, float3 p1, float3 p2, float3 p3, float3 p4 )
+{
+  return (1-uv.y)*((1-uv.x)*p1 + uv.x*p2) + 
+    (uv.y)*((1-uv.x)*p3 + uv.x*p4);
+}
+
+float2 bilerp( float2 uv, float2 p1, float2 p2, float2 p3, float2 p4 )
+{
+  return (1-uv.y)*((1-uv.x)*p1 + uv.x*p2) + 
+    (uv.y)*((1-uv.x)*p3 + uv.x*p4);
+}
+
+float bilerp( float2 uv, float p1, float p2, float p3, float p4 )
+{
+  return (1-uv.y)*((1-uv.x)*p1 + uv.x*p2) + 
+    (uv.y)*((1-uv.x)*p3 + uv.x*p4);
+}
+
+/* Compute poitn from cubic bspline segment */
+precise float3 ComputeBsplineFromCurve(precise float t, precise float3 cpoints[4] )
+{
+  precise float3 c[3];
+  float tthird = t/3.0f, twothirds = 2.0/3.0f, onethird = 1.0/3.0;
+  float thalf = t*0.5f, onehalf = 0.5f;
+
+  c[0] = (onethird-tthird)*cpoints[0] + (tthird + twothirds)*cpoints[1];
+  c[1] = (twothirds - tthird)*cpoints[1] + (onethird + tthird)*cpoints[2];
+  c[2] = (1.0-tthird)*cpoints[2] + tthird*cpoints[3];
+
+  c[0] = (0.5-thalf)*c[0] + (0.5+thalf)*c[1];
+  c[1] = (1.0-thalf)*c[1] + (thalf)*c[2];
+
+  return (1.0 - t)*c[0] + (t)*c[1];
+}
+
+/* Compute tangent from cubic bspline segment */
+float3 ComputeBsplineTangentFromCurve( float t, float3 cpoints[4] )
+{
+  float3 c[3];
+  float tfourth = t*0.25f, onefourth = 0.25f;
+  float tfifth = t*0.2f, onefifth = 0.2f;
+
+  c[0] = cpoints[1] - cpoints[0];
+  c[1] = cpoints[2] - cpoints[1];
+  c[2] = cpoints[3]-cpoints[2];
+
+  c[0] = (onefourth-tfourth)*c[0] + (onefourth+tfourth)*c[1];
+  c[1] = (0.5f-tfourth)*c[1] + (tfourth)*c[2];
+
+  return (onefifth-tfifth)*c[0] + (tfifth)*c[1];
+}
+
+/* Vertex program -- Does model transformations as well as gives the screen space
+  coordinates of the hull for LOD computation.
+*/
+void vertexTransform
+(
+  in float3 iPosition : POSITION,
+  in float4 iColor    : COLOR,
+  in float2 iTexCoord : TEXCOORD0,
+
+  uniform float4x4 uModelView,
+  uniform float4x4 uProjection,
+
+  out float4 oPosition  : POSITION,
+  out float4 oColor     : COLOR,
+  out float3 oNormal    : ATTR0,
+  out float2 oTexCoord  : TEXCOORD0,
+  out float3 oModelPos  : TEXCOORD1
+)
+{
+  oTexCoord = iTexCoord;
+  oModelPos = mul(uModelView, float4(iPosition, 1.0)).xyz;
+  oNormal =   mul(uModelView, float4( UP, 0.0) ).xyz;
+  oPosition = mul(uProjection, float4(oModelPos, 1.0));
+  oColor = iColor;
+}
+
+/* Bspline tessellation control program. Evaluates an unput patch of 4x4 as a cubic uniform bspline segment.
+  Patches must be overlapping (The patch is really jsut a local piece of the height data which we 
+  are creating a B-spline for.
+
+  This is useful for rendering a different type of terrain, such as a desert.  This is smooth,
+  so displacement mapping may also be applied.
+*/
+gp5tcp PATCH_16
+void BsplineTC (in int ndx                            : CONTROLPOINT_ID,
+                in AttribArray<float4> inScreenPos    : POSITION,
+                in AttribArray<float4> inColor        : COLOR,
+                in AttribArray<float3> iNormals       : ATTR0,
+                in AttribArray<float2> inPatchCoord   : TEXCOORD0,
+                in AttribArray<float3> inModelPos     : TEXCOORD1,
+          
+                uniform float4 uEdgeTess,
+                uniform float2 uInnerTess,
+                uniform float2 uWh,
+                uniform float4x4 uModelView,
+                uniform int uDoLod,
+                uniform sampler2D uDispTexture : TEXUNIT0,
+
+                out float3 oModelPos    : POSITION,
+                out float4 oColor       : COLOR,
+                out float2 oTexCoord    : TEXCOORD0,
+                out float oheight       : TEXCOORD1,
+                out float oedgeTess[4]  : EDGETESS, 
+                out float oinnerTess[2] : INNERTESS)
+{
+  oColor = inColor[ndx];
+
+  oTexCoord = inPatchCoord[ndx];
+  oheight = tex2D(uDispTexture, inPatchCoord[ndx]).x;
+
+  oModelPos = inModelPos[ndx] + (oheight*iNormals[ndx]);
+
+  if (uDoLod)
+  {
+    oedgeTess[0] = length(uWh*(inScreenPos[1].xy/inScreenPos[1].w) - uWh*(inScreenPos[3].xy/inScreenPos[3].w));
+    oedgeTess[1] = length(uWh*(inScreenPos[3].xy/inScreenPos[3].w) - uWh*(inScreenPos[2].xy/inScreenPos[2].w));
+    oedgeTess[2] = length(uWh*(inScreenPos[2].xy/inScreenPos[2].w) - uWh*(inScreenPos[0].xy/inScreenPos[0].w));
+    oedgeTess[3] = length(uWh*(inScreenPos[0].xy/inScreenPos[0].w) - uWh*(inScreenPos[1].xy/inScreenPos[1].w));
+
+    oinnerTess[0] = max(oedgeTess[1], oedgeTess[3]);
+    oinnerTess[1] = max(oedgeTess[0], oedgeTess[2]);
+  }
+  else
+  {
+    oedgeTess[0] = uEdgeTess.x;
+    oedgeTess[1] = uEdgeTess.y;
+    oedgeTess[2] = uEdgeTess.z;
+    oedgeTess[3] = uEdgeTess.w;
+    oinnerTess[0] = uInnerTess.x;
+    oinnerTess[1] = uInnerTess.y;
+  }
+
+}
+
+/* Bspline evaluation program. Evaluates an unput patch of 4x4 as a cubic uniform bspline segment.
+  Patches must be overlapping (The patch is really jsut a local piece of the height data which we 
+  are creating a B-spline for.
+*/
+gp5tep QUADS PATCH_16 SPACE_FRACTIONAL_ODD 
+void BsplineTE (in float2 uv                      : UV,
+                in AttribArray<float3> iModelPos  : POSITION,
+                in AttribArray<float4> iColor     : COLOR,
+                in AttribArray<float2> iTexCoord  : TEXCOORD0,
+                in AttribArray<float>  iHeight    : TEXCOORD1,
+
+                uniform float4x4 uModelView,
+                uniform float4x4 uProjection,
+                
+                out float4 oPosition        : POSITION,
+                out float4 oColor           : COLOR,
+                out float3 oNormal          : ATTR0,
+                out float oHeight           : TEXCOORD0
+        
+        )
+{
+
+  oColor = bilerp(uv, iColor[0], iColor[1], iColor[2], iColor[3]);
+
+  oHeight = ((1-uv.y)*( (1-uv.x)*iHeight[5] + uv.x*iHeight[6] )) + 
+        ((uv.y) * ( (1-uv.x)*iHeight[9] + uv.x*iHeight[10] ));
+
+  float3 position[16];
+  for (int i = 0; i < 16; ++i)
+    position[i] = iModelPos[i];
+
+  float3 p;
+
+  float3 tmp[4];
+  float3 c1[4];
+  float3 tU, tV;
+
+  for (int i = 0; i < 4; ++i){
+    tmp[0] = iModelPos[i].xyz;
+    tmp[1] = iModelPos[i+4].xyz;
+    tmp[2] = iModelPos[i+8].xyz;
+    tmp[3] = iModelPos[i+12].xyz;
+
+    c1[i] = ComputeBsplineFromCurve( uv.y, tmp );
+  }
+
+  p =  ComputeBsplineFromCurve( uv.x, c1 ).xyz;
+
+  /* For normal, we need a tangent plane defined by two tangent vectors. */
+  
+  /* along u direction */
+  for (int i = 0; i < 4; ++i){
+    tmp[0] = iModelPos[i*4].xyz;
+    tmp[1] = iModelPos[i*4+1].xyz;
+    tmp[2] = iModelPos[i*4+2].xyz;
+    tmp[3] = iModelPos[i*4+3].xyz;
+    c1[i] =  ComputeBsplineFromCurve( uv.x, tmp );
+  }
+  tU =  ComputeBsplineTangentFromCurve( uv.y, c1 ).xyz;
+
+  /* along v direction */
+  for (int i = 0; i < 4; ++i){
+    tmp[0] = iModelPos[i].xyz;
+    tmp[1] = iModelPos[i+4].xyz;
+    tmp[2] = iModelPos[i+8].xyz;
+    tmp[3] = iModelPos[i+12].xyz;
+    c1[i] = ComputeBsplineFromCurve( uv.y, tmp );
+   }
+  tV = ComputeBsplineTangentFromCurve( uv.x, c1 ).xyz;
+
+  oNormal = normalize(cross(tV, tU));
+
+  oPosition = mul(uProjection, float4(p,1.0));
+}
+
+/*This uses displacement mapping. This will just compute LOD and pass through appropriate values. */
+gp5tcp PATCH_4
+void TexcoordTC (   in int ndx                : CONTROLPOINT_ID,
+                    in AttribArray<float4> inScreenPos    : POSITION,
+                    in AttribArray<float4> iColor         : COLOR,
+                    in AttribArray<float3> inNormal       : ATTR0,
+                    in AttribArray<float2> inTexCoord     : TEXCOORD0,
+                    in AttribArray<float3> inModelPos     : TEXCOORD1,
+            
+                    uniform float4 uEdgeTess,
+                    uniform float2 uInnerTess,
+                    uniform float2 uWh,
+                    uniform float4x4 uModelView,
+                    uniform int uDoLod,
+                    uniform sampler2D uDispTexture        :TEXUNIT0,
+
+                    out float4 oPosition                  : POSITION,
+                    out float4 oColor                     : COLOR,
+                    out float2 oTexCoord                  : TEXCOORD0,
+                    out float3 oNormal                    : TEXCOORD1,
+                    out float3 oModelPos                  : TEXCOORD2, 
+                    out float oedgeTess[4]                : EDGETESS, 
+                    out float oinnerTess[2]               : INNERTESS
+        )
+{
+ 
+  oTexCoord = inTexCoord[ndx];
+  oModelPos = inModelPos[ndx];
+  oNormal = inNormal[ndx];
+  oColor = iColor[ndx];
+
+  if (uDoLod)
+  {
+    oedgeTess[0] = length(uWh*(inScreenPos[1].xy/inScreenPos[1].w) - uWh*(inScreenPos[3].xy/inScreenPos[3].w));
+    oedgeTess[1] = length(uWh*(inScreenPos[3].xy/inScreenPos[3].w) - uWh*(inScreenPos[2].xy/inScreenPos[2].w));
+    oedgeTess[2] = length(uWh*(inScreenPos[2].xy/inScreenPos[2].w) - uWh*(inScreenPos[0].xy/inScreenPos[0].w));
+    oedgeTess[3] = length(uWh*(inScreenPos[0].xy/inScreenPos[0].w) - uWh*(inScreenPos[1].xy/inScreenPos[1].w));
+
+    oinnerTess[0] = max(oedgeTess[1], oedgeTess[3]);
+    oinnerTess[1] = max(oedgeTess[0], oedgeTess[2]);
+  }
+  else
+  {
+    oedgeTess[0] = uEdgeTess.x;
+    oedgeTess[1] = uEdgeTess.y;
+    oedgeTess[2] = uEdgeTess.z;
+    oedgeTess[3] = uEdgeTess.w;
+    oinnerTess[0] = uInnerTess.x;
+    oinnerTess[1] = uInnerTess.y;
+  }
+
+}
+
+/* Tessellation evaluation program. The uv coordinates are bilinearly interpolated
+  across the patch and then used to sample the texture and retrieve the displacement value.
+  It also bilinearly interpolates other important attributes.
+*/
+gp5tep QUADS PATCH_4 SPACE_FRACTIONAL_ODD ORDER_CCW
+void TexcoordTE (in float2 uv                       : UV,
+                in AttribArray<float4> iPosition    : POSITION,
+                in AttribArray<float4> iColor       : COLOR,
+                in AttribArray<float2> iTexCoord    : TEXCOORD0,
+                in AttribArray<float3> iNormals     : TEXCOORD1,
+                in AttribArray<float3> iModelPos    : TEXCOORD2,
+
+                uniform float4x4 uModelView,
+                uniform float4x4 uProjection,
+                uniform sampler2D uDispTexture : TEXUNIT0,
+
+                out float4 oPosition        : POSITION,
+                out float4 oColor           : COLOR,
+                out float2 oTexCoord        : TEXCOORD0,
+                out float3 oNormal          : TEXCOORD1,
+                out float oHeight           : TEXCOORD2
+        )
+{
+  oColor = bilerp(uv, iColor[0], iColor[1], iColor[2], iColor[3]);
+  oTexCoord = bilerp(uv, iTexCoord[0], iTexCoord[1], iTexCoord[2], iTexCoord[3]);
+  oNormal = iNormals[0];
+
+  float4 dispDuDv = tex2D(uDispTexture, oTexCoord);
+
+  oHeight = dispDuDv.x; /* The displacement portion */
+
+  /* Displace along the normal from our sampled position */
+  float3 position = bilerp(uv, iModelPos[0], iModelPos[1], iModelPos[2], iModelPos[3]) + (oHeight * oNormal);
+
+  /* now we can do perspective */
+  oPosition = mul(uProjection, float4(position,1.0));
+}
+
+/* Fragment shader for displacement mapping */
+void TexcoordFragmentHeightColor
+(
+  in float4 iColor        : COLOR,
+  in float2 uv            : TEXCOORD0,
+  in float3 innormal      : TEXCOORD1,
+  in float  height        : TEXCOORD2,
+
+  uniform float4x4 modelview,
+  uniform float2 groundWH,
+  uniform sampler2D displacementTexture : TEXUNIT0,
+  
+  out float4 oColor       : COLOR
+)
+{
+  /* Need per-fragment samples of the du/dv values from the displacement map */
+  float3 texval = tex2D(displacementTexture, uv);
+  
+  /* Assuming 512 is the size of the texture.  The texval.y and texval.z values represent
+   the dz/du and dz/dv derivatives.  We can create a tangent */
+  float3 normal = cross( (float3(groundWH.x/512.0,0.0,texval.y)) ,(float3(0.0,groundWH.y/512.0,texval.z)) );
+  normal = normalize(mul(modelview, float4(normal, 0.0)).xyz);
+
+  float4 color;
+  color = ( float4( height*iColor.x, height*iColor.y, (0.8-height)*iColor.z, 1.0 ));
+
+  float nc = max(0.0, normal.z);
+  oColor = (color) * float4(nc,nc,nc, 1.0);
+}
+
+/*Fragment shader for bspline.  Much simpler as the normal is computed in the evaluation shader */
+void BsplineFragmentHeightColor
+(
+  in float3 iNormal      : ATTR0,
+  in float4 iColor       : COLOR,
+  in float  height       : TEXCOORD0,
+  
+  out float4 oColor       : COLOR
+)
+{
+
+  iNormal = normalize(iNormal);
+
+  float4 color;
+  color = ( float4( height*iColor.x, height*iColor.y, (0.8-height)*iColor.z, 1.0 ));
+
+  float nc = max(0.0,  (iNormal.z));
+  oColor =(color) * float4(nc,nc,nc, 1.0);
+}
+
+technique AdaptiveTexcoord
+{
+  pass DoHeightColor
+  {
+    VertexProgram = compile gp5vp vertexTransform(modelView, projection);
+    TessellationControlProgram = compile gp5tcp TexcoordTC(outerTess, innerTess, wh, modelView, doLod,  displacementTexture);
+    TessellationEvaluationProgram = compile gp5tep TexcoordTE(modelView, projection, displacementTexture);
+    FragmentProgram = compile gp5fp TexcoordFragmentHeightColor(modelView, groundWH, displacementTexture);
+  }
+}
+
+technique AdaptiveBspline
+{
+  pass DoHeightColor
+  {
+    VertexProgram = compile gp5vp vertexTransform(modelView, projection);
+    TessellationControlProgram = compile gp5tcp BsplineTC(outerTess, innerTess, wh, modelView, doLod, displacementTexture);
+    TessellationEvaluationProgram = compile gp5tep BsplineTE(modelView, projection);
+    FragmentProgram = compile gp5fp BsplineFragmentHeightColor();
+  }
+}

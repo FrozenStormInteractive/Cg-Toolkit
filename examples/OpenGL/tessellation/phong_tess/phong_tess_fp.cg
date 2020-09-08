@@ -1,0 +1,47 @@
+/* Phong Tessellation
+
+   Phong Tessellation reference : 
+    Phong tessellation,
+    Tamy Boubekeur and Marc Alexa
+    ACM ToG, Vol. 27, No. 5, 2008.
+*/
+
+/* The shader uses the Phong reflectance model. */
+void main( in float4 iColor    : COLOR,
+           in float3 iNormal   : ATTR0,
+           in float3 iModelPos : ATTR1,
+      
+           uniform float3 uLightPos,
+           uniform int    uDoSpecular,
+           uniform float  uScale,
+
+           out float4 oColor : COLOR)
+{
+
+  /* Vectors needed for lighting calculation.
+     Model is already transformed with respect to the modelview matrix.
+  */
+  float3 transVec   = normalize(float3(0.0,0.0,uScale) - iModelPos),
+         vecToLight = normalize(uLightPos - iModelPos), /* Vector to light  */
+         halfVec    = normalize(transVec + vecToLight), /* Half vector      */
+         normal     = normalize(iNormal);               /* Normal        */
+
+  /* Material coefficients used for lighting calculation */
+  float specExponent = 60.0f,
+        diffuse = max(0.0, dot( normal, vecToLight) ),
+        specular = diffuse > 0.0f ? 
+          max(0.0f, pow( dot(halfVec, normal), specExponent)) : 0.0f;
+
+  /* Material colors */
+  float4 surfaceColor = iColor,                   /* Color from application */
+         diffuseColor = 0.8f * surfaceColor,      /* Diffuse component      */
+         ambientColor = 0.2f * surfaceColor,      /* Ambient coomponent     */
+         specularColor = float4(0.7,0.7,0.7,1.0); /* Specular component     */
+
+  /* Composite color */
+  if (uDoSpecular == 1)
+    oColor = specular * specularColor + diffuse * diffuseColor + ambientColor;
+  else
+    oColor = diffuse * diffuseColor + ambientColor;    
+
+}

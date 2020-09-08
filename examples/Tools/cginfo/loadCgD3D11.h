@@ -1,0 +1,111 @@
+#if defined(_WIN32) && defined(_MSC_VER) && _MSC_VER>=1400 /* D3D10 requires VC8 */
+
+#ifndef LCGD3D11_LOADER_H
+#define LCGD3D11_LOADER_H
+
+#include <stdio.h>
+#include <sal.h>
+#include <rpcsal.h>
+#define CGD3D11_EXPLICIT
+#include <Cg/cgD3D11.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/* Loader API */
+
+extern int         lcgD3D11Init(const char *filename);
+extern void        lcgD3D11List(const char *prefix, FILE *out);
+extern void        lcgD3D11Destroy(void);
+extern const char *lcgD3D11GetProcName(void **function);
+extern int         lcgD3D11HasVersion(void ***version);
+
+extern void ***lcgD3D11Version3_0_0000();
+extern void ***lcgD3D11Version3_1_0000();
+
+/* Internals */
+
+typedef struct _LcgD3D11Handle *LcgD3D11Handle;
+
+extern LcgD3D11Handle lcgD3D11Handle;
+
+extern LcgD3D11Handle   lcgD3D11LoadLibrary(const char *filename);
+extern int         lcgD3D11FreeLibrary(LcgD3D11Handle handle);
+extern void *      lcgD3D11GetProcAddress(LcgD3D11Handle handle, const char *name);
+extern const char *lcgD3D11GetModuleFileName(LcgD3D11Handle handle, void *function);
+
+/* Typedefs */
+
+typedef HRESULT (*PFNCGD3D11BINDPROGRAMPROC)(CGprogram);
+typedef CGbuffer (*PFNCGD3D11CREATEBUFFERPROC)(CGcontext, int, const void *, D3D11_USAGE);
+typedef CGbuffer (*PFNCGD3D11CREATEBUFFERFROMOBJECTPROC)(CGcontext, ID3D11Buffer *, CGbool);
+typedef ID3D11Buffer *(*PFNCGD3D11GETBUFFERBYINDEXPROC)(CGprogram, UINT);
+typedef ID3D11Buffer *(*PFNCGD3D11GETBUFFEROBJECTPROC)(CGbuffer);
+typedef ID3D10Blob *(*PFNCGD3D11GETCOMPILEDPROGRAMPROC)(CGprogram);
+typedef ID3D11Device *(*PFNCGD3D11GETDEVICEPROC)(CGcontext);
+typedef ID3D10Blob *(*PFNCGD3D11GETIASIGNATUREBYPASSPROC)(CGpass);
+typedef HRESULT (*PFNCGD3D11GETLASTERRORPROC)();
+typedef CGprofile (*PFNCGD3D11GETLATESTDOMAINPROFILEPROC)();
+typedef CGprofile (*PFNCGD3D11GETLATESTGEOMETRYPROFILEPROC)();
+typedef CGprofile (*PFNCGD3D11GETLATESTHULLPROFILEPROC)();
+typedef CGprofile (*PFNCGD3D11GETLATESTPIXELPROFILEPROC)();
+typedef CGprofile (*PFNCGD3D11GETLATESTVERTEXPROFILEPROC)();
+typedef CGbool (*PFNCGD3D11GETMANAGETEXTUREPARAMETERSPROC)(CGcontext);
+typedef const char **(*PFNCGD3D11GETOPTIMALOPTIONSPROC)(CGprofile);
+typedef ID3D10Blob *(*PFNCGD3D11GETPROGRAMERRORSPROC)(CGprogram);
+typedef CGbool (*PFNCGD3D11ISPROFILESUPPORTEDPROC)(CGprofile);
+typedef CGbool (*PFNCGD3D11ISPROGRAMLOADEDPROC)(CGprogram);
+typedef HRESULT (*PFNCGD3D11LOADPROGRAMPROC)(CGprogram, UINT);
+typedef void (*PFNCGD3D11REGISTERSTATESPROC)(CGcontext);
+typedef HRESULT (*PFNCGD3D11SETDEVICEPROC)(CGcontext, ID3D11Device *);
+typedef void (*PFNCGD3D11SETMANAGETEXTUREPARAMETERSPROC)(CGcontext, CGbool);
+typedef void (*PFNCGD3D11SETSAMPLERSTATEPARAMETERPROC)(CGparameter, ID3D11SamplerState *);
+typedef void (*PFNCGD3D11SETTEXTUREPARAMETERPROC)(CGparameter, ID3D11Resource *);
+typedef void (*PFNCGD3D11SETTEXTURESAMPLERSTATEPARAMETERPROC)(CGparameter, ID3D11Resource *, ID3D11SamplerState *);
+typedef const char *(*PFNCGD3D11TRANSLATECGERRORPROC)(CGerror);
+typedef const char *(*PFNCGD3D11TRANSLATEHRESULTPROC)(HRESULT);
+typedef DWORD (*PFNCGD3D11TYPETOSIZEPROC)(CGtype);
+typedef void (*PFNCGD3D11UNBINDPROGRAMPROC)(CGprogram);
+typedef void (*PFNCGD3D11UNLOADPROGRAMPROC)(CGprogram);
+
+/* Declarations */
+
+extern PFNCGD3D11BINDPROGRAMPROC cgD3D11BindProgram;
+extern PFNCGD3D11CREATEBUFFERPROC cgD3D11CreateBuffer;
+extern PFNCGD3D11CREATEBUFFERFROMOBJECTPROC cgD3D11CreateBufferFromObject;
+extern PFNCGD3D11GETBUFFERBYINDEXPROC cgD3D11GetBufferByIndex;
+extern PFNCGD3D11GETBUFFEROBJECTPROC cgD3D11GetBufferObject;
+extern PFNCGD3D11GETCOMPILEDPROGRAMPROC cgD3D11GetCompiledProgram;
+extern PFNCGD3D11GETDEVICEPROC cgD3D11GetDevice;
+extern PFNCGD3D11GETIASIGNATUREBYPASSPROC cgD3D11GetIASignatureByPass;
+extern PFNCGD3D11GETLASTERRORPROC cgD3D11GetLastError;
+extern PFNCGD3D11GETLATESTDOMAINPROFILEPROC cgD3D11GetLatestDomainProfile;
+extern PFNCGD3D11GETLATESTGEOMETRYPROFILEPROC cgD3D11GetLatestGeometryProfile;
+extern PFNCGD3D11GETLATESTHULLPROFILEPROC cgD3D11GetLatestHullProfile;
+extern PFNCGD3D11GETLATESTPIXELPROFILEPROC cgD3D11GetLatestPixelProfile;
+extern PFNCGD3D11GETLATESTVERTEXPROFILEPROC cgD3D11GetLatestVertexProfile;
+extern PFNCGD3D11GETMANAGETEXTUREPARAMETERSPROC cgD3D11GetManageTextureParameters;
+extern PFNCGD3D11GETOPTIMALOPTIONSPROC cgD3D11GetOptimalOptions;
+extern PFNCGD3D11GETPROGRAMERRORSPROC cgD3D11GetProgramErrors;
+extern PFNCGD3D11ISPROFILESUPPORTEDPROC cgD3D11IsProfileSupported;
+extern PFNCGD3D11ISPROGRAMLOADEDPROC cgD3D11IsProgramLoaded;
+extern PFNCGD3D11LOADPROGRAMPROC cgD3D11LoadProgram;
+extern PFNCGD3D11REGISTERSTATESPROC cgD3D11RegisterStates;
+extern PFNCGD3D11SETDEVICEPROC cgD3D11SetDevice;
+extern PFNCGD3D11SETMANAGETEXTUREPARAMETERSPROC cgD3D11SetManageTextureParameters;
+extern PFNCGD3D11SETSAMPLERSTATEPARAMETERPROC cgD3D11SetSamplerStateParameter;
+extern PFNCGD3D11SETTEXTUREPARAMETERPROC cgD3D11SetTextureParameter;
+extern PFNCGD3D11SETTEXTURESAMPLERSTATEPARAMETERPROC cgD3D11SetTextureSamplerStateParameter;
+extern PFNCGD3D11TRANSLATECGERRORPROC cgD3D11TranslateCGerror;
+extern PFNCGD3D11TRANSLATEHRESULTPROC cgD3D11TranslateHRESULT;
+extern PFNCGD3D11TYPETOSIZEPROC cgD3D11TypeToSize;
+extern PFNCGD3D11UNBINDPROGRAMPROC cgD3D11UnbindProgram;
+extern PFNCGD3D11UNLOADPROGRAMPROC cgD3D11UnloadProgram;
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif
+#endif

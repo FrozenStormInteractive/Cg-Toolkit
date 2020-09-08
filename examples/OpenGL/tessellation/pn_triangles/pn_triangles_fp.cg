@@ -1,0 +1,44 @@
+/* PN Triagnles fragment shader.
+
+   PN triangle reference : 
+    Curved PN triangles
+    Vlachos, A., Peters, J. and Boyd, C. and Mitchell, J.L
+    Proc of 2001 Symposium on Interactive 3D graphics
+    159-166, 2001.
+*/
+
+/* The shader uses the Phong reflectance model. */
+void main( in float4 iColor    : COLOR,
+           in float3 iNormal   : TEXCOORD1,
+           in float3 iModelPos : TEXCOORD2,
+      
+           uniform float3 uLightPos,
+           uniform float uScale,
+
+           out float4 oColor : COLOR)
+{
+
+  /* Vectors needed for lighting calculation.
+     Model is already transformed with respect to the modelview matrix.
+  */
+  float3 transVec   = normalize(float3(0.0, 0.0, uScale) - iModelPos), /* Vector down positive z axis */
+         vecToLight = normalize(uLightPos - iModelPos),                /* Vector to light  */
+         halfVec    = normalize(transVec + vecToLight),                /* Half vector      */
+         normal     = normalize(iNormal);                              /* PN normal        */
+
+  /* Material coefficients used for lighting calculation */
+  float specExponent = 60.0f,
+        diffuse = max(0.0, dot( normal, vecToLight) ),
+        specular = diffuse > 0.0f ? 
+          max(0.0f, pow( dot(halfVec, normal), specExponent)) : 0.0f;
+
+  /* Material colors */
+  float4 surfaceColor = iColor,                   /* Color from application */
+         diffuseColor = 0.8f * surfaceColor,      /* Diffuse component      */
+         ambientColor = 0.2f * surfaceColor,      /* Ambient coomponent     */
+         specularColor = float4(0.7,0.7,0.7,1.0); /* Specular component     */
+
+  /* Composite color */
+  oColor = specular * specularColor + diffuse * diffuseColor + ambientColor;
+
+}

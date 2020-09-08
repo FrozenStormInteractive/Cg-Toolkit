@@ -1,0 +1,143 @@
+/*PN Triangles tessellation evaluation shader.  
+  This shader will take in the set of control points along the edges
+  (iCcwCp & iCwCp), the control points corresponding to the patch vertices,
+  the partial middle control point, and the normals and use its uvw coordinates
+  to evaluate parametric bezier patch.
+
+  PN triangle reference : 
+  Curved PN triangles
+  Vlachos, A., Peters, J. and Boyd, C. and Mitchell, J.L
+  Proc of 2001 Symposium on Interactive 3D graphics
+  159-166, 2001.
+*/
+
+/* Applies the perspective portion of the projection matrix without
+   unnessesary multiplications
+*/
+float4 applyPerspective(float4x4 affineMatrix, float4 v)
+{
+  float4 r;
+  
+  r.x = affineMatrix[0][0] * v.x;
+  r.y = affineMatrix[1][1] * v.y;
+  r.z = affineMatrix[2][2] * v.z + affineMatrix[2][3] * v.w;
+  r.w = affineMatrix[3][2] * v.z + affineMatrix[3][3] * v.w;
+  return r;
+}
+
+/* Barycentric interpolation between triangle points pu, pv, pw.
+   Assumed uvw.x + uvw.y + uvw.z == 1 == barycentric coordinates
+*/
+precise float3 triLerp(precise float3 uvw,
+            precise float3 pu,
+            precise float3 pv,
+            precise float3 pw)
+{
+  return uvw.x*pu + uvw.y*pv + uvw.z*pw;
+}
+
+ 
+/* DeCasteljau algorithm for evaluating the trilinear bezier patch at a point
+  with barycentric coordinates s, t, u.
+*/
+precise float3 GetTriangularCoordDeCasteljau( float3 stu, 
+                                              float3 positions[10])
+{
+  //Triangle decasteljau
+  precise float3 c[6];
+
+  /* Evaluate repeated linear interpolation over triangle */
+  c[0] = triLerp(stu, positions[0], positions[1], positions[4]);
+  c[1] = triLerp(stu, positions[1], positions[2], positions[5]);
+  c[2] = triLerp(stu, positions[2], positions[3], positions[6]);
+  c[3] = triLerp(stu, positions[4], positions[5], positions[7]);
+  c[4] = triLerp(stu, positions[5], positions[6], positions[8]);
+  c[5] = triLerp(stu, positions[7], positions[8], positions[9]);
+
+  /* Evaluate again over results */
+  c[0] = triLerp(stu, c[0], c[1], c[3]);
+  c[1] = triLerp(stu, c[1], c[2], c[4]);
+  c[2] = triLerp(stu, c[3], c[4], c[5]);
+
+  /* Evaluate one final time to produce bezier point */
+  return triLerp(stu, c[0], c[1], c[2]);
+}
+
+/*gp5tep - gp5tep instruction set
+TRIANGLES - Expects to be a triangle patch
+PATCH_3 - Has 3 vertices.
+SPACE_FRACTIONAL_EVEN - Fraction (continuous) tessellation.
+ORDER_CCW - Produces triangles which are counter clock-wise ordered.*/
+gp5tep TRIANGLES PATCH_3 SPACE_FRACTIONAL_EVEN ORDER_CCW
+void main(
+       in float3 uvw                             : TESSCOORD,  
+       in AttribArray<float4> iColors            : COLOR,
+       in AttribArray<float3> iPos               : POSITION,
+       in AttribArray<float3> iCcwCp             : TEXCOORD0,
+       in AttribArray<float3> iCwCp              : TEXCOORD1,
+       in AttribArray<float3> iMidNormals        : TEXCOORD2,
+       in AttribArray<float3> iEyeSpaceNormals   : TEXCOORD3,
+       in AttribArray<float3> iB111parts         : TEXCOORD4,
+
+       uniform float4x4 uProjectionMatrix,
+     uniform int uDoPatchOutline,
+
+       out precise float4 oPos  : POSITION,
+       out float4 oColor        : COLOR,
+       out float3 oNorm         : TEXCOORD1,
+     out float3 oModelPos     : TEXCOORD2
+)
+{
+  /* Assemble mid control point */
+  float3 b111 = iB111parts[0] + iB111parts[1] + iB111parts[2];
+  
+  /* Assemble the control points of the triangular bezier patch from the 
+    control shader.
+  */
+  precise float3 positions[10] =
+  { 
+     iPos[0],
+     iCcwCp[0],
+     iCwCp[1],
+     iPos[1],
+     iCwCp[0],
+     b111,
+     iCcwCp[1],
+     iCcwCp[2],
+     iCwCp[2],
+     iPos[2]
+   };    
+
+   /* Evaluate patch position with uvw barycentric coordinates position */
+  precise float3 p = GetTriangularCoordDeCasteljau( uvw, positions);
+
+  /* Pass through model position without projection */
+  oModelPos = p;
+  
+  /* Apply perspective matrix, avoiding unessesary 
+     multiplies from a full matrix multiplication. */
+  oPos = applyPerspective(uProjectionMatrix, float4(p,1));
+
+  /* Assemble our normals computed in the control shader */
+  float3 n200 = iEyeSpaceNormals [0],
+         n020 = iEyeSpaceNormals [1],
+         n002 = iEyeSpaceNormals [2],
+         n110 = iMidNormals[0],
+         n011 = iMidNormals[1],
+         n101 = iMidNormals[2];
+
+  float u = uvw.x, /* For convenience */
+        v = uvw.y,
+        w = uvw.z;
+
+  precise float3 normal = n200*u*u + n020*v*v + n002*w*w
+                        + n110*u*v + n011*v*w + n101*u*w;
+
+  if (uDoPatchOutline == 1 && (u == 0 || v == 0 || w == 0) )
+  oColor = float4(0.0,1.0,0.0,1.0);
+  else
+  /* Pass through color weighted by barycentric coordinates */
+  oColor = u*iColors[0] + v*iColors[1] + w*iColors[2];
+            
+  oNorm = normalize(normal); /* Output the normalized surface normal */
+}

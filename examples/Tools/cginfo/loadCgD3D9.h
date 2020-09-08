@@ -1,0 +1,116 @@
+#if defined(_WIN32) && !defined(__CYGWIN__)
+
+#ifndef LCGD3D9_LOADER_H
+#define LCGD3D9_LOADER_H
+
+#include <stdio.h>
+#define CGD3D9_EXPLICIT
+#include <Cg/cgD3D9.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/* Loader API */
+
+extern int         lcgD3D9Init(const char *filename);
+extern void        lcgD3D9List(const char *prefix, FILE *out);
+extern void        lcgD3D9Destroy(void);
+extern const char *lcgD3D9GetProcName(void **function);
+extern int         lcgD3D9HasVersion(void ***version);
+
+extern void ***lcgD3D9Version1_4_0000();
+extern void ***lcgD3D9Version1_5_0001();
+extern void ***lcgD3D9Version3_0_0000();
+
+/* Internals */
+
+typedef struct _LcgD3D9Handle *LcgD3D9Handle;
+
+extern LcgD3D9Handle lcgD3D9Handle;
+
+extern LcgD3D9Handle   lcgD3D9LoadLibrary(const char *filename);
+extern int         lcgD3D9FreeLibrary(LcgD3D9Handle handle);
+extern void *      lcgD3D9GetProcAddress(LcgD3D9Handle handle, const char *name);
+extern const char *lcgD3D9GetModuleFileName(LcgD3D9Handle handle, void *function);
+
+/* Typedefs */
+
+typedef HRESULT (*PFNCGD3D9BINDPROGRAMPROC)(CGprogram);
+typedef void (*PFNCGD3D9ENABLEDEBUGTRACINGPROC)(CGbool);
+typedef HRESULT (*PFNCGD3D9ENABLEPARAMETERSHADOWINGPROC)(CGprogram, CGbool);
+typedef IDirect3DDevice9 *(*PFNCGD3D9GETDEVICEPROC)();
+typedef HRESULT (*PFNCGD3D9GETLASTERRORPROC)();
+typedef CGprofile (*PFNCGD3D9GETLATESTPIXELPROFILEPROC)();
+typedef CGprofile (*PFNCGD3D9GETLATESTVERTEXPROFILEPROC)();
+typedef CGbool (*PFNCGD3D9GETMANAGETEXTUREPARAMETERSPROC)(CGcontext);
+typedef const char **(*PFNCGD3D9GETOPTIMALOPTIONSPROC)(CGprofile);
+typedef IDirect3DBaseTexture9 *(*PFNCGD3D9GETTEXTUREPARAMETERPROC)(CGparameter);
+typedef CGbool (*PFNCGD3D9GETVERTEXDECLARATIONPROC)(CGprogram, D3DVERTEXELEMENT9 [MAXD3DDECLLENGTH]);
+typedef CGbool (*PFNCGD3D9ISPARAMETERSHADOWINGENABLEDPROC)(CGprogram);
+typedef CGbool (*PFNCGD3D9ISPROFILESUPPORTEDPROC)(CGprofile);
+typedef CGbool (*PFNCGD3D9ISPROGRAMLOADEDPROC)(CGprogram);
+typedef HRESULT (*PFNCGD3D9LOADPROGRAMPROC)(CGprogram, CGbool, DWORD);
+typedef void (*PFNCGD3D9REGISTERSTATESPROC)(CGcontext);
+typedef BYTE (*PFNCGD3D9RESOURCETODECLUSAGEPROC)(CGresource);
+typedef HRESULT (*PFNCGD3D9SETDEVICEPROC)(IDirect3DDevice9 *);
+typedef void (*PFNCGD3D9SETMANAGETEXTUREPARAMETERSPROC)(CGcontext, CGbool);
+typedef HRESULT (*PFNCGD3D9SETSAMPLERSTATEPROC)(CGparameter, D3DSAMPLERSTATETYPE, DWORD);
+typedef HRESULT (*PFNCGD3D9SETTEXTUREPROC)(CGparameter, IDirect3DBaseTexture9 *);
+typedef void (*PFNCGD3D9SETTEXTUREPARAMETERPROC)(CGparameter, IDirect3DBaseTexture9 *);
+typedef HRESULT (*PFNCGD3D9SETTEXTUREWRAPMODEPROC)(CGparameter, DWORD);
+typedef HRESULT (*PFNCGD3D9SETUNIFORMPROC)(CGparameter, const void *);
+typedef HRESULT (*PFNCGD3D9SETUNIFORMARRAYPROC)(CGparameter, DWORD, DWORD, const void *);
+typedef HRESULT (*PFNCGD3D9SETUNIFORMMATRIXPROC)(CGparameter, const D3DMATRIX *);
+typedef HRESULT (*PFNCGD3D9SETUNIFORMMATRIXARRAYPROC)(CGparameter, DWORD, DWORD, const D3DMATRIX *);
+typedef const char *(*PFNCGD3D9TRANSLATECGERRORPROC)(CGerror);
+typedef const char *(*PFNCGD3D9TRANSLATEHRESULTPROC)(HRESULT);
+typedef DWORD (*PFNCGD3D9TYPETOSIZEPROC)(CGtype);
+typedef HRESULT (*PFNCGD3D9UNBINDPROGRAMPROC)(CGprogram);
+typedef void (*PFNCGD3D9UNLOADALLPROGRAMSPROC)();
+typedef HRESULT (*PFNCGD3D9UNLOADPROGRAMPROC)(CGprogram);
+typedef CGbool (*PFNCGD3D9VALIDATEVERTEXDECLARATIONPROC)(CGprogram, const D3DVERTEXELEMENT9 *);
+
+/* Declarations */
+
+extern PFNCGD3D9BINDPROGRAMPROC cgD3D9BindProgram;
+extern PFNCGD3D9ENABLEDEBUGTRACINGPROC cgD3D9EnableDebugTracing;
+extern PFNCGD3D9ENABLEPARAMETERSHADOWINGPROC cgD3D9EnableParameterShadowing;
+extern PFNCGD3D9GETDEVICEPROC cgD3D9GetDevice;
+extern PFNCGD3D9GETLASTERRORPROC cgD3D9GetLastError;
+extern PFNCGD3D9GETLATESTPIXELPROFILEPROC cgD3D9GetLatestPixelProfile;
+extern PFNCGD3D9GETLATESTVERTEXPROFILEPROC cgD3D9GetLatestVertexProfile;
+extern PFNCGD3D9GETMANAGETEXTUREPARAMETERSPROC cgD3D9GetManageTextureParameters;
+extern PFNCGD3D9GETOPTIMALOPTIONSPROC cgD3D9GetOptimalOptions;
+extern PFNCGD3D9GETTEXTUREPARAMETERPROC cgD3D9GetTextureParameter;
+extern PFNCGD3D9GETVERTEXDECLARATIONPROC cgD3D9GetVertexDeclaration;
+extern PFNCGD3D9ISPARAMETERSHADOWINGENABLEDPROC cgD3D9IsParameterShadowingEnabled;
+extern PFNCGD3D9ISPROFILESUPPORTEDPROC cgD3D9IsProfileSupported;
+extern PFNCGD3D9ISPROGRAMLOADEDPROC cgD3D9IsProgramLoaded;
+extern PFNCGD3D9LOADPROGRAMPROC cgD3D9LoadProgram;
+extern PFNCGD3D9REGISTERSTATESPROC cgD3D9RegisterStates;
+extern PFNCGD3D9RESOURCETODECLUSAGEPROC cgD3D9ResourceToDeclUsage;
+extern PFNCGD3D9SETDEVICEPROC cgD3D9SetDevice;
+extern PFNCGD3D9SETMANAGETEXTUREPARAMETERSPROC cgD3D9SetManageTextureParameters;
+extern PFNCGD3D9SETSAMPLERSTATEPROC cgD3D9SetSamplerState;
+extern PFNCGD3D9SETTEXTUREPROC cgD3D9SetTexture;
+extern PFNCGD3D9SETTEXTUREPARAMETERPROC cgD3D9SetTextureParameter;
+extern PFNCGD3D9SETTEXTUREWRAPMODEPROC cgD3D9SetTextureWrapMode;
+extern PFNCGD3D9SETUNIFORMPROC cgD3D9SetUniform;
+extern PFNCGD3D9SETUNIFORMARRAYPROC cgD3D9SetUniformArray;
+extern PFNCGD3D9SETUNIFORMMATRIXPROC cgD3D9SetUniformMatrix;
+extern PFNCGD3D9SETUNIFORMMATRIXARRAYPROC cgD3D9SetUniformMatrixArray;
+extern PFNCGD3D9TRANSLATECGERRORPROC cgD3D9TranslateCGerror;
+extern PFNCGD3D9TRANSLATEHRESULTPROC cgD3D9TranslateHRESULT;
+extern PFNCGD3D9TYPETOSIZEPROC cgD3D9TypeToSize;
+extern PFNCGD3D9UNBINDPROGRAMPROC cgD3D9UnbindProgram;
+extern PFNCGD3D9UNLOADALLPROGRAMSPROC cgD3D9UnloadAllPrograms;
+extern PFNCGD3D9UNLOADPROGRAMPROC cgD3D9UnloadProgram;
+extern PFNCGD3D9VALIDATEVERTEXDECLARATIONPROC cgD3D9ValidateVertexDeclaration;
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif
+#endif

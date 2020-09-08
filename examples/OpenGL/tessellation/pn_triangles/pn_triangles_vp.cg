@@ -1,0 +1,64 @@
+/* PN Triangles vertex shader
+
+   PN triangle reference : 
+    Curved PN triangles
+    Vlachos, A., Peters, J. and Boyd, C. and Mitchell, J.L
+    Proc of 2001 Symposium on Interactive 3D graphics
+    159-166, 2001. 
+*/
+
+/* Only transforms norm by the rotation portion of the modelview matrix */
+float3 transformNormal( float3 norm, float4x4 modelview )
+{
+        return float3 (
+          dot(norm, float3(modelview[0][0], modelview[0][1], modelview[0][2])),
+          dot(norm, float3(modelview[1][0], modelview[1][1], modelview[1][2])),
+          dot(norm, float3(modelview[2][0], modelview[2][1], modelview[2][2]))
+    );
+}
+
+void main( in float3 iPos   : POSITION,
+           in float3 iNorm  : NORMAL,
+           in float4 iColor : COLOR,
+       
+           uniform float4x4 uModelviewMatrix,
+           uniform float4x4 uModelviewProjectionMatrix,
+           uniform float2   uWh,
+           uniform int      uDoPntri,
+     
+           out float3 oEyeSpacePos      : POSITION,
+           out float4 oColor            : COLOR,
+           out float2 oScaledWindowPos  : TEXCOORD0,
+           out float3 oEyeNorm          : TEXCOORD1,
+           out float3 oModelPos         : TEXCOORD2
+       )
+{
+  
+  /* Projected window space position for use in the LOD calculation.
+     precise keyword is used because we want to values across boundaries 
+   to be the same to cracking from two triangles having slightly different
+   LOD parameters along the same edge. */
+  precise float4 projPos = mul(uModelviewProjectionMatrix, float4(iPos,1));
+  
+  /* Project to screen space for use in LOD calculations */
+  oScaledWindowPos = uWh * (projPos.xy / projPos.w);
+
+  /* This is passed directly to the fragment shader if uDoPntri == 0 */
+  oModelPos = mul(uModelviewMatrix, float4(iPos, 1)).xyz;
+
+  /* These are the positions which will be used in the control/evaluation 
+     stages.  For PN triangle mode, We defer projection step until the 
+     evaluation stage. If not doing PN-triangles, do full transformation since
+     next stage will be the fragment shader. */
+  if (uDoPntri == 1)
+    oEyeSpacePos = oModelPos;
+  else
+    oEyeSpacePos = projPos.xyz; 
+  
+  /* Used function to prevent unnecessary multiplications by 0 */
+  oEyeNorm = normalize( transformNormal(iNorm, uModelviewMatrix) );
+
+  /* Pass through application-specified color */
+  oColor = iColor;
+}
+

@@ -1,0 +1,92 @@
+/* Phong tessellation evaluation shader.  
+  
+   Phong Tessellation reference : 
+    Phong tessellation,
+    Tamy Boubekeur and Marc Alexa
+    ACM ToG, Vol. 27, No. 5, 2008.
+*/
+
+/* Applies the perspective portion of the projection matrix without
+   unnessesary multiplications
+*/
+float4 applyPerspective(float4x4 affineMatrix, float4 v)
+{
+  float4 r;
+  
+  r.x = affineMatrix[0][0] * v.x;
+  r.y = affineMatrix[1][1] * v.y;
+  r.z = affineMatrix[2][2] * v.z + affineMatrix[2][3] * v.w;
+  r.w = affineMatrix[3][2] * v.z + affineMatrix[3][3] * v.w;
+  return r;
+}
+
+/* Barycentric interpolation between triangle points pu, pv, pw.
+   Assumed uvw.x + uvw.y + uvw.z == 1 == barycentric coordinates
+*/
+precise float3 triLerp(precise float3 uvw,
+                       precise float3 pu,
+                       precise float3 pv,
+                       precise float3 pw)
+{
+  return uvw.x*pu + uvw.y*pv + uvw.z*pw;
+}
+
+/* Projects onto a plane in which the normal is embedded.
+    iEvalPos - The linearly interpolated position inside the triangle
+    iVertPos - A vertex of the triangle
+    iNorm    - The previously mentioned vertex's normal.
+*/
+precise float3 projectToTangentPlane( precise float3 iEvalPos,
+                                      precise float3 iVertPos,
+                                      precise float3 iNorm)
+{
+  return iEvalPos - dot(float3(iEvalPos-iVertPos), iNorm)*iNorm;
+}
+
+/*gp5tep - gp5tep instruction set
+TRIANGLES - Expects to be a triangle patch
+PATCH_3 - Has 3 vertices.
+SPACE_FRACTIONAL_EVEN - Fraction (continuous) tessellation.
+ORDER_CCW - Produces triangles which are counter clock-wise ordered.*/
+gp5tep TRIANGLES PATCH_3 SPACE_FRACTIONAL_EVEN ORDER_CCW
+void main(
+       in float3 uvw                             : TESSCOORD,  
+       in AttribArray<float4> iColors            : COLOR,
+       in AttribArray<float3> iPos               : POSITION,
+       in AttribArray<float3> iNorms             : ATTR0,
+
+       uniform float4x4 uProjectionMatrix,
+       uniform int uDoPatchOutline,
+       uniform float uCurveParam,
+
+       out precise float4 oPos  : POSITION,
+       out float4 oColor        : COLOR,
+       out precise float3 oNorm : ATTR0,
+       out float3 oModelPos     : ATTR1
+)
+{
+
+  /* Evaluate patch position with uvw barycentric coordinates position */
+  precise float3 plerp = triLerp(uvw, iPos[0], iPos[1], iPos[2]);
+
+  /* Just interpolation of projection */
+  float3 curveP = triLerp( uvw, projectToTangentPlane(plerp, iPos[0], iNorms[0]),
+                           projectToTangentPlane(plerp, iPos[1], iNorms[1]),
+                           projectToTangentPlane(plerp, iPos[2], iNorms[2]));
+
+  /* Linearly interpolate */
+  oNorm = triLerp(uvw, iNorms[0], iNorms[1], iNorms[2]);
+
+  /* Interpolate from completely flat to completely Phong */
+  oModelPos = (1.0f-uCurveParam)*plerp + uCurveParam*curveP;
+
+  /* Apply perspective matrix, avoiding unessesary 
+     multiplies from a full matrix multiplication. */
+  oPos = applyPerspective(uProjectionMatrix, float4(oModelPos,1));
+
+  if (uDoPatchOutline == 1 && (uvw.x == 0 || uvw.y == 0 || uvw.z == 0) )
+    oColor = float4(0.0,1.0,0.0,1.0);
+  else
+  /* Pass through color weighted by barycentric coordinates */
+    oColor = uvw.x*iColors[0] + uvw.y*iColors[1] + uvw.z*iColors[2];
+}

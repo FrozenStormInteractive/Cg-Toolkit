@@ -1,0 +1,142 @@
+
+// ubo_lighting.cg - Cg 3.1 example demonstrating use of UBO buffers to
+//                   contain uniform material, transform, and lighting
+//                   parameters
+
+#define MAX_LIGHTS 2
+
+typedef struct {
+  float4 ambient;
+  float4 diffuse;
+  float4 specular;
+  float4 shine;
+} Material;
+
+typedef struct {
+  float4x4 modelview;
+  float4x4 inverse_modelview;
+  float4x4 modelview_projection;
+} Transform;
+
+typedef struct {
+  bool enabled;
+  float3 ambient;
+  float3 diffuse;
+  float3 specular;
+  float k0, k1, k2;
+} LightSourceStatic;
+
+// Light data that is mostly static
+typedef struct {
+  float3 global_ambient;
+  LightSourceStatic source[MAX_LIGHTS];
+} LightSetStatic;
+
+typedef struct {
+  float4 position;
+} LightSourcePerView;
+
+// Light data that changes as the view changes
+typedef struct {
+  LightSourcePerView source[MAX_LIGHTS];
+} LightSetPerView;
+
+// Compute the squared distance a direction vector covers.
+float lengthSquared(float3 v)
+{
+  return dot(v,v);
+}
+
+// New in Cg 3.1 are named buffers, whose index
+// doesn't have to be managed explicitly
+
+uniform MaterialBuffer {
+	Material material;
+} material_buffer : BUFFER;
+
+uniform TransformBuffer {
+	Transform transform;
+} transform_buffer : BUFFER;
+
+// Explicit index assignments are still possible
+
+uniform LightSetStaticBuffer {
+	LightSetStatic lightSet;
+} lightSetStatic_buffer : BUFFER[2];
+
+uniform LightSetPerViewBuffer {
+	LightSetPerView lightSetPerView;
+} lightSetPerView_buffer : BUFFER[3];
+
+void vertex_lighting(float4 position_obj : POSITION,
+                     float3 normal_obj   : NORMAL,
+
+                     out float4 oPosition : POSITION,
+                     out float4 oColor    : COLOR)
+{
+  float4 vertex_eye = mul(transform_buffer.transform.modelview, position_obj);
+  float3 position_eye = vertex_eye.xyz / vertex_eye.w;
+  float3 normal_eye   = mul(float3x3(transform_buffer.transform.inverse_modelview), normal_obj);
+
+  float3 surface_normal = normalize(normal_eye);
+
+  float3 totalRadiance = lightSetStatic_buffer.lightSet.global_ambient;
+
+  int i;
+  
+  for (i=0; i<2; i++) {
+    const LightSourceStatic source = lightSetStatic_buffer.lightSet.source[i];
+    const float4 light_position = lightSetPerView_buffer.lightSetPerView.source[i].position;
+
+    if (source.enabled) {
+      float3 light_vector;
+      float attenuation;
+
+      if (light_position.w != 0.0) {
+        // Positional (finite) light
+        light_vector = light_position.xyz/light_position.w - position_eye;
+
+        attenuation = 1.0 / (source.k0 + 
+                             source.k1*length(light_vector) +
+                             source.k2*lengthSquared(light_vector));
+      } else {
+        // Direction (infinite) light
+        light_vector = light_position.xyz;
+        attenuation = 1.0;
+      }
+
+      float3 light_direction = normalize(light_vector.xyz);
+      float3 view_direction = normalize(-position_eye.xyz);
+      float3 half_angle_direction = normalize(view_direction + light_direction);
+
+      float LdotN = dot(light_direction, surface_normal);
+      float diffuse = max(0.0, LdotN);
+
+      float HdotN = dot(half_angle_direction, surface_normal);
+      float specular = (LdotN > 0) ? pow(max(0.0, HdotN), material_buffer.material.shine.x) : 0;
+
+      float3 lighting = material_buffer.material.ambient.rgb * source.ambient.rgb +
+                        diffuse * material_buffer.material.diffuse.rgb * source.diffuse.rgb +
+                        specular * material_buffer.material.specular.rgb * source.specular.rgb;
+
+      float3 radiance;
+      radiance = attenuation * lighting;
+      totalRadiance += radiance;
+    }
+  }
+
+  oPosition = mul(transform_buffer.transform.modelview_projection, position_obj);
+  oColor = float4(totalRadiance, material_buffer.material.diffuse.a);
+}
+
+void vertex_transform(float4 position_obj : POSITION,
+                      float4 color        : COLOR,
+                      float3 normal_obj   : NORMAL,
+
+                      out float4 oPosition : POSITION,
+                      out float4 oColor    : COLOR)
+{
+  oColor = color;
+
+  oPosition = mul(transform_buffer.transform.modelview_projection, position_obj);
+}

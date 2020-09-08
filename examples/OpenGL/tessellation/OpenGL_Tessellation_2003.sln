@@ -1,0 +1,84 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glewlib", "..\glew\glewlib_2003.vcproj", "{05FFADE4-2B93-C899-00CA-AA717CA7A077}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cgfx_tessellation", "cgfx_tessellation\cgfx_tessellation_2003.vcproj", "{EC19F554-FB71-1518-54AC-4E8488B9BA6C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{05FFADE4-2B93-C899-00CA-AA717CA7A077} = {05FFADE4-2B93-C899-00CA-AA717CA7A077}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tess_simple", "tess_simple\tess_simple_2003.vcproj", "{2CFE7068-0A40-F5F8-2756-EDF7AA865A22}"
+	ProjectSection(ProjectDependencies) = postProject
+		{05FFADE4-2B93-C899-00CA-AA717CA7A077} = {05FFADE4-2B93-C899-00CA-AA717CA7A077}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tess_bezier", "tess_bezier\tess_bezier_2003.vcproj", "{E6EBC06F-B703-9EBA-AFDA-17775F8B30B0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{05FFADE4-2B93-C899-00CA-AA717CA7A077} = {05FFADE4-2B93-C899-00CA-AA717CA7A077}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pn_triangles", "pn_triangles\pn_triangles_2003.vcproj", "{A7C7967B-8BC3-F912-15C1-33BFAAC64F0D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{05FFADE4-2B93-C899-00CA-AA717CA7A077} = {05FFADE4-2B93-C899-00CA-AA717CA7A077}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "quad_tri_bezier", "quad_tri_bezier\quad_tri_bezier_2003.vcproj", "{948924E5-E061-6E8E-97E3-2DE77BE8B60E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{05FFADE4-2B93-C899-00CA-AA717CA7A077} = {05FFADE4-2B93-C899-00CA-AA717CA7A077}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "phong_tess", "phong_tess\phong_tess_2003.vcproj", "{875DEA2D-0FB6-DB0D-3F1F-3192CD43E9E0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{05FFADE4-2B93-C899-00CA-AA717CA7A077} = {05FFADE4-2B93-C899-00CA-AA717CA7A077}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "terrain_tess", "terrain_tess\terrain_tess_2003.vcproj", "{458F8450-F101-8F25-BE44-F3A3BDE7E5DF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{05FFADE4-2B93-C899-00CA-AA717CA7A077} = {05FFADE4-2B93-C899-00CA-AA717CA7A077}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{EC19F554-FB71-1518-54AC-4E8488B9BA6C}.Debug.Build.0 = Debug|Win32
+		{EC19F554-FB71-1518-54AC-4E8488B9BA6C}.Debug.ActiveCfg = Debug|Win32
+		{EC19F554-FB71-1518-54AC-4E8488B9BA6C}.Release.Build.0 = Release|Win32
+		{EC19F554-FB71-1518-54AC-4E8488B9BA6C}.Release.ActiveCfg = Release|Win32
+		{2CFE7068-0A40-F5F8-2756-EDF7AA865A22}.Debug.Build.0 = Debug|Win32
+		{2CFE7068-0A40-F5F8-2756-EDF7AA865A22}.Debug.ActiveCfg = Debug|Win32
+		{2CFE7068-0A40-F5F8-2756-EDF7AA865A22}.Release.Build.0 = Release|Win32
+		{2CFE7068-0A40-F5F8-2756-EDF7AA865A22}.Release.ActiveCfg = Release|Win32
+		{E6EBC06F-B703-9EBA-AFDA-17775F8B30B0}.Debug.Build.0 = Debug|Win32
+		{E6EBC06F-B703-9EBA-AFDA-17775F8B30B0}.Debug.ActiveCfg = Debug|Win32
+		{E6EBC06F-B703-9EBA-AFDA-17775F8B30B0}.Release.Build.0 = Release|Win32
+		{E6EBC06F-B703-9EBA-AFDA-17775F8B30B0}.Release.ActiveCfg = Release|Win32
+		{A7C7967B-8BC3-F912-15C1-33BFAAC64F0D}.Debug.Build.0 = Debug|Win32
+		{A7C7967B-8BC3-F912-15C1-33BFAAC64F0D}.Debug.ActiveCfg = Debug|Win32
+		{A7C7967B-8BC3-F912-15C1-33BFAAC64F0D}.Release.Build.0 = Release|Win32
+		{A7C7967B-8BC3-F912-15C1-33BFAAC64F0D}.Release.ActiveCfg = Release|Win32
+		{948924E5-E061-6E8E-97E3-2DE77BE8B60E}.Debug.Build.0 = Debug|Win32
+		{948924E5-E061-6E8E-97E3-2DE77BE8B60E}.Debug.ActiveCfg = Debug|Win32
+		{948924E5-E061-6E8E-97E3-2DE77BE8B60E}.Release.Build.0 = Release|Win32
+		{948924E5-E061-6E8E-97E3-2DE77BE8B60E}.Release.ActiveCfg = Release|Win32
+		{875DEA2D-0FB6-DB0D-3F1F-3192CD43E9E0}.Debug.Build.0 = Debug|Win32
+		{875DEA2D-0FB6-DB0D-3F1F-3192CD43E9E0}.Debug.ActiveCfg = Debug|Win32
+		{875DEA2D-0FB6-DB0D-3F1F-3192CD43E9E0}.Release.Build.0 = Release|Win32
+		{875DEA2D-0FB6-DB0D-3F1F-3192CD43E9E0}.Release.ActiveCfg = Release|Win32
+		{458F8450-F101-8F25-BE44-F3A3BDE7E5DF}.Debug.Build.0 = Debug|Win32
+		{458F8450-F101-8F25-BE44-F3A3BDE7E5DF}.Debug.ActiveCfg = Debug|Win32
+		{458F8450-F101-8F25-BE44-F3A3BDE7E5DF}.Release.Build.0 = Release|Win32
+		{458F8450-F101-8F25-BE44-F3A3BDE7E5DF}.Release.ActiveCfg = Release|Win32
+		{05FFADE4-2B93-C899-00CA-AA717CA7A077}.Debug.Build.0 = Debug|Win32
+		{05FFADE4-2B93-C899-00CA-AA717CA7A077}.Debug.ActiveCfg = Debug|Win32
+		{05FFADE4-2B93-C899-00CA-AA717CA7A077}.Release.Build.0 = Release|Win32
+		{05FFADE4-2B93-C899-00CA-AA717CA7A077}.Release.ActiveCfg = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
